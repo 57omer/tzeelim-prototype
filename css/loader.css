@@ -1,0 +1,60 @@
+/* ==========================================================================
+   Loading screen: starts with the alef, opens into the full Tzeelim logo.
+   Always on the brand Cotton background (the logo art is black + red).
+   Layout is forced LTR on purpose so translateX values are physical.
+   ========================================================================== */
+.tz-loader {
+  position: fixed; inset: 0; z-index: 2147483000;
+  display: grid; place-items: center;
+  background: #EDEBDD; direction: ltr;
+  overscroll-behavior: contain; touch-action: none;
+  transition: background-color .85s cubic-bezier(.22, .61, .36, 1);
+  /* failsafe: if scripts never run, the screen leaves on its own */
+  animation: tz-failsafe .01s linear 9s forwards;
+}
+.tz-logo { transform-origin: 0 0; }
+.tz-loader.is-fly .tz-l-tag { opacity: 0 !important; transform: none !important; transition: opacity .35s ease !important; }
+.tz-loader.is-reveal { background-color: transparent; pointer-events: none; }
+.tz-loader.is-reveal .tz-layer img { filter: brightness(0) invert(1); transition: filter .85s ease; }
+/* the real header logo stays hidden until the flying logo has landed on it */
+html.tz-loading .site-header .logo img { opacity: 0; }
+html:not(.tz-loading) .site-header .logo img { transition: opacity .3s ease, filter .45s cubic-bezier(.22,.61,.36,1); }
+
+.tz-logo { position: relative; width: min(78vw, 580px); aspect-ratio: 1810 / 641; }
+.tz-layer { position: absolute; inset: 0; will-change: transform, opacity; }
+.tz-layer img { display: block; width: 100%; height: 100%; user-select: none; -webkit-user-drag: none; }
+
+/* start state: only the alef, centered (its centre sits 15.58% right of the logo centre) */
+.tz-l-alef  { transform: translateX(-15.58%); transition: transform 1.15s cubic-bezier(.22, .61, .36, 1); }
+.tz-l-right { opacity: 0; transform: translateX(-26%); transition: transform 1.15s cubic-bezier(.22, .61, .36, 1) .08s, opacity .6s ease .12s; }
+.tz-l-left  { opacity: 0; transform: translateX(46%);  transition: transform 1.15s cubic-bezier(.22, .61, .36, 1) .08s, opacity .6s ease .12s; }
+.tz-l-tag   { opacity: 0; transform: translateY(10px); transition: opacity .8s ease .85s, transform .8s cubic-bezier(.22, .61, .36, 1) .85s; }
+
+/* while loading the alef gently breathes */
+.tz-loader:not(.is-open) .tz-l-alef img { animation: tz-breathe 1.7s ease-in-out infinite; }
+
+/* progress line under the alef */
+.tz-bar {
+  position: absolute; left: 50%; top: calc(100% + 22px); width: 24%; height: 2px; transform: translateX(-50%);
+  background: rgba(27, 23, 23, .14); overflow: hidden; transition: opacity .4s ease;
+}
+.tz-bar i { display: block; height: 100%; background: #810100; transform: scaleX(0); transform-origin: left center; transition: transform .25s linear; }
+
+/* open state */
+.tz-loader.is-open .tz-l-alef,
+.tz-loader.is-open .tz-l-right,
+.tz-loader.is-open .tz-l-left { transform: none; opacity: 1; }
+.tz-loader.is-open .tz-l-tag { opacity: 1; transform: none; }
+.tz-loader.is-open .tz-bar { opacity: 0; }
+
+@keyframes tz-breathe { 0%, 100% { opacity: 1; } 50% { opacity: .62; } }
+@keyframes tz-failsafe { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+
+/* reduced motion: no travel, just a calm fade of the full logo */
+@media (prefers-reduced-motion: reduce) {
+  .tz-l-alef, .tz-l-right, .tz-l-left, .tz-l-tag { transition-duration: .01s; transition-delay: 0s; transform: none; }
+  .tz-loader:not(.is-open) .tz-l-alef img { animation: none; }
+  .tz-loader:not(.is-open) .tz-l-right, .tz-loader:not(.is-open) .tz-l-left, .tz-loader:not(.is-open) .tz-l-tag { opacity: 0; }
+  .tz-loader.is-open .tz-l-right, .tz-loader.is-open .tz-l-left, .tz-loader.is-open .tz-l-tag { transition: opacity .5s ease; }
+}
+@media print { .tz-loader { display: none; } }

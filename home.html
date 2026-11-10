@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>צאלים קבלני בניין | יש על מי לסמוך</title>
+  <meta name="description" content="צאלים קבלני בניין – יזמות ובנייה של בנייני מגורים ודירות חדשות בקריות, מאז 1991.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/loader.css">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body data-page="home">
+  <div class="tz-loader" id="tzLoader" role="status" aria-live="polite" aria-label="טוען את האתר">
+    <div class="tz-logo" aria-hidden="true">
+      <div class="tz-layer tz-l-right"><img src="img/brand/tz-right.png" alt=""></div>
+      <div class="tz-layer tz-l-left"><img src="img/brand/tz-left.png" alt=""></div>
+      <div class="tz-layer tz-l-alef"><img src="img/brand/tz-alef.png" alt=""></div>
+      <div class="tz-layer tz-l-tag"><img src="img/brand/tz-tag.png" alt=""></div>
+      <div class="tz-bar"><i></i></div>
+    </div>
+    <span class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">טוען את האתר של צאלים קבלני בניין</span>
+  </div>
+  <header id="site-header"></header>
+  <main id="main">
+
+    <!-- 1. HERO (rendered by js/home.js) -->
+    <section class="hero" id="hero" aria-roledescription="carousel" aria-label="פרויקטים נבחרים" style="--hero-dur:6.5s">
+      <h1 class="sr-only">צאלים קבלני בניין – יש על מי לסמוך</h1>
+      <div class="hero__slides" id="hero-slides"></div>
+      <div class="hero__ui" id="hero-ui"></div>
+      <p class="hero__note">הדמיה להמחשה בלבד</p>
+    </section>
+
+    <!-- 2. TRUST BAR -->
+    <section class="section section--tight trust-sec" aria-label="צאלים במספרים">
+      <div class="container">
+        <div class="trust trust--home" id="trust"></div>
+      </div>
+    </section>
+
+    <!-- 3. MARKETING -->
+    <section class="section section--flush-top" id="marketing">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-head__text">
+            <span class="eyebrow">דירות חדשות בקריות</span>
+            <h2 class="section-title" id="mk-title"></h2>
+            <p class="lead section-intro" id="mk-intro"></p>
+          </div>
+        </div>
+        <div class="grid grid--2 home-featured" id="mk-cards"></div>
+        <div class="section-foot reveal">
+          <a class="btn" href="projects.html?status=marketing">לכל הפרויקטים בשיווק</a>
+          <p class="render-note">הדמיה להמחשה בלבד</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CONSTRUCTION -->
+    <section class="section section--surface" id="construction">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-head__text">
+            <span class="eyebrow">עכשיו בבנייה</span>
+            <h2 class="section-title" id="cn-title"></h2>
+            <p class="lead section-intro" id="cn-intro"></p>
+          </div>
+        </div>
+        <div id="cn-card"></div>
+      </div>
+    </section>
+
+    <!-- 5. ABOUT TEASER -->
+    <section class="section" id="about-teaser">
+      <div class="container">
+        <div class="split split--top">
+          <div class="stack reveal">
+            <span class="eyebrow">אודות</span>
+            <h2 class="section-title" id="ab-title"></h2>
+            <p class="lead" id="ab-text"></p>
+            <div><a class="link-arrow" href="about.html">להכיר את צאלים </a></div>
+          </div>
+        </div>
+        <div class="values" id="values"></div>
+      </div>
+    </section>
+
+    <!-- 6. MAP -->
+    <section class="section section--surface" id="map-section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-head__text">
+            <span class="eyebrow">מפה</span>
+            <h2 class="section-title">הפרויקטים שלנו בקריות</h2>
+          </div>
+        </div>
+        <div class="map-wrap reveal">
+          <div id="map" role="region" aria-label="מפת הפרויקטים בקריות"></div>
+        </div>
+        <div class="map-legend"><span><i></i>בשיווק ובבנייה</span><span><i class="is-past"></i>מאוכלסים</span></div>
+      </div>
+    </section>
+
+    <!-- 7. OCCUPIED -->
+    <section class="section" id="occupied">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-head__text">
+            <span class="eyebrow">משפחות שכבר גרות אצלנו</span>
+            <h2 class="section-title" id="oc-title"></h2>
+            <p class="lead section-intro" id="oc-intro"></p>
+          </div>
+        </div>
+        <div class="grid grid--3" id="oc-cards"></div>
+        <div class="section-foot reveal">
+          <a class="btn btn--ghost" href="projects.html?status=occupied">לכל הפרויקטים המאוכלסים</a>
+          <p class="render-note">הדמיה להמחשה בלבד</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. NEWS -->
+    <section class="section section--dark" id="news">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-head__text">
+            <span class="eyebrow">חדשות</span>
+            <h2 class="section-title" id="news-title"></h2>
+          </div>
+        </div>
+        <div class="news" id="news-list"></div>
+      </div>
+    </section>
+
+    <!-- 9. PARTNERS -->
+    <section class="section section--tight" id="partners" hidden>
+      <div class="container">
+        <h2 class="partners__title reveal" id="partners-title"></h2>
+        <div class="logos reveal" id="partners-logos"></div>
+      </div>
+    </section>
+
+    <!-- 10. ARTICLES -->
+    <section class="section section--surface" id="articles">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-head__text">
+            <span class="eyebrow">מאמרים</span>
+            <h2 class="section-title" id="ar-title"></h2>
+          </div>
+          <a class="link-arrow" href="articles.html">לכל המאמרים</a>
+        </div>
+        <div class="grid grid--3" id="ar-cards"></div>
+      </div>
+    </section>
+
+    <!-- 11. CTA / LEAD FORM -->
+    <section class="section section--dark" id="cta">
+      <div class="container cta">
+        <div class="reveal">
+          <span class="eyebrow">השאירו פרטים</span>
+          <h2 class="cta__title">מחפשים דירה חדשה בקריות? דברו איתנו</h2>
+          <p class="cta__text">השאירו שם וטלפון ונחזור אליכם.</p>
+          <div class="cluster mt-6" style="--gap:12px">
+            <a class="btn btn--light" href="tel:0528587821" id="cta-call"></a>
+            <a class="btn btn--light" href="https://wa.me/972528587821" target="_blank" rel="noopener" id="cta-wa"></a>
+          </div>
+        </div>
+        <form class="form reveal" data-tz-form novalidate>
+          <div class="form__row form__row--2">
+            <div class="field"><label for="f-name">שם מלא</label><input id="f-name" name="name" autocomplete="name"></div>
+            <div class="field"><label for="f-phone">טלפון</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel"></div>
+          </div>
+          <div class="consent"><input type="checkbox" id="f-consent" name="consent"><label for="f-consent">אני מאשר/ת יצירת קשר חוזר. <a href="legal.html?doc=privacy">מדיניות פרטיות</a></label></div>
+          <button class="btn" type="submit">השאר פרטים</button>
+          <p class="form__note">אבטיפוס: הפרטים אינם נשלחים בפועל.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer id="site-footer"></footer>
+
+  <script src="js/loader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+  <script src="data/projects.js"></script>
+  <script src="data/content.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>
