@@ -15,20 +15,25 @@
   var lead = (C.company && C.company.lead) || 'קבלני בניין בקריות, מאז 1991';
   var slogan = (C.company && C.company.tagline) || 'יש על מי לסמוך';
   var n = heroProjects.length;
+  var HV = { 1: 1, 2: 1, 3: 1, 4: 1, 5: 1 };   // hero indexes that have a video (video/hero-N.*)
+  var NOVIDEO = /[?&]novideo=1/.test(location.search);
 
   set('hero-slides', heroProjects.map(function (p, i) {
     var k = p.heroIndex;
-    var label = [p.name, p.cityHe || TZ.cityLabel(p.city), p.statusHe || TZ.statusLabel(p.status)].join(' · ');
-    return '<div class="hero__slide' + (i === 0 ? ' is-active' : '') + '" role="group" aria-roledescription="שקופית" aria-label="' + (i + 1) + ' מתוך ' + n + '" style="--pos:' + (POS[k] || '50% 50%') + '"' + (k === 1 && !/[?&]novideo=1/.test(location.search) ? ' data-dwell="11000"' : '') + '>' +
-      '<img class="hero__bg" src="' + (k === 1 && !/[?&]novideo=1/.test(location.search) ? 'video/hero-1-poster.jpg' : 'img/hero/hero-' + k + '.jpg') + '" alt="' + esc('הדמיית הפרויקט ' + p.name + ', ' + (p.cityHe || '')) + '"' + (i === 0 ? ' fetchpriority="high"' : '') + ' decoding="async">' +
-      '<div class="hero__copy">' +
-        '<p class="hero__label">' + esc(label) + '</p>' +
-        '<p class="hero__title" role="presentation">' + esc(slogan) + '</p>' +
-        '<p class="hero__lead">' + esc(lead) + '</p>' +
-        '<div class="hero__actions"><a class="btn" href="#cta">השאר פרטים</a><a class="btn btn--light" href="projects.html?status=marketing">לפרויקטים בשיווק</a></div>' +
-        '<a class="hero__link" href="project.html?p=' + encodeURIComponent(p.slug) + '">לעמוד הפרויקט</a>' +
-      '</div></div>';
+        return '<div class="hero__slide' + (i === 0 ? ' is-active' : '') + '" role="group" aria-roledescription="שקופית" aria-label="' + (i + 1) + ' מתוך ' + n + '" style="--pos:' + (POS[k] || '50% 50%') + '"' + (HV[k] && !NOVIDEO ? ' data-dwell="11500" data-prog="9000" data-video="hero-' + k + '"' : '') + '>' +
+      '<img class="hero__bg" src="' + (HV[k] && !NOVIDEO ? 'video/hero-' + k + '-poster.jpg' : 'img/hero/hero-' + k + '.jpg') + '" alt="' + esc('הדמיית הפרויקט ' + p.name + ', ' + (p.cityHe || '')) + '"' + (i === 0 ? ' fetchpriority="high"' : '') + ' decoding="async">' +
+      '<a class="hero__cap" href="project.html?p=' + encodeURIComponent(p.slug) + '" aria-label="' + esc('לעמוד הפרויקט ' + p.name + ', ' + (p.cityHe || '') + ', ' + (p.statusHe || '')) + '">' +
+        '<span class="hero__cap-kicker"><span class="hero__cap-status hero__cap-status--' + esc(p.status) + '">' + esc(p.statusHe || TZ.statusLabel(p.status)) + '</span><span class="hero__cap-city">' + esc(p.cityHe || TZ.cityLabel(p.city)) + '</span></span>' +
+        '<span class="hero__cap-name">' + esc(p.name) + '</span>' +
+        '<span class="hero__cap-go">לעמוד הפרויקט ' + TZ.icon('arrow-next', 'icon--arrow') + '</span>' +
+      '</a></div>';
   }).join(''));
+
+  // persistent layer above all slides: slogan, lead and buttons (rendered once, never re-animated per slide)
+  set('hero-overlay',
+    '<p class="hero__title" role="presentation">' + esc(slogan) + '</p>' +
+    '<p class="hero__lead">' + esc(lead) + '</p>' +
+    '<div class="hero__actions"><a class="btn" href="#cta">השאר פרטים</a><a class="btn btn--light" href="projects.html?status=marketing">לפרויקטים בשיווק</a></div>');
 
   var hero = $('#hero');
   var slides = [].slice.call(document.querySelectorAll('.hero__slide'));
@@ -38,12 +43,12 @@
     '<div class="hero__dots" role="group" aria-label="בחירת שקופית">' + heroProjects.map(function (p, i) {
       return '<button type="button" class="hero__dot' + (i === 0 ? ' is-active' : '') + '" aria-label="שקופית ' + (i + 1) + ': ' + esc(p.name) + '"></button>';
     }).join('') + '</div>' +
-    '<div class="hero__side"><div class="hero__thumbs" id="hero-thumbs"></div>' +
+    '<div class="hero__side">' +
     '<div class="hero__nav"><button type="button" class="hero__arrow" data-dir="-1" aria-label="הקודם">' + TZ.icon('arrow-prev') + '</button>' +
     '<button type="button" class="hero__arrow" data-dir="1" aria-label="הבא">' + TZ.icon('arrow-next') + '</button></div></div>');
   var dots = [].slice.call(document.querySelectorAll('.hero__dot'));
 
-  function renderThumbs() {
+  function renderThumbs() { return; /* preview thumbnails removed */
     var out = '';
     for (var s = 1; s <= Math.min(2, n - 1); s++) {
       var j = (cur + s) % n, p = heroProjects[j];
@@ -55,7 +60,7 @@
     hero.classList.remove('is-playing');
     if (reduced || n < 2) return;
     void hero.offsetWidth;
-    hero.style.setProperty('--hero-dur', (((+slides[cur].getAttribute('data-dwell')) || 6500) / 1000) + 's');
+    hero.style.setProperty('--hero-dur', (((+slides[cur].getAttribute('data-prog')) || (+slides[cur].getAttribute('data-dwell')) || 6500) / 1000) + 's');
     hero.classList.add('is-playing');
   }
   function schedule() {
@@ -73,6 +78,8 @@
     renderThumbs();
     restartProgress(); schedule();
   }
+  // video-driven advance: hero-video.js calls this ~1s before a video ends, so the next slide dissolves in while the last second still plays
+  window.TZHero = { next: function () { if (paused || n < 2) return false; go(cur + 1); return true; } };
   function setPaused(v) {
     paused = v;
     hero.classList.toggle('is-paused', v);
