@@ -106,6 +106,8 @@
 
   if (reduced) hero.classList.add('is-paused');
   renderThumbs(); restartProgress(); schedule();
+  // while the loading screen is up the first slide is not visible yet: start its dwell clock when it opens
+  document.addEventListener('tz:revealed', function () { cur = 0; restartProgress(); schedule(); }, { once: true });
 
   /* ---------------- 2. TRUST ---------------- */
   var allP = P || [];
