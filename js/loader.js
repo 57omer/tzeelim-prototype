@@ -91,6 +91,7 @@
         var flightMs = reduced ? 0 : fly();
         setTimeout(function () {
           root.classList.remove('tz-loading');   // the real logo appears under the landed one
+          try { document.dispatchEvent(new Event('tz:revealed')); } catch (err) {}
           el.classList.add('is-reveal');
           setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 1000);
         }, flightMs);

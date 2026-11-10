@@ -89,3 +89,9 @@
 #partners .logos { grid-template-columns: repeat(2, 1fr); }
 @media (min-width: 700px) { #partners .logos { grid-template-columns: repeat(4, 1fr); } }
 .acard__title { margin-top: var(--s-4); }
+
+/* hero life: silent looping-free video over the still of the first slide */
+.hero__video { opacity: 0; transition: opacity .7s ease; object-fit: cover; object-position: var(--pos, 50% 50%); pointer-events: none; }
+.hero__video.is-on { opacity: 1; }
+.hero__slide.has-video.is-active .hero__bg { transform: none; transition: none; }
+@media (prefers-reduced-motion: reduce) { .hero__video { display: none; } }

@@ -19,8 +19,8 @@
   set('hero-slides', heroProjects.map(function (p, i) {
     var k = p.heroIndex;
     var label = [p.name, p.cityHe || TZ.cityLabel(p.city), p.statusHe || TZ.statusLabel(p.status)].join(' · ');
-    return '<div class="hero__slide' + (i === 0 ? ' is-active' : '') + '" role="group" aria-roledescription="שקופית" aria-label="' + (i + 1) + ' מתוך ' + n + '" style="--pos:' + (POS[k] || '50% 50%') + '">' +
-      '<img class="hero__bg" src="img/hero/hero-' + k + '.jpg" alt="' + esc('הדמיית הפרויקט ' + p.name + ', ' + (p.cityHe || '')) + '"' + (i === 0 ? ' fetchpriority="high"' : '') + ' decoding="async">' +
+    return '<div class="hero__slide' + (i === 0 ? ' is-active' : '') + '" role="group" aria-roledescription="שקופית" aria-label="' + (i + 1) + ' מתוך ' + n + '" style="--pos:' + (POS[k] || '50% 50%') + '"' + (k === 1 && !/[?&]novideo=1/.test(location.search) ? ' data-dwell="11000"' : '') + '>' +
+      '<img class="hero__bg" src="' + (k === 1 && !/[?&]novideo=1/.test(location.search) ? 'video/hero-1-poster.jpg' : 'img/hero/hero-' + k + '.jpg') + '" alt="' + esc('הדמיית הפרויקט ' + p.name + ', ' + (p.cityHe || '')) + '"' + (i === 0 ? ' fetchpriority="high"' : '') + ' decoding="async">' +
       '<div class="hero__copy">' +
         '<p class="hero__label">' + esc(label) + '</p>' +
         '<p class="hero__title" role="presentation">' + esc(slogan) + '</p>' +
@@ -55,12 +55,13 @@
     hero.classList.remove('is-playing');
     if (reduced || n < 2) return;
     void hero.offsetWidth;
+    hero.style.setProperty('--hero-dur', (((+slides[cur].getAttribute('data-dwell')) || 6500) / 1000) + 's');
     hero.classList.add('is-playing');
   }
   function schedule() {
     clearTimeout(timer);
     if (reduced || paused || n < 2 || document.hidden) return;
-    timer = setTimeout(function () { go(cur + 1); }, 6500);
+    timer = setTimeout(function () { go(cur + 1); }, (+slides[cur].getAttribute('data-dwell')) || 6500);
   }
   function go(i, user) {
     i = (i + n) % n;
