@@ -12,7 +12,7 @@
   function icon(n, c) { return TZ.icon ? TZ.icon(n, c) : ''; }
   function ph(tel, label) { return '<a href="tel:' + tel + '"><bdi dir="ltr">' + esc(label) + '</bdi></a>'; }
   function bySlug(s) { return (window.PROJECTS || []).filter(function (p) { return p.slug === s; })[0] || null; }
-  function coverFor(id) { var p = bySlug(ARTICLE_COVER[id]); return p ? p.cover : 'img/hero/hero-1.jpg'; }
+  function coverFor(id) { return ARTICLE_COVER[id] ? 'img/articles/' + id + '.jpg' : 'img/hero/hero-1.jpg'; }
 
   /* shared form (prefix keeps ids unique) */
   function formHtml(pfx, withMessage) {

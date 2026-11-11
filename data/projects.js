@@ -748,3 +748,6 @@ window.OFFICE = {
   "lng": 35.064019,
   "coordAccuracy": "street"
 };
+
+/* cache-bust upscaled images */
+(function () { var v = '?v=hd1'; (window.PROJECTS || []).forEach(function (p) { if (p.cover) p.cover += v; (p.images || []).forEach(function (i) { if (i.src) i.src += v; }); }); })();

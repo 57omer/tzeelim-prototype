@@ -87,3 +87,4 @@
 
 /* card fix: keep name on its own line when there is no excerpt */
 .pj-grid .pcard__name, .pj-more-grid .pcard__name, .pj-nf-list .pcard__name { display: block; }
+.tabs[hidden] { display: none !important; }

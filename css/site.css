@@ -1516,3 +1516,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .map--ink .leaflet-top.leaflet-right { top: 26px; right: 30px; }
 .tz-north { margin: 0 !important; display: grid; justify-items: center; gap: 3px; pointer-events: none; opacity: .9; }
 .tz-north span { font: 500 12px/1 'Heebo', sans-serif; color: #1b1717; letter-spacing: .04em; }
+
+/* ---------- unified image frame (matches the marketing carousel cards) ---------- */
+.media, .pcard__media, .acard__media, .wide-card__media, .gallery__item, .about-gal > a, .about-gal__item, .art-cover .media { border-radius: 6px; box-shadow: 0 14px 34px rgba(27, 23, 23, .2); overflow: hidden; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .media, :root:not([data-theme="light"]) .pcard__media, :root:not([data-theme="light"]) .acard__media, :root:not([data-theme="light"]) .wide-card__media, :root:not([data-theme="light"]) .gallery__item { box-shadow: 0 14px 34px rgba(0, 0, 0, .45); } }

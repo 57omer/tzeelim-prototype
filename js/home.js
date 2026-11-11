@@ -131,7 +131,7 @@
   /* ---------------- 3. MARKETING ---------------- */
   txt('mk-title', (sec.marketing || {}).title || 'פרויקטים בשיווק');
   txt('mk-intro', (sec.marketing || {}).intro || '');
-  set('mk-cards', TZ.byStatus('marketing').map(function (p, i) { return TZ.projectCard(p, i); }).join(''));
+  TZ.carousel(document.getElementById('mk-cards'), TZ.byStatus('marketing'));
 
   /* ---------------- 4. CONSTRUCTION ---------------- */
   txt('cn-title', (sec.construction || {}).title || 'פרויקטים בבנייה');
@@ -216,7 +216,7 @@
   txt('ar-title', (C.articlesIntro || {}).title || 'מאמרים ומידע');
   var covers = ['yitzhak-yatziv-51', 'harav-kook-86', 'hashayara-26'];
   set('ar-cards', (C.articles || []).slice(0, 3).map(function (a, i) {
-    var cp2 = TZ.bySlug(covers[i]);
+    var cp2 = { cover: 'img/articles/' + a.id + '.jpg' };
     return '<a class="acard reveal" style="--i:' + i + '" href="article.html?id=' + encodeURIComponent(a.id) + '">' +
       '<div class="acard__media media media--zoom" style="--ratio:16/10">' + (cp2 ? '<img src="' + esc(cp2.cover) + '" alt="" loading="lazy">' : '') + '</div>' +
       '<h3 class="acard__title">' + esc(a.title) + '</h3><p class="acard__text">' + esc(a.excerpt.length > 130 ? a.excerpt.slice(0, 130).replace(/\s+\S*$/, '') + '…' : a.excerpt) + '</p>' +

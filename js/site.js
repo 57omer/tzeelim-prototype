@@ -682,6 +682,7 @@
         });
         m = L.marker([lat, lng], { icon: ic, title: p.name, alt: p.name, keyboard: true, riseOnHover: true, zIndexOffset: active ? 1000 : 0 });
       }
+      if (popup && ink) m.on('click keypress', function () { map.setMaxBounds(null); });   // let the map pan freely so the card is never clipped
       if (popup) m.bindPopup(mapCardHtml(p), { maxWidth: 260, minWidth: 248, className: 'map-popup', autoPanPaddingTopLeft: [24, 110], autoPanPaddingBottomRight: [24, 24] });
       m.addTo(map);
       markers[p.slug] = m;
@@ -697,6 +698,7 @@
       if (map.getZoom() < 14 && focus.length < pts.length + 1 && b.getNorthEast().distanceTo(b.getSouthWest()) < 6000) map.setZoom(14);
     }
     var inkBounds = null;
+    if (ink) map.on('popupclose', function () { if (inkBounds) map.setMaxBounds(inkBounds.pad(0.02)); });
     function lockBounds() {
       if (!ink) return;
       map.invalidateSize();
