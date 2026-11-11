@@ -171,7 +171,7 @@
   /* ---------------- 7. OCCUPIED ---------------- */
   txt('oc-title', (sec.occupied || {}).title || 'פרויקטים מאוכלסים');
   txt('oc-intro', (sec.occupied || {}).intro || '');
-  var pick = ['shishet-hayamim-20', 'belinson-38', 'rans-34', 'yatziv-45', 'moshe-sharett-60', 'ziper-20'];
+  var pick = ['shishet-hayamim-20', 'belinson-38', 'rans-34'];
   set('oc-cards', pick.map(TZ.bySlug).filter(Boolean).map(function (p, i) { return TZ.projectCard(p, i); }).join(''));
 
   /* ---------------- 8. NEWS ---------------- */

@@ -244,3 +244,50 @@ html.tz-loading .hero__overlay > * { opacity: 0; transform: translateY(18px); }
 /* trust bar: soft depth so the lettering is not flat */
 .trust-sec .stat__num { filter: drop-shadow(0 1px 0 rgba(255, 255, 255, .55)) drop-shadow(0 3px 2px rgba(99, 0, 0, .28)) drop-shadow(0 12px 18px rgba(99, 0, 0, .26)); }
 .trust-sec .stat__label { text-shadow: 0 1px 0 rgba(255, 255, 255, .6), 0 2px 6px rgba(27, 23, 23, .14); opacity: .85; font-weight: 500; }
+
+/* shorter home page: compact "in construction" card, tighter occupied grid */
+#about-teaser { padding-top: var(--section-pad, revert); }
+#construction { padding-block: clamp(40px, 5vw, 72px); }
+#construction .section-head { margin-bottom: var(--s-5); }
+#construction .section-intro { display: none; }
+.wide-card__name { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem); }
+.wide-card__text { margin-top: var(--s-3); font-size: 1rem; max-width: 36ch; }
+.wide-card__more { margin-top: var(--s-4); font-size: 1rem; }
+@media (min-width: 900px) { .wide-card { grid-template-columns: 5fr 4fr; max-width: 920px; margin-inline: auto; gap: clamp(24px, 3.5vw, 48px); } .wide-card__media { aspect-ratio: 16 / 10; } }
+
+/* compact marketing section */
+#marketing { padding-block: clamp(40px, 5vw, 72px); }
+#marketing .section-head { margin-bottom: var(--s-3); }
+#marketing .section-intro { display: none; }
+#marketing .cc { padding-block: 0; }
+#marketing .cc__swiper { padding-block: 8px 24px; max-width: 760px; }
+#marketing .cc__slide { width: min(60vw, 230px); }
+#marketing .cc__name { font-size: clamp(1.1rem, 1rem + .4vw, 1.3rem); }
+#marketing .cc__info { inset-inline: 14px; bottom: 14px; }
+#marketing .section-foot { margin-top: var(--s-3); }
+
+/* numbers folded into the about section: small, inline */
+.trust--mini { margin-top: var(--s-6); display: flex; flex-wrap: wrap; gap: 14px clamp(24px, 4vw, 56px); justify-content: flex-start; }
+.trust--mini .stat { text-align: start; border: 0 !important; padding: 0 !important; display: flex; align-items: baseline; gap: 10px; }
+.trust--mini .stat__num { font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem); font-weight: 400; direction: ltr; line-height: 1; color: var(--cherry, #810100); background: none; -webkit-text-fill-color: currentColor; filter: drop-shadow(0 1px 0 rgba(255, 255, 255, .5)) drop-shadow(0 4px 6px rgba(99, 0, 0, .2)); }
+.trust--mini .stat__label { margin: 0; font-size: .875rem; max-width: none; color: var(--muted); text-shadow: none; opacity: 1; font-weight: 400; }
+.trust--mini .stat::before { display: none !important; }
+/* marketing carousel: bigger focused card, same overall section width */
+#marketing .cc__slide { width: min(64vw, 300px); }
+#marketing .cc__swiper { max-width: 760px; padding-block: 12px 28px; }
+#marketing .cc__name { font-size: clamp(1.25rem, 1.1rem + .5vw, 1.5rem); }
+#marketing .cc__info { inset-inline: 18px; bottom: 18px; }
+
+/* compact lead-form section */
+#cta { padding-block: clamp(36px, 4.5vw, 64px); }
+#cta .cta { gap: clamp(20px, 4vw, 56px); align-items: center; }
+#cta .cta__title { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem); line-height: 1.12; }
+#cta .cta__text { margin-top: 10px; font-size: 1rem; }
+#cta .mt-6 { margin-top: var(--s-4) !important; }
+#cta .btn { min-height: 44px; padding: 0 20px; font-size: .9rem; }
+#cta .form .field input { min-height: 44px; }
+#cta .form { gap: 10px; }
+
+/* sunset square cards */
+#marketing .cc__card { aspect-ratio: 1 / 1; }
+#marketing .cc__slide { width: min(70vw, 340px); }

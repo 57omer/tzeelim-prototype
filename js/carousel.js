@@ -8,7 +8,7 @@
 
   function card(p, cls) {
     var st = TZ.statusLabel(p.status) || p.statusHe || '', city = p.cityHe || TZ.cityLabel(p.city) || '';
-    var cover = p.cover || (p.images && p.images[0] && p.images[0].src) || '';
+    var cover = p.card || p.cover || (p.images && p.images[0] && p.images[0].src) || '';
     return '<a class="cc__card' + (cls ? ' ' + cls : '') + '" href="project.html?p=' + encodeURIComponent(p.slug) + '" aria-label="' + esc(p.name + ' — ' + city) + '">' +
       (cover ? '<img src="' + esc(cover) + '" alt="" draggable="false">' : '') +
       '<span class="cc__badge badge badge--' + esc(p.status) + '">' + esc(st) + '</span>' +
