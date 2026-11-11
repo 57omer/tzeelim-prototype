@@ -148,7 +148,7 @@ window.PROJECTS = [
         "kind": "plan"
       }
     ],
-    "heroIndex": 5
+    "heroIndex": 0
   },
   {
     "slug": "aharonovitz-6",
