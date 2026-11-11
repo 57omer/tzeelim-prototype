@@ -253,7 +253,7 @@ html.tz-loading .hero__overlay > * { opacity: 0; transform: translateY(18px); }
 .wide-card__name { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem); }
 .wide-card__text { margin-top: var(--s-3); font-size: 1rem; max-width: 36ch; }
 .wide-card__more { margin-top: var(--s-4); font-size: 1rem; }
-@media (min-width: 900px) { .wide-card { grid-template-columns: 5fr 4fr; max-width: 920px; margin-inline: auto; gap: clamp(24px, 3.5vw, 48px); } .wide-card__media { aspect-ratio: 16 / 10; } }
+@media (min-width: 900px) { .wide-card { grid-template-columns: 6fr 5fr; gap: clamp(24px, 3.5vw, 56px); } .wide-card__media { aspect-ratio: 16 / 9; } }
 
 /* compact marketing section */
 #marketing { padding-block: clamp(40px, 5vw, 72px); }
