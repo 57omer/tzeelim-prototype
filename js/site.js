@@ -577,6 +577,57 @@
       '</div></a>';
   }
 
+  /* ---------- ink-style vector map (OSM data drawn as line art) ---------- */
+  var INK = '#2a2624', PAPER = '#f1ecdd', PAPER2 = '#f7f3e7', GREEN = '#e3e1c8';
+  function drawInk(L, map, el, D) {
+    el.classList.add('map--ink');
+    el.style.background = PAPER;
+    if (map.attributionControl) map.attributionControl.addAttribution('<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" title="© OpenStreetMap contributors">© OSM</a>');
+    function ll(a) { return a; }
+    function poly(list, style) { return list.map(function (pts) { return L.polygon(pts.map(ll), style); }); }
+    function lines(list, style) { return list.map(function (pts) { return L.polyline(pts.map(ll), style); }); }
+    var base = { interactive: false, smoothFactor: 1.2, lineJoin: 'round', lineCap: 'round' };
+    var groups = {};
+    groups.green = L.layerGroup(poly(D.green, Object.assign({}, base, { stroke: false, fillColor: GREEN, fillOpacity: 1 }))).addTo(map);
+    groups.pathLine = L.layerGroup(lines(D.roads.path, Object.assign({}, base, { color: INK, weight: 0.6, opacity: 0.55, dashArray: '2 3' }))).addTo(map);
+    groups.minorCase = L.layerGroup(lines(D.roads.minor, Object.assign({}, base, { color: INK, weight: 5, opacity: .8 }))).addTo(map);
+    groups.majorCase = L.layerGroup(lines(D.roads.major, Object.assign({}, base, { color: INK, weight: 9, opacity: .9 }))).addTo(map);
+    groups.minorFill = L.layerGroup(lines(D.roads.minor, Object.assign({}, base, { color: PAPER, weight: 3.4, opacity: 1 }))).addTo(map);
+    groups.majorFill = L.layerGroup(lines(D.roads.major, Object.assign({}, base, { color: PAPER, weight: 6.6, opacity: 1 }))).addTo(map);
+    groups.rail = L.layerGroup(lines(D.rail, Object.assign({}, base, { color: INK, weight: 1.4, opacity: 0.9, dashArray: '10 5' }))).addTo(map);
+    groups.bld = L.layerGroup(poly(D.buildings, Object.assign({}, base, { color: INK, weight: 0.9, opacity: .75, fillColor: PAPER2, fillOpacity: 1, lineJoin: 'miter' }))).addTo(map);
+    function eachLayer(g, fn) { g.eachLayer(fn); }
+    function restyle() {
+      var z = map.getZoom(), k = Math.pow(2, z - 16);
+      var f = Math.max(0.55, Math.min(k, 6));
+      var set = { minorCase: 5 * f, minorFill: 3.4 * f, majorCase: 9 * f, majorFill: 6.6 * f };
+      Object.keys(set).forEach(function (n) { eachLayer(groups[n], function (l) { l.setStyle({ weight: set[n] }); }); });
+      var bw = Math.max(0.6, Math.min(1.5, 0.7 * f));
+      eachLayer(groups.bld, function (l) { l.setStyle({ weight: bw }); });
+      el.setAttribute('data-z', String(Math.floor(z))); if (z >= 17) el.setAttribute('data-zn', '1'); else el.removeAttribute('data-zn'); if (z >= 15.75) el.setAttribute('data-zm', '1'); else el.removeAttribute('data-zm'); if (z >= 15) el.setAttribute('data-zs', '1'); else el.removeAttribute('data-zs');
+      el.style.setProperty('--fig', Math.round(Math.max(55, Math.min(115, 58 * Math.pow(2, (z - 15.25) * 0.28)))) + 'px');
+    }
+    map.on('zoomend', restyle);
+    restyle();
+    // north arrow
+    var NA = L.Control.extend({ options: { position: 'topright' }, onAdd: function () {
+      var d = L.DomUtil.create('div', 'tz-north');
+      d.setAttribute('aria-hidden', 'true');
+      d.innerHTML = '<svg viewBox="0 0 24 40" width="22" height="36"><path d="M12 2 L20 30 L12 24 L4 30 Z" fill="#1b1717"/><path d="M12 2 L12 24 L4 30 Z" fill="#810100"/></svg><span>צ</span>';
+      return d; } });
+    new NA().addTo(map);
+    // main road names
+    (window.MAPNAMES || []).forEach(function (n) {
+      var ic = L.divIcon({ className: 'tz-road', html: '<span class="' + (n[4] ? 'tz-road--more' : '') + '" style="transform:translate(-50%,-50%) rotate(' + n[3] + 'deg)">' + n[0] + '</span>', iconSize: [0, 0] });
+      L.marker([n[1], n[2]], { icon: ic, interactive: false, keyboard: false, zIndexOffset: -1000 }).addTo(map);
+    });
+  }
+  function figIcon(L, p, active) {
+    var src = 'img/fig/' + p.slug + '.png';
+    var html = '<span class="fig' + (active ? ' fig--active' : '') + '"><img src="' + src + '" alt="" onerror="this.parentNode.classList.add(\'fig--none\')"><i class="fig__dot"></i><b class="fig__name">' + esc(p.name) + '</b></span>';
+    return L.divIcon({ className: 'tz-fig' + (active ? ' tz-fig--active' : ''), html: html, iconSize: [0, 0], iconAnchor: [0, 0] });
+  }
+
   function initMap(target, list, opts) {
     var el = typeof target === 'string' ? $(target) : target;
     if (!el) return null;
@@ -594,34 +645,43 @@
     var pts = list.filter(function (p) {
       return p && isFinite(p.lat) && isFinite(p.lng) && p.lat !== null && p.lng !== null && (!opts.onlyActive || p.status !== 'occupied');
     });
-    var map = L.map(el, { scrollWheelZoom: false, zoomControl: true, attributionControl: true, minZoom: 11, maxZoom: 18, tap: false, dragging: !L.Browser.mobile, touchZoom: true });
+    var D = window.MAPDATA, BOX = [32.806, 35.044, 32.844, 35.099];
+    var ink = !!(D && opts.ink !== false && pts.length && pts.every(function (p) { return p.lat > BOX[0] && p.lat < BOX[2] && p.lng > BOX[1] && p.lng < BOX[3]; }));
+    var map = L.map(el, { scrollWheelZoom: false, zoomControl: true, attributionControl: true, minZoom: ink ? 14 : 11, maxZoom: ink ? 19 : 18, zoomSnap: ink ? 0.25 : 1, tap: false, dragging: !L.Browser.mobile, touchZoom: true, preferCanvas: ink, renderer: ink ? L.canvas({ padding: 0.4 }) : undefined });
     if (L.Browser.mobile) { map.dragging.disable(); var hint = doc.createElement('div'); hint.className = 'map-hint'; hint.textContent = 'גלילה עם שתי אצבעות להזזת המפה'; el.appendChild(hint); var tc = 0; el.addEventListener('touchstart', function (e) { if (e.touches.length > 1) { map.dragging.enable(); hint.classList.remove('is-on'); } else { map.dragging.disable(); } }, { passive: true }); }
-    map.attributionControl.setPrefix(false);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    if (map.attributionControl) map.attributionControl.setPrefix(false);
+    if (!ink) L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
     }).addTo(map);
+    else drawInk(L, map, el, D);
 
     // wheel zoom only after the user clicks into the map (keeps page scrolling smooth)
     map.on('click focus', function () { map.scrollWheelZoom.enable(); });
     el.addEventListener('mouseleave', function () { map.scrollWheelZoom.disable(); });
 
     var markers = {};
+    el._tzmap = map;
     var seen = [];
     pts.forEach(function (p) {
       var lat = p.lat, lng = p.lng;
-      if (p.status !== 'occupied') {
-        seen.forEach(function (s) { if (Math.abs(s[0] - lat) < 0.0006 && Math.abs(s[1] - lng) < 0.0006) { lat += 0.0005; lng += 0.0006; } });
-        seen.push([lat, lng]);
-      }
       var active = p.status !== 'occupied';
-      var size = active ? 34 : 36;
-      var ic = L.divIcon({
-        className: 'tz-pin ' + (active ? 'pin--active' : 'pin--past'),
-        html: '<span class="pin__dot"></span>',
-        iconSize: [size, size], iconAnchor: [size / 2, size / 2], popupAnchor: [0, -size / 2]
-      });
-      var m = L.marker([lat, lng], { icon: ic, title: p.name, alt: p.name, keyboard: true, riseOnHover: true, zIndexOffset: active ? 1000 : 0 });
+      var m;
+      if (ink) {
+        m = L.marker([lat, lng], { icon: figIcon(L, p, active), title: p.name, alt: p.name, keyboard: true, riseOnHover: true, zIndexOffset: Math.round((90 - (lat - BOX[0]) * 1000) + (active ? 1000 : 0)) });
+      } else {
+        if (active) {
+          seen.forEach(function (s) { if (Math.abs(s[0] - lat) < 0.0006 && Math.abs(s[1] - lng) < 0.0006) { lat += 0.0005; lng += 0.0006; } });
+          seen.push([lat, lng]);
+        }
+        var size = active ? 34 : 36;
+        var ic = L.divIcon({
+          className: 'tz-pin ' + (active ? 'pin--active' : 'pin--past'),
+          html: '<span class="pin__dot"></span>',
+          iconSize: [size, size], iconAnchor: [size / 2, size / 2], popupAnchor: [0, -size / 2]
+        });
+        m = L.marker([lat, lng], { icon: ic, title: p.name, alt: p.name, keyboard: true, riseOnHover: true, zIndexOffset: active ? 1000 : 0 });
+      }
       if (popup) m.bindPopup(mapCardHtml(p), { maxWidth: 260, minWidth: 248, className: 'map-popup', autoPanPaddingTopLeft: [24, 110], autoPanPaddingBottomRight: [24, 24] });
       m.addTo(map);
       markers[p.slug] = m;
@@ -636,14 +696,30 @@
       map.fitBounds(b.pad(0.12), { maxZoom: 15, padding: [24, 24] });
       if (map.getZoom() < 14 && focus.length < pts.length + 1 && b.getNorthEast().distanceTo(b.getSouthWest()) < 6000) map.setZoom(14);
     }
-    if (fit) fitView(); else map.setView([32.8355, 35.0745], 14);
+    var inkBounds = null;
+    function lockBounds() {
+      if (!ink) return;
+      map.invalidateSize();
+      var b = L.latLngBounds(pts.map(function (p) { return [p.lat, p.lng]; })).pad(0.08);
+      b.extend([b.getNorth() + 0.0028, b.getCenter().lng]); b.extend([b.getSouth() - 0.0006, b.getCenter().lng]);
+      if (pts.length < 2) b = b.pad(1.5);
+      inkBounds = b;
+      var z = map.getBoundsZoom(b, false);
+      map.setMinZoom(Math.max(13, Math.min(z, 17)));
+      map.setMaxBounds(b.pad(0.02));
+      map.options.maxBoundsViscosity = 1;
+    }
+    if (ink) {
+      lockBounds();
+      if (pts.length > 1) map.fitBounds(inkBounds, { animate: false }); else map.setView([pts[0].lat, pts[0].lng], 17);
+    } else if (fit) fitView(); else map.setView([32.8355, 35.0745], 14);
 
     // layout can settle after fonts/images — keep tiles sized correctly
-    setTimeout(function () { map.invalidateSize(); if (fit) fitView(); }, 250);
+    setTimeout(function () { map.invalidateSize(); if (ink) { lockBounds(); if (pts.length > 1) map.fitBounds(inkBounds, { animate: false }); } else if (fit) fitView(); }, 250);
     window.addEventListener('load', function () { map.invalidateSize(); });
     if ('ResizeObserver' in window) {
       var t = null;
-      new ResizeObserver(function () { clearTimeout(t); t = setTimeout(function () { map.invalidateSize(); }, 120); }).observe(el);
+      new ResizeObserver(function () { clearTimeout(t); t = setTimeout(function () { map.invalidateSize(); lockBounds(); }, 120); }).observe(el);
     }
     return {
       map: map, markers: markers,

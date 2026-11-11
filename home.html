@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=11">
+  <link rel="stylesheet" href="css/site.css?v=27">
   <link rel="stylesheet" href="css/loader.css?v=11">
-  <link rel="stylesheet" href="css/home.css?v=11">
+  <link rel="stylesheet" href="css/home.css?v=13">
 </head>
 <body data-page="home">
   <div class="tz-loader" id="tzLoader" role="status" aria-live="polite" aria-label="טוען את האתר">
@@ -34,6 +34,21 @@
       <div class="hero__overlay" id="hero-overlay"></div>
       <div class="hero__ui" id="hero-ui"></div>
       <p class="hero__note">הדמיה להמחשה בלבד</p>
+    </section>
+
+    <!-- 5. ABOUT TEASER -->
+    <section class="section section--surface" id="about-teaser">
+      <div class="container">
+        <div class="split split--top">
+          <div class="stack reveal">
+            <span class="eyebrow">אודות</span>
+            <h2 class="section-title" id="ab-title"></h2>
+            <p class="lead" id="ab-text"></p>
+            <div><a class="link-arrow" href="about.html">להכיר את צאלים </a></div>
+          </div>
+        </div>
+        <div class="values" id="values"></div>
+      </div>
     </section>
 
     <!-- 2. TRUST BAR -->
@@ -75,18 +90,21 @@
       </div>
     </section>
 
-    <!-- 5. ABOUT TEASER -->
-    <section class="section" id="about-teaser">
+    <!-- 7. OCCUPIED -->
+    <section class="section" id="occupied">
       <div class="container">
-        <div class="split split--top">
-          <div class="stack reveal">
-            <span class="eyebrow">אודות</span>
-            <h2 class="section-title" id="ab-title"></h2>
-            <p class="lead" id="ab-text"></p>
-            <div><a class="link-arrow" href="about.html">להכיר את צאלים </a></div>
+        <div class="section-head reveal">
+          <div class="section-head__text">
+            <span class="eyebrow">משפחות שכבר גרות אצלנו</span>
+            <h2 class="section-title" id="oc-title"></h2>
+            <p class="lead section-intro" id="oc-intro"></p>
           </div>
         </div>
-        <div class="values" id="values"></div>
+        <div class="grid grid--3" id="oc-cards"></div>
+        <div class="section-foot reveal">
+          <a class="btn btn--ghost" href="projects.html?status=occupied">לכל הפרויקטים המאוכלסים</a>
+          <p class="render-note">הדמיה להמחשה בלבד</p>
+        </div>
       </div>
     </section>
 
@@ -106,42 +124,11 @@
       </div>
     </section>
 
-    <!-- 7. OCCUPIED -->
-    <section class="section" id="occupied">
-      <div class="container">
-        <div class="section-head reveal">
-          <div class="section-head__text">
-            <span class="eyebrow">משפחות שכבר גרות אצלנו</span>
-            <h2 class="section-title" id="oc-title"></h2>
-            <p class="lead section-intro" id="oc-intro"></p>
-          </div>
-        </div>
-        <div class="grid grid--3" id="oc-cards"></div>
-        <div class="section-foot reveal">
-          <a class="btn btn--ghost" href="projects.html?status=occupied">לכל הפרויקטים המאוכלסים</a>
-          <p class="render-note">הדמיה להמחשה בלבד</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 8. NEWS -->
-    <section class="section section--dark" id="news">
-      <div class="container">
-        <div class="section-head reveal">
-          <div class="section-head__text">
-            <span class="eyebrow">חדשות</span>
-            <h2 class="section-title" id="news-title"></h2>
-          </div>
-        </div>
-        <div class="news" id="news-list"></div>
-      </div>
-    </section>
-
     <!-- 9. PARTNERS -->
     <section class="section section--tight" id="partners" hidden>
       <div class="container">
         <h2 class="partners__title reveal" id="partners-title"></h2>
-        <div class="logos reveal" id="partners-logos"></div>
+        <div class="marquee reveal" id="partners-logos" dir="ltr" role="group" aria-label="לקוחות ושותפים"></div>
       </div>
     </section>
 
@@ -156,6 +143,19 @@
           <a class="link-arrow" href="articles.html">לכל המאמרים</a>
         </div>
         <div class="grid grid--3" id="ar-cards"></div>
+      </div>
+    </section>
+
+    <!-- 8. NEWS -->
+    <section class="section" id="news">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-head__text">
+            <span class="eyebrow">חדשות</span>
+            <h2 class="section-title" id="news-title"></h2>
+          </div>
+        </div>
+        <div class="news" id="news-list"></div>
       </div>
     </section>
 
@@ -189,8 +189,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
   <script src="data/projects.js"></script>
   <script src="data/content.js"></script>
-  <script src="js/site.js"></script>
-  <script src="js/home.js?v=11"></script>
+  <script src="data/map-data.js?v=2"></script>
+  <script src="data/map-names.js?v=2"></script>
+  <script src="js/site.js?v=27"></script>
+  <script src="js/home.js?v=12"></script>
   <script src="js/hero-video.js?v=11"></script>
 </body>
 </html>
