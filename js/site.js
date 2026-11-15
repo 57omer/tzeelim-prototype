@@ -17,7 +17,8 @@
     address: 'בן צבי 61, קרית חיים',
     whatsapp: 'https://wa.me/972528587821',
     facebook: 'https://www.facebook.com/tzeelim/',
-    logo: 'img/brand/logo.png'
+    logo: 'img/brand/logo.png?v=2',
+    logoDark: 'img/brand/logo-dark.png?v=4'
   };
 
   var STATUS = { marketing: 'בשיווק', construction: 'בבנייה', occupied: 'מאוכלס' };
@@ -99,7 +100,7 @@
     var items = NAV.map(function (n) { return '<li>' + navLinkHtml(n, activeKey, 'nav__link') + '</li>'; }).join('');
     el.innerHTML =
       '<div class="site-header__inner">' +
-        '<a class="logo" href="home.html" aria-label="' + esc(CFG.name) + ' — לדף הבית"><img src="' + CFG.logo + '" alt="' + esc(CFG.name) + '" width="142" height="50"></a>' +
+        '<a class="logo" href="home.html" aria-label="' + esc(CFG.name) + ' — לדף הבית"><img class="logo__l" src="' + CFG.logo + '" alt="' + esc(CFG.name) + '" width="142" height="50"><img class="logo__d" src="' + CFG.logoDark + '" alt="" aria-hidden="true" width="142" height="50"></a>' +
         '<nav class="nav" aria-label="ניווט ראשי"><ul class="nav__list">' + items + '</ul></nav>' +
         '<div class="site-header__actions">' +
           '<a class="btn btn--sm site-header__phone" href="tel:' + CFG.phoneMain.tel + '">' + icon('phone') + '<bdi dir="ltr">' + CFG.phoneMain.label + '</bdi></a>' +
@@ -197,7 +198,7 @@
       '<div class="container">' +
         '<div class="site-footer__grid">' +
           '<div class="site-footer__brand">' +
-            '<a class="site-footer__logo" href="home.html" aria-label="' + esc(CFG.name) + ' — לדף הבית"><img src="' + CFG.logo + '" alt="' + esc(CFG.name) + '" width="142" height="50" loading="lazy"></a>' +
+            '<a class="site-footer__logo" href="home.html" aria-label="' + esc(CFG.name) + ' — לדף הבית"><img class="logo__l" src="' + CFG.logo + '" alt="' + esc(CFG.name) + '" width="142" height="50" loading="lazy"><img class="logo__d" src="' + CFG.logoDark + '" alt="" aria-hidden="true" width="142" height="50" loading="lazy"></a>' +
             '<p class="site-footer__slogan">' + esc(CFG.slogan) + '</p>' +
             '<p>' + esc(CFG.tagline) + '</p>' +
             '<div class="site-footer__social">' +

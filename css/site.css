@@ -30,7 +30,8 @@
   --accent-text: #810100;      /* small labels / eyebrow on light only */
   --focus: #810100;
   --danger: #9A1B14;
-  --logo-filter: none;
+  --logo-filter: drop-shadow(0 1px 1px rgba(27, 23, 23, .22)) drop-shadow(0 5px 8px rgba(27, 23, 23, .12));
+  --ll: 1; --ld: 0;
   --shadow: 0 18px 50px -24px rgba(27, 23, 23, .45);
 
   /* type */
@@ -80,7 +81,7 @@
     --accent-text: #E3ADA4;
     --focus: #EDEBDD;
     --danger: #FF9D90;
-    --logo-filter: brightness(0) invert(1);
+    --logo-filter: none; --ll: 0; --ld: 1;
     --shadow: 0 18px 50px -24px rgba(0, 0, 0, .8);
     color-scheme: dark;
   }
@@ -98,7 +99,7 @@
   --accent-text: #E3ADA4;
   --focus: #EDEBDD;
   --danger: #FF9D90;
-  --logo-filter: brightness(0) invert(1);
+  --logo-filter: none; --ll: 0; --ld: 1;
   --shadow: 0 18px 50px -24px rgba(0, 0, 0, .8);
   color-scheme: dark;
 }
@@ -116,7 +117,7 @@
   --accent-hover: #A01512;
   --focus: #EDEBDD;
   --danger: #FF9D90;
-  --logo-filter: brightness(0) invert(1);
+  --logo-filter: none; --ll: 0; --ld: 1;
   color-scheme: dark;
 }
 .theme-dark, .section--dark { background: var(--bg); color: var(--text); }
@@ -286,7 +287,7 @@ strong, b { font-weight: 500; }
 .site-header.is-scrolled { box-shadow: 0 1px 0 var(--line), 0 12px 30px -22px rgba(27, 23, 23, .5); }
 /* over hero: transparent header + white logo; after scroll: solid bar + original logo */
 .header-over .site-header:not(.is-scrolled), .menu-open .site-header {
-  --h-fg: #EDEBDD; --h-bg: transparent; --logo-f: brightness(0) invert(1); --focus: #EDEBDD;
+  --h-fg: #EDEBDD; --h-bg: transparent; --logo-f: none; --ll: 0; --ld: 1; --focus: #EDEBDD;
 }
 .header-over .site-header:not(.is-scrolled)::before {
   content: ""; position: absolute; inset: 0 0 -28px; z-index: -1; pointer-events: none;
@@ -298,10 +299,13 @@ strong, b { font-weight: 500; }
   width: min(100% - var(--gutter) * 2, 1360px); height: 100%; margin-inline: auto;
   display: flex; align-items: center; gap: clamp(16px, 2.4vw, 40px);
 }
-.logo { display: block; flex: none; line-height: 0; }
+.logo { display: block; flex: none; line-height: 0; position: relative; }
 .logo img {
-  height: 40px; width: auto; filter: var(--logo-f); transition: filter .45s var(--ease);
+  height: 40px; width: auto; transition: filter .45s var(--ease), opacity .45s var(--ease);
 }
+.logo__l { filter: var(--logo-f); opacity: var(--ll); }
+/* dark variant = original colours + white outline, drawn on a canvas padded 40/1400 so the halo is not clipped */
+.logo img.logo__d, .site-footer__logo img.logo__d { position: absolute; left: -2.857%; top: -8.2%; width: 105.714%; height: auto; max-width: none; opacity: var(--ld); pointer-events: none; }
 @media (min-width: 1080px) { .logo img { height: 50px; } }
 .nav { display: none; margin-inline: auto; }
 .nav__list { display: flex; gap: clamp(18px, 2.2vw, 36px); }
@@ -465,7 +469,10 @@ strong, b { font-weight: 500; }
 .site-footer__grid { display: grid; gap: 40px; padding-bottom: clamp(40px, 6vw, 72px); }
 @media (min-width: 640px) { .site-footer__grid { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 1000px) { .site-footer__grid { grid-template-columns: 1.5fr 1fr 1.2fr 1fr; gap: 56px; } }
-.site-footer__logo img { height: 52px; width: auto; filter: brightness(0) invert(1); }
+.site-footer__logo { position: relative; display: inline-block; line-height: 0; }
+.site-footer__logo img { height: 52px; width: auto; }
+.site-footer__logo .logo__d { opacity: 1; }
+.site-footer__logo .logo__l { opacity: 0; }
 .site-footer__slogan { margin-top: 20px; font-size: 1.5rem; font-weight: 200; letter-spacing: .02em; line-height: 1.3; }
 .site-footer__brand p { color: var(--muted); margin-top: 8px; }
 .site-footer__social { margin-top: 24px; display: flex; gap: 10px; }
@@ -715,7 +722,7 @@ strong, b { font-weight: 500; }
   .hero__title, .hero__lead, .hero__label { color: #000; }
   .site-footer { background: #fff; color: #000; }
   .site-footer a, .site-footer__bottom { color: #000; }
-  .site-footer__logo img { filter: none; }
+  .site-footer__logo .logo__l { opacity: 1; } .site-footer__logo .logo__d { opacity: 0; }
   .js .reveal { opacity: 1 !important; transform: none !important; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; }
   .section { padding-block: 24px; }
