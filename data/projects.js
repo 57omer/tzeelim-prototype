@@ -110,7 +110,8 @@ window.PROJECTS = [
         "kind": "plan"
       }
     ],
-    "heroIndex": 4
+    "heroIndex": 4,
+    "tours": ["harishonim-41-r4", "harishonim-41-r45", "harishonim-41-r5", "harishonim-41-pent"]
   },
   {
     "slug": "ziper-5",

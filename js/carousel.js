@@ -38,8 +38,8 @@
       speed: 750, slideToClickedSlide: true, keyboard: { enabled: true },
       coverflowEffect: { rotate: 0, stretch: 0, depth: 140, modifier: 2.1, slideShadows: false },
       navigation: { nextEl: root.querySelector('.cc__next'), prevEl: root.querySelector('.cc__prev') },
-      autoplay: reduced ? false : { delay: 3800, disableOnInteraction: false, pauseOnMouseEnter: true },
-      a11y: { enabled: false }
+      autoplay: reduced ? false : { delay: 3800, disableOnInteraction: true, pauseOnMouseEnter: true },
+      a11y: { enabled: true, prevSlideMessage: 'לפרויקט הקודם', nextSlideMessage: 'לפרויקט הבא', slideLabelMessage: 'פרויקט {{index}} מתוך {{slidesLength}}' }
     });
     // only the centred card opens its page; side cards just come to the centre
     root.addEventListener('click', function (e) {
@@ -48,6 +48,14 @@
       if (slide && !slide.classList.contains('swiper-slide-active')) e.preventDefault();
     });
     root.classList.add('is-ready');
+    if (sw.autoplay && sw.autoplay.running !== undefined && !reduced) {
+      var pb = document.createElement('button'); pb.type = 'button'; pb.className = 'cc__pause'; pb.setAttribute('aria-pressed', 'false'); pb.textContent = 'עצירת הגלילה האוטומטית';
+      var held = false;
+      pb.addEventListener('click', function () { held = !held; pb.setAttribute('aria-pressed', held ? 'true' : 'false'); pb.textContent = held ? 'הפעלת הגלילה האוטומטית' : 'עצירת הגלילה האוטומטית'; if (held) sw.autoplay.stop(); else sw.autoplay.start(); });
+      root.appendChild(pb);
+      root.addEventListener('focusin', function () { if (!held) sw.autoplay.stop(); });
+      window.addEventListener('tz:a11y', function (e) { if (e.detail && e.detail.still) { held = true; sw.autoplay.stop(); pb.setAttribute('aria-pressed', 'true'); pb.textContent = 'הפעלת הגלילה האוטומטית'; } });
+    }
     if ('IntersectionObserver' in window && !reduced) new IntersectionObserver(function (en) { if (!sw.autoplay) return; if (en[0].isIntersecting) sw.autoplay.start(); else sw.autoplay.stop(); }).observe(root);
     return sw;
   }

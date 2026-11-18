@@ -18,11 +18,12 @@
   function formHtml(pfx, withMessage) {
     return '<form class="form" data-tz-form novalidate>' +
       '<div class="form__row form__row--2">' +
-        '<div class="field"><label for="' + pfx + '-name">שם מלא</label><input id="' + pfx + '-name" name="name" autocomplete="name"></div>' +
-        '<div class="field"><label for="' + pfx + '-phone">טלפון</label><input id="' + pfx + '-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:start"></div>' +
+        '<div class="field"><label for="' + pfx + '-name">שם מלא <span class="field__req" aria-hidden="true">*</span></label><input id="' + pfx + '-name" name="name" autocomplete="name" aria-required="true" required></div>' +
+        '<div class="field"><label for="' + pfx + '-phone">טלפון <span class="field__req" aria-hidden="true">*</span></label><input id="' + pfx + '-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:start" aria-required="true" required></div>' +
       '</div>' +
       (withMessage ? '<div class="field"><label for="' + pfx + '-msg">הודעה <span class="field__opt">(לא חובה)</span></label><textarea id="' + pfx + '-msg" name="message"></textarea></div>' : '') +
-      '<div class="consent"><input type="checkbox" id="' + pfx + '-c" name="consent"><label for="' + pfx + '-c">אני מאשר/ת יצירת קשר חוזר. <a href="legal.html?doc=privacy">מדיניות פרטיות</a></label></div>' +
+      '<p class="form__legal">שדות המסומנים ב-<span aria-hidden="true">*</span> (חובה) נדרשים כדי שנוכל לחזור אליכם. מסירת הפרטים וולונטרית ונעשה בהם שימוש לצורך הפנייה בלבד, בהתאם ל<a href="legal.html?doc=privacy">מדיניות הפרטיות</a> ול<a href="legal.html?doc=terms">תנאי השימוש</a>.</p>' +
+      '<div class="consent"><input type="checkbox" id="' + pfx + '-m" name="marketing"><label for="' + pfx + '-m">אני מסכים/ה לקבל הצעות ופרסומות על פרויקטים של החברה בהודעת טקסט, וואטסאפ, דוא״ל או שיחה. אפשר להסיר בכל עת.</label></div>' +
       '<button class="btn" type="submit">השאר פרטים ' + icon('arrow-next', 'icon--arrow') + '</button>' +
       '<p class="form__note">אבטיפוס: הפרטים אינם נשלחים בפועל.</p>' +
     '</form>';
@@ -185,7 +186,7 @@
     var key = TZ.qs ? TZ.qs('doc') : null;
     var doc = L[key];
     var nav = $('#legal-nav');
-    var keys = ['privacy', 'terms', 'accessibility'].filter(function (k) { return L[k]; });
+    var keys = ['privacy', 'terms', 'cookies', 'accessibility'].filter(function (k) { return L[k]; });
     nav.innerHTML = keys.map(function (k) {
       return '<a href="legal.html?doc=' + k + '"' + (k === key ? ' aria-current="page"' : '') + '>' + esc(L[k].title) + '</a>';
     }).join('');
@@ -203,7 +204,7 @@
     if (doc.placeholder || !doc.blocks || !doc.blocks.length) {
       html += '<div class="placeholder"><span class="placeholder__tag">מציין מקום</span><p>הטקסט של מסמך זה יעודכן.</p></div>';
     } else {
-      html += '<p class="legal-note small muted">הטקסט הועתק מהאתר הקיים ויועבר לבדיקה משפטית לפני עלייה לאוויר.</p>';
+      html += '<p class="legal-note small muted">' + (doc.updated ? 'עודכן לאחרונה: ' + esc(doc.updated) + '. ' : '') + 'טיוטה שתועבר לבדיקת עורך דין לפני עלייה לאוויר.</p>';
     }
     html += blocks(doc.blocks);
     $('#legal-body').innerHTML = html;

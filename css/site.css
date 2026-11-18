@@ -1527,3 +1527,14 @@ svg.leaflet-image-layer.leaflet-interactive path {
 /* ---------- unified image frame (matches the marketing carousel cards) ---------- */
 .media, .pcard__media, .acard__media, .wide-card__media, .gallery__item, .about-gal > a, .about-gal__item, .art-cover .media { border-radius: 6px; box-shadow: 0 14px 34px rgba(27, 23, 23, .2); overflow: hidden; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .media, :root:not([data-theme="light"]) .pcard__media, :root:not([data-theme="light"]) .acard__media, :root:not([data-theme="light"]) .wide-card__media, :root:not([data-theme="light"]) .gallery__item { box-shadow: 0 14px 34px rgba(0, 0, 0, .45); } }
+
+/* forms: required marker, notice, field/checkbox contrast (WCAG 1.4.11) */
+.field__req { color: var(--danger); font-weight: 700; }
+.form__legal { margin: 4px 0 12px; font-size: .8125rem; line-height: 1.55; color: var(--muted); }
+.form__legal a { color: inherit; text-underline-offset: 3px; }
+:root { --line-strong: rgba(27, 23, 23, .6); }
+:root[data-theme="dark"], .theme-dark, .section--dark, .site-footer, .hero { --line-strong: rgba(237, 235, 221, .55); }
+.callbar__btn--wa, .fab-wa { background: #11743F; }
+
+.map-gate { position: absolute; inset: 0; z-index: 800; display: grid; place-content: center; justify-items: center; gap: 12px; padding: 16px; text-align: center; background: var(--surface-2); color: var(--text); }
+.map-gate p { margin: 0; max-width: 32ch; font-size: .9375rem; }

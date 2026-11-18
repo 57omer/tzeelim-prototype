@@ -1,19 +1,19 @@
 <!doctype html>
 <html lang="he" dir="rtl">
-<head><meta name="robots" content="noindex">
+<head>
   <meta charset="utf-8">
+  <meta name="robots" content="noindex">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>צאלים קבלני בניין | יש על מי לסמוך</title>
   <meta name="description" content="צאלים קבלני בניין – יזמות ובנייה של בנייני מגורים ודירות חדשות בקריות, מאז 1991.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css">
+  <link rel="stylesheet" href="vendor/fonts.css">
+  <link rel="stylesheet" href="vendor/swiper-bundle.min.css">
   <link rel="stylesheet" href="css/site.css?v=32">
   <link rel="stylesheet" href="css/loader.css?v=11">
-  <link rel="stylesheet" href="css/home.css?v=39">
+  <link rel="stylesheet" href="css/home.css?v=45">
 </head>
 <body data-page="home">
+  <noscript><p style="margin:0;padding:16px;background:#EDEBDD;color:#1B1717;font:16px/1.5 Heebo,Arial,sans-serif;text-align:center">האתר פועל באמצעות JavaScript. לפרטים ויצירת קשר: טלפון <bdi dir="ltr">052-8587821</bdi> | משרד <bdi dir="ltr">04-8722475</bdi> | zr_kl@walla.com | בן צבי 61, קרית חיים.</p></noscript>
   <div class="tz-loader" id="tzLoader" role="status" aria-live="polite" aria-label="טוען את האתר">
     <div class="tz-logo" aria-hidden="true">
       <div class="tz-layer tz-l-right"><img src="img/brand/tz-right.png" alt=""></div>
@@ -34,6 +34,25 @@
       <div class="hero__overlay" id="hero-overlay"></div>
       <div class="hero__ui" id="hero-ui"></div>
       <p class="hero__note">הדמיה להמחשה בלבד</p>
+    </section>
+
+    <!-- 2. PROMO: Harishonim 41 (video, right after the hero) -->
+    <section class="section promo" id="promo41" aria-label="הראשונים 41 – סרטון שיווקי">
+      <div class="container">
+        <figure class="promo__frame reveal">
+          <video class="promo__video" id="promo-video" muted loop playsinline preload="none" poster="video/harishonim-41-promo-poster.jpg" aria-label="סרטון הדמיה של פרויקט הראשונים 41">
+            <source src="video/harishonim-41-promo.mp4" type="video/mp4">
+          </video>
+          <button class="promo__sound" id="promo-sound" type="button" aria-pressed="false" aria-label="הפעלת קול"><span class="promo__sound-off" aria-hidden="true">&#128263;</span><span class="promo__sound-on" aria-hidden="true">&#128266;</span><span class="promo__sound-hint" aria-hidden="true">לחצו להפעלת קול</span></button>
+          <figcaption class="promo__body">
+            <span class="eyebrow">בשיווק עכשיו · קרית חיים</span>
+            <h2 class="promo__title">הראשונים 41</h2>
+            <p class="promo__text">דירות קרקע ודירות 5 חדרים ברמת גימור מושלמת, ברחוב המבוקש והאיכותי. למחפשי שקט ואיכות חיים.</p>
+            <a class="btn btn--cotton" href="project.html?p=harishonim-41">לעמוד הפרויקט</a>
+          </figcaption>
+        </figure>
+        <p class="render-note promo__note">הדמיה להמחשה בלבד</p>
+      </div>
     </section>
 
     <!-- 3. MARKETING -->
@@ -155,10 +174,11 @@
         </div>
         <form class="form reveal" data-tz-form novalidate>
           <div class="form__row form__row--2">
-            <div class="field"><label for="f-name">שם מלא</label><input id="f-name" name="name" autocomplete="name"></div>
-            <div class="field"><label for="f-phone">טלפון</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel"></div>
+            <div class="field"><label for="f-name">שם מלא <span class="field__req" aria-hidden="true">*</span></label><input id="f-name" name="name" autocomplete="name" aria-required="true" required></div>
+            <div class="field"><label for="f-phone">טלפון <span class="field__req" aria-hidden="true">*</span></label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" aria-required="true" required></div>
           </div>
-          <div class="consent"><input type="checkbox" id="f-consent" name="consent"><label for="f-consent">אני מאשר/ת יצירת קשר חוזר. <a href="legal.html?doc=privacy">מדיניות פרטיות</a></label></div>
+          <p class="form__legal">שדות המסומנים ב-<span aria-hidden="true">*</span> (חובה) נדרשים כדי שנוכל לחזור אליכם. מסירת הפרטים וולונטרית ונעשה בהם שימוש לצורך הפנייה בלבד, בהתאם ל<a href="legal.html?doc=privacy">מדיניות הפרטיות</a> ול<a href="legal.html?doc=terms">תנאי השימוש</a>.</p>
+          <div class="consent"><input type="checkbox" id="f-marketing" name="marketing"><label for="f-marketing">אני מסכים/ה לקבל הצעות ופרסומות על פרויקטים של החברה בהודעת טקסט, וואטסאפ, דוא״ל או שיחה. אפשר להסיר בכל עת.</label></div>
           <button class="btn" type="submit">השאר פרטים</button>
           <p class="form__note">אבטיפוס: הפרטים אינם נשלחים בפועל.</p>
         </form>
@@ -168,14 +188,15 @@
   <footer id="site-footer"></footer>
 
   <script src="js/loader.js?v=11"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+  <script src="vendor/leaflet.js"></script>
   <script src="data/projects.js?v=hd4"></script>
   <script src="data/content.js"></script>
   <script src="data/map-data.js?v=2"></script>
   <script src="data/map-names.js?v=2"></script>
   <script src="js/site.js?v=31"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+  <script src="vendor/swiper-bundle.min.js"></script>
   <script src="js/carousel.js?v=5"></script>
+  <script src="js/promo.js?v=3"></script>
   <script src="js/home.js?v=18"></script>
   <script src="js/hero-video.js?v=11"></script>
 </body>

@@ -154,11 +154,12 @@
       '<form class="form reveal" data-tz-form novalidate>' +
       '<input type="hidden" name="project" value="' + esc(p.name) + '">' +
       '<div class="form__row form__row--2">' +
-      '<div class="field"><label for="pf-name">שם מלא</label><input id="pf-name" name="name" autocomplete="name"></div>' +
-      '<div class="field"><label for="pf-phone">טלפון</label><input id="pf-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:right"></div></div>' +
+      '<div class="field"><label for="pf-name">שם מלא <span class="field__req" aria-hidden="true">*</span></label><input id="pf-name" name="name" autocomplete="name" aria-required="true" required></div>' +
+      '<div class="field"><label for="pf-phone">טלפון <span class="field__req" aria-hidden="true">*</span></label><input id="pf-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:right" aria-required="true" required></div></div>' +
       '<div class="field"><label for="pf-email">אימייל <span class="field__opt">(לא חובה)</span></label><input id="pf-email" name="email" type="email" autocomplete="email" dir="ltr" style="text-align:right"></div>' +
       '<div class="field"><label for="pf-msg">הודעה <span class="field__opt">(לא חובה)</span></label><textarea id="pf-msg" name="message" rows="3"></textarea></div>' +
-      '<div class="consent"><input type="checkbox" id="pf-c" name="consent"><label for="pf-c">אני מאשר/ת יצירת קשר חוזר. <a href="legal.html?doc=privacy">מדיניות פרטיות</a></label></div>' +
+      '<p class="form__legal">שדות המסומנים ב-<span aria-hidden="true">*</span> (חובה) נדרשים כדי שנוכל לחזור אליכם. מסירת הפרטים וולונטרית ונעשה בהם שימוש לצורך הפנייה בלבד, בהתאם ל<a href="legal.html?doc=privacy">מדיניות הפרטיות</a> ול<a href="legal.html?doc=terms">תנאי השימוש</a>.</p>' +
+      '<div class="consent"><input type="checkbox" id="pf-m" name="marketing"><label for="pf-m">אני מסכים/ה לקבל הצעות ופרסומות על פרויקטים של החברה בהודעת טקסט, וואטסאפ, דוא״ל או שיחה. אפשר להסיר בכל עת.</label></div>' +
       '<button class="btn" type="submit">שליחת פרטים</button>' +
       '<p class="form__note">זהו אבטיפוס: הפרטים אינם נשלחים בפועל.</p>' +
       '</form></div></section>';
@@ -201,6 +202,9 @@
       '<p class="pd-hint"><span class="placeholder__tag">מציין מקום</span><span>שדות ללא נתון יתעדכנו בממשק הניהול</span></p></div>' +
       '<div class="pd-block reveal" style="--i:1"><span class="eyebrow">על הפרויקט</span>' + descBlock(p) + '</div>' +
       '</div></section>';
+
+    /* interactive apartment tours (compact players, full-screen option) */
+    if (p.tours && TZ.toursSection) html += TZ.toursSection(p.tours);
 
     /* gallery */
     html += '<section class="section section--surface"><div class="container">' +
@@ -246,6 +250,7 @@
 
     root.innerHTML = html;
     TZ.initLightbox('#pj-gal');
+    if (TZ.initTour) TZ.initTour(root);
     if (active) {
       var m = document.getElementById('pj-map');
       if (m) TZ.initMap(m, [p], { popup: false, fit: true });

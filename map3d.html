@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="robots" content="noindex">
   <title>מפה תלת-ממדית | צאלים (ניסוי)</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="vendor/fonts.css">
   <style>
     :root { --paper: #d8cdaa; --ink: #2a2624; --noir: #1b1717; --cherry: #810100; --cotton: #edebdd; }
     * { box-sizing: border-box; }
@@ -47,6 +45,7 @@
   </style>
 </head>
 <body>
+  <noscript><p style="margin:0;padding:16px;background:#EDEBDD;color:#1B1717;font:16px/1.5 Heebo,Arial,sans-serif;text-align:center">האתר פועל באמצעות JavaScript. לפרטים ויצירת קשר: טלפון <bdi dir="ltr">052-8587821</bdi> | משרד <bdi dir="ltr">04-8722475</bdi> | zr_kl@walla.com | בן צבי 61, קרית חיים.</p></noscript>
   <div id="stage" aria-label="מפה תלת-ממדית של הפרויקטים"></div>
   <div class="load" id="load">בונה את העיר…</div>
   <div class="bar">
@@ -63,7 +62,7 @@
   <div class="legend"><span><i></i>בשיווק ובבנייה</span><span><i class="is-past"></i>מאוכלסים</span></div>
   <div class="card" id="card" role="dialog"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="vendor/three.min.js"></script>
   <script src="data/projects.js"></script>
   <script src="data/map3d-data.js?v=2"></script>
   <script src="js/map3d.js?v=8"></script>

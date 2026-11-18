@@ -291,3 +291,42 @@ html.tz-loading .hero__overlay > * { opacity: 0; transform: translateY(18px); }
 /* sunset square cards */
 #marketing .cc__card { aspect-ratio: 1 / 1; }
 #marketing .cc__slide { width: min(70vw, 340px); }
+
+/* ===== promo: Harishonim 41 video right after the hero ===== */
+.promo { padding-block: clamp(32px, 5vw, 64px); }
+.promo__frame { position: relative; margin: 0; overflow: hidden; border-radius: 6px; box-shadow: 0 26px 60px -30px rgba(27, 23, 23, .55); background: #000; }
+.promo { padding-top: 0; }
+.promo__video { display: block; width: 100%; aspect-ratio: 2206 / 946; object-fit: cover; background: #000; }
+.promo__body { display: grid; gap: 10px; justify-items: start; padding: 20px 20px 24px; background: var(--surface); }
+.promo__title { font-size: clamp(2rem, 1.4rem + 2.6vw, 3.5rem); font-weight: 200; line-height: 1.05; margin: 0; color: var(--text); }
+.promo__text { margin: 0; color: var(--muted); max-width: 46ch; }
+.promo__sound { position: absolute; top: 12px; inset-inline-start: 12px; z-index: 2; width: 40px; height: 40px; border-radius: 50%; border: 0; cursor: pointer; background: rgba(27, 23, 23, .6); color: #fff; font-size: 17px; line-height: 1; backdrop-filter: blur(4px); }
+.promo__sound:hover { background: rgba(129, 1, 0, .85); }
+.promo__sound .promo__sound-on { display: none; }
+.promo__sound[aria-pressed="true"] .promo__sound-on { display: inline; }
+.promo__sound[aria-pressed="true"] .promo__sound-off { display: none; }
+.promo__note { margin-top: 10px; text-align: end; }
+@media (min-width: 900px) {
+  .promo__body { position: absolute; top: 0; inset-inline: 0; bottom: auto; gap: 6px; padding: clamp(16px, 2vw, 28px) clamp(18px, 2.4vw, 34px) 56px; background: linear-gradient(to bottom, rgba(14, 10, 10, .72), rgba(14, 10, 10, .32) 60%, transparent); color: #EDEBDD; }
+  .promo__title { font-size: clamp(1.35rem, 1rem + 1.2vw, 2rem); color: #EDEBDD; text-shadow: 0 2px 12px rgba(0, 0, 0, .5); }
+  .promo__body .eyebrow { color: #E3ADA4; font-size: .7rem; }
+  .promo__text { font-size: .8125rem; line-height: 1.5; max-width: 34ch; color: rgba(237, 235, 221, .88); text-shadow: 0 1px 8px rgba(0, 0, 0, .5); }
+  .promo__body .btn { min-height: 34px; padding: 0 16px; font-size: .75rem; margin-top: 4px; }
+  .promo__sound { top: auto; bottom: 14px; inset-inline-start: auto; inset-inline-end: 14px; }
+}
+
+/* shown only when the browser blocked audible autoplay: invites the first click */
+.promo__sound-hint { display: none; }
+.promo__sound.is-hint { width: auto; padding: 0 14px 0 12px; border-radius: 20px; display: inline-flex; align-items: center; gap: 8px; font: 500 .75rem/1 var(--font, inherit); animation: promo-hint 1.8s ease-in-out infinite; }
+.promo__sound.is-hint .promo__sound-hint { display: inline; }
+@keyframes promo-hint { 0%, 100% { box-shadow: 0 0 0 0 rgba(237, 235, 221, .45); } 50% { box-shadow: 0 0 0 8px rgba(237, 235, 221, 0); } }
+@media (prefers-reduced-motion: reduce) { .promo__sound.is-hint { animation: none; } }
+
+/* hero: visible pause control (WCAG 2.2.2) */
+.hero__pause { position: absolute; z-index: 6; inset-inline-start: 16px; top: calc(var(--header-h, 72px) + 14px); display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 16px 8px 14px; border: 1.5px solid rgba(237, 235, 221, .7); border-radius: 999px; background: rgba(20, 16, 16, .62); color: #EDEBDD; font: 500 .875rem Heebo, sans-serif; cursor: pointer; backdrop-filter: blur(4px); }
+.hero__pause:hover { background: rgba(20, 16, 16, .85); }
+.hero__pause:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.hero__pause-i { width: 12px; height: 14px; border-inline: 4px solid currentColor; }
+.hero__pause[aria-pressed="true"] .hero__pause-i { width: 0; height: 0; border: 0; border-block: 7px solid transparent; border-inline-start: 11px solid currentColor; }
+.cc__pause { display: block; margin: 12px auto 0; min-height: 44px; padding: 8px 18px; border: 1.5px solid currentColor; border-radius: 999px; background: transparent; color: inherit; font: 500 .875rem Heebo, sans-serif; cursor: pointer; }
+.cc__pause:focus-visible { outline: 3px solid var(--focus, #810100); outline-offset: 3px; }

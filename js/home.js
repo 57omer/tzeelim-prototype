@@ -80,11 +80,31 @@
   }
   // video-driven advance: hero-video.js calls this ~1s before a video ends, so the next slide dissolves in while the last second still plays
   window.TZHero = { next: function () { if (paused || n < 2) return false; go(cur + 1); return true; } };
-  function setPaused(v) {
-    paused = v;
-    hero.classList.toggle('is-paused', v);
-    if (v) clearTimeout(timer); else { restartProgress(); schedule(); }
+  var userPaused = false, ppBtn = document.createElement('button');
+  ppBtn.type = 'button'; ppBtn.className = 'hero__pause'; ppBtn.setAttribute('aria-pressed', 'false'); ppBtn.setAttribute('aria-label', 'עצירת המצגת והסרטונים');
+  ppBtn.innerHTML = '<span class="hero__pause-i" aria-hidden="true"></span><span class="hero__pause-t">עצירה</span>';
+  hero.appendChild(ppBtn);
+  function heroVideos(play) {
+    Array.prototype.forEach.call(hero.querySelectorAll('video'), function (v) {
+      if (!play) { try { v.pause(); } catch (e) {} }
+      else if (v.closest('.is-active')) { try { var q = v.play(); if (q && q.catch) q.catch(function () {}); } catch (e) {} }
+    });
   }
+  function setPaused(v) {
+    paused = v || userPaused;
+    hero.classList.toggle('is-paused', paused);
+    if (paused) clearTimeout(timer); else { restartProgress(); schedule(); }
+  }
+  function setUserPaused(v) {
+    userPaused = v; ppBtn.setAttribute('aria-pressed', v ? 'true' : 'false');
+    ppBtn.setAttribute('aria-label', v ? 'המשך המצגת והסרטונים' : 'עצירת המצגת והסרטונים');
+    ppBtn.querySelector('.hero__pause-t').textContent = v ? 'המשך' : 'עצירה';
+    hero.classList.toggle('is-user-paused', v);
+    setPaused(v); heroVideos(!v);
+  }
+  ppBtn.addEventListener('click', function () { setUserPaused(!userPaused); });
+  window.addEventListener('tz:a11y', function (e) { if (e.detail && e.detail.still && !userPaused) setUserPaused(true); });
+  if (window.TZ && TZ.a11y && TZ.a11y.state().still) setTimeout(function () { setUserPaused(true); }, 0);
 
   dots.forEach(function (d, i) { d.addEventListener('click', function () { go(i, true); }); });
   hero.addEventListener('click', function (e) {

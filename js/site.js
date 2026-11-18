@@ -6,6 +6,12 @@
   var root = doc.documentElement;
   root.classList.add('js');
 
+  /* legal UI: cookie choice banner, accessibility toolbar and their styles (loaded on every page) */
+  (function () {
+    var l = doc.createElement('link'); l.rel = 'stylesheet'; l.href = 'css/legal-ui.css?v=2'; doc.head.appendChild(l);
+    ['js/a11y.js?v=1', 'js/consent.js?v=1'].forEach(function (src) { var t = doc.createElement('script'); t.src = src; doc.body.appendChild(t); });
+  })();
+
   var CFG = {
     name: 'צאלים קבלני בניין',
     slogan: 'יש על מי לסמוך',
@@ -37,6 +43,7 @@
   var LEGAL = [
     { label: 'מדיניות פרטיות', href: 'legal.html?doc=privacy' },
     { label: 'תנאי שימוש', href: 'legal.html?doc=terms' },
+    { label: 'מדיניות עוגיות', href: 'legal.html?doc=cookies' },
     { label: 'הצהרת נגישות', href: 'legal.html?doc=accessibility' }
   ];
 
@@ -218,6 +225,7 @@
           '</ul></div>' +
           '<nav aria-label="מידע משפטי"><h2 class="site-footer__title">מידע</h2><ul class="site-footer__list">' +
             LEGAL.map(function (l) { return '<li><a href="' + l.href + '">' + esc(l.label) + '</a></li>'; }).join('') +
+            '<li><button type="button" class="linklike" data-tz-cookie-settings>הגדרות עוגיות</button></li>' +
           '</ul></nav>' +
         '</div>' +
         '<div class="site-footer__bottom">' +
@@ -413,7 +421,7 @@
       f.classList.add('field--error');
       input.setAttribute('aria-invalid', 'true');
       var err = $('.field__error', f);
-      if (!err) { err = doc.createElement('div'); err.className = 'field__error'; f.appendChild(err); }
+      if (!err) { err = doc.createElement('div'); err.className = 'field__error'; err.setAttribute('role', 'alert'); f.appendChild(err); }
       if (!err.id) err.id = 'err-' + (input.name || input.id || Math.random().toString(36).slice(2, 7));
       err.textContent = msg;
       input.setAttribute('aria-describedby', err.id);
@@ -436,12 +444,10 @@
         if (!validPhone(v)) return 'מספר הטלפון אינו תקין (לדוגמה 052-1234567)';
       } else if (n === 'email') {
         if (v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return 'כתובת הדוא״ל אינה תקינה';
-      } else if (n === 'consent') {
-        if (!input.checked) return 'יש לאשר את התנאים כדי להמשיך';
       }
       return '';
     }
-    var inputs = $$('[name=name], [name=phone], [name=email], [name=consent]', form);
+    var inputs = $$('[name=name], [name=phone], [name=email]', form);
     inputs.forEach(function (inp) {
       inp.addEventListener('blur', function () {
         if (inp.name === 'consent') return;
@@ -651,10 +657,19 @@
     var map = L.map(el, { scrollWheelZoom: false, zoomControl: true, attributionControl: true, minZoom: ink ? 14 : 11, maxZoom: ink ? 19 : 18, zoomSnap: ink ? 0.25 : 1, tap: false, dragging: !L.Browser.mobile, touchZoom: true, preferCanvas: ink, renderer: ink ? L.canvas({ padding: 0.4 }) : undefined });
     if (L.Browser.mobile) { map.dragging.disable(); var hint = doc.createElement('div'); hint.className = 'map-hint'; hint.textContent = 'גלילה עם שתי אצבעות להזזת המפה'; el.appendChild(hint); var tc = 0; el.addEventListener('touchstart', function (e) { if (e.touches.length > 1) { map.dragging.enable(); hint.classList.remove('is-on'); } else { map.dragging.disable(); } }, { passive: true }); }
     if (map.attributionControl) map.attributionControl.setPrefix(false);
-    if (!ink) L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    if (!ink) {
+      /* map tiles come from OpenStreetMap, which would receive the visitor's IP: load them only on request */
+      var gate = doc.createElement('div'); gate.className = 'map-gate';
+      gate.innerHTML = '<p>המפה נטענת משירות חיצוני (OpenStreetMap), שיקבל את כתובת ה-IP שלכם.</p><button type="button" class="btn btn--sm">הצגת המפה</button>';
+      el.appendChild(gate);
+      gate.querySelector('button').addEventListener('click', function () {
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        gate.parentNode.removeChild(gate);
+      });
+    }
     else drawInk(L, map, el, D);
 
     // wheel zoom only after the user clicks into the map (keeps page scrolling smooth)
