@@ -1,3 +1,5 @@
+/* admin draft preview of tour texts */
+(function () { try { if (/[?&]draft=1/.test(location.search) && window.parent !== window && window.parent.__tzDraftTours) { window.TZ_TOURS = window.TZ_TOURS || {}; Object.keys(window.parent.__tzDraftTours).forEach(function (k) { window.TZ_TOURS[k] = window.parent.__tzDraftTours[k]; }); } } catch (e) {} })();
 /* Interactive apartment tours: compact players with a full-screen mode.
    Each tour = a walk-through video + floor plan with the walker's position + room chips.
    The video loads only when a visitor starts it (about 20MB each). Several tours can sit on one page. */

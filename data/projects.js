@@ -111,7 +111,13 @@ window.PROJECTS = [
       }
     ],
     "heroIndex": 4,
-    "tours": ["harishonim-41-r4", "harishonim-41-r45", "harishonim-41-r5", "harishonim-41-pent"]
+    "tourEmbed": {
+      "src": "tour41/index.html",
+      "poster": "tour41/img/poster.jpg",
+      "title": "סיור בבניין ובדירות",
+      "text": "הקיפו את הבניין, בחרו דירה וטיילו בה.",
+      "flats": [["p", "פנטהאוז"], ["5s", "5 חדרים · דרום"], ["5n", "5 חדרים · צפון"], ["g", "דירת גן"]]
+    }
   },
   {
     "slug": "ziper-5",

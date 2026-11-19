@@ -191,7 +191,7 @@
   /* ---------------- 7. OCCUPIED ---------------- */
   txt('oc-title', (sec.occupied || {}).title || 'פרויקטים מאוכלסים');
   txt('oc-intro', (sec.occupied || {}).intro || '');
-  var pick = ['shishet-hayamim-20', 'belinson-38', 'rans-34'];
+  var pick = (C.home && C.home.occupied && C.home.occupied.length) ? C.home.occupied : ['shishet-hayamim-20', 'belinson-38', 'rans-34'];
   set('oc-cards', pick.map(TZ.bySlug).filter(Boolean).map(function (p, i) { return TZ.projectCard(p, i); }).join(''));
 
   /* ---------------- 8. NEWS ---------------- */
@@ -236,7 +236,7 @@
   txt('ar-title', (C.articlesIntro || {}).title || 'מאמרים ומידע');
   var covers = ['yitzhak-yatziv-51', 'harav-kook-86', 'hashayara-26'];
   set('ar-cards', (C.articles || []).slice(0, 3).map(function (a, i) {
-    var cp2 = { cover: 'img/articles/' + a.id + '.jpg' };
+    var cp2 = { cover: a.cover || ('img/articles/' + a.id + '.jpg') };
     return '<a class="acard reveal" style="--i:' + i + '" href="article.html?id=' + encodeURIComponent(a.id) + '">' +
       '<div class="acard__media media media--zoom" style="--ratio:16/10">' + (cp2 ? '<img src="' + esc(cp2.cover) + '" alt="" loading="lazy">' : '') + '</div>' +
       '<h3 class="acard__title">' + esc(a.title) + '</h3><p class="acard__text">' + esc(a.excerpt.length > 130 ? a.excerpt.slice(0, 130).replace(/\s+\S*$/, '') + '…' : a.excerpt) + '</p>' +
@@ -245,8 +245,17 @@
 
   /* ---------------- 11. CTA ---------------- */
   var cfg = C.contact || {};
-  set('cta-call', TZ.icon('phone') + ' התקשרו <bdi dir="ltr">' + esc(cfg.mainPhone || '052-8587821') + '</bdi>');
+  set('cta-call', TZ.icon('phone') + ' התקשרו <bdi dir="ltr">' + esc(TZ.config.phoneMain.label) + '</bdi>');
+  var ctaC = document.getElementById('cta-call'), ctaW = document.getElementById('cta-wa');
+  if (ctaC) ctaC.href = 'tel:' + TZ.config.phoneMain.tel;
+  if (ctaW) ctaW.href = TZ.config.whatsapp;
   set('cta-wa', TZ.icon('whatsapp') + ' וואטסאפ');
+
+  /* sections switched off in the admin (CONTENT.home.hidden): content stays in data/content.js, so they can be restored */
+  ((C.home && C.home.hidden) || []).forEach(function (id) {
+    var el = document.getElementById(id); if (!el || id === 'hero') return;
+    el.hidden = true; el.style.display = 'none'; el.setAttribute('aria-hidden', 'true');
+  });
 
   /* new .reveal nodes were added: re-observe */
   if (TZ.initReveal) TZ.initReveal();

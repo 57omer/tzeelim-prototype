@@ -8,8 +8,8 @@
 
   /* legal UI: cookie choice banner, accessibility toolbar and their styles (loaded on every page) */
   (function () {
-    var l = doc.createElement('link'); l.rel = 'stylesheet'; l.href = 'css/legal-ui.css?v=2'; doc.head.appendChild(l);
-    ['js/a11y.js?v=1', 'js/consent.js?v=1'].forEach(function (src) { var t = doc.createElement('script'); t.src = src; doc.body.appendChild(t); });
+    var l = doc.createElement('link'); l.rel = 'stylesheet'; l.href = 'css/legal-ui.css?v=3'; doc.head.appendChild(l);
+    ['js/a11y.js?v=2', 'js/consent.js?v=1'].forEach(function (src) { var t = doc.createElement('script'); t.src = src; doc.body.appendChild(t); });
   })();
 
   var CFG = {
@@ -26,6 +26,22 @@
     logo: 'img/brand/logo.png?v=2',
     logoDark: 'img/brand/logo-dark.png?v=4'
   };
+  /* contact details come from data/content.js (edited in the admin); the values above are fallbacks */
+  (function () {
+    var K = (window.CONTENT && window.CONTENT.contact) || null, Co = (window.CONTENT && window.CONTENT.company) || {};
+    function ph(v) { return { tel: String(v).replace(/\D/g, ''), label: v }; }
+    if (K) {
+      if (K.mainPhone) CFG.phoneMain = ph(K.mainPhone);
+      if (K.officePhone) CFG.office = ph(K.officePhone);
+      if (K.mobile) CFG.mobile = ph(K.mobile);
+      if (K.fax) CFG.fax = K.fax;
+      if (K.address) CFG.address = K.address;
+      if (K.whatsapp) CFG.whatsapp = K.whatsapp;
+      if (K.facebook) CFG.facebook = K.facebook;
+    }
+    if (Co.tagline) CFG.slogan = Co.tagline;
+    if (Co.sinceLine) CFG.tagline = Co.sinceLine;
+  })();
 
   var STATUS = { marketing: 'בשיווק', construction: 'בבנייה', occupied: 'מאוכלס' };
   var CITY = { 'kiryat-haim': 'קרית חיים', 'kiryat-motzkin': 'קרית מוצקין' };

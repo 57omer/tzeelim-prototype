@@ -1,3 +1,17 @@
+/* data-driven overrides from data/content.js (CONTENT.promo), edited in the admin. HTML holds the defaults. */
+(function () {
+  var P = window.CONTENT && window.CONTENT.promo, sec = document.getElementById('promo41');
+  if (!P || !sec) return;
+  if (P.enabled === false) { sec.parentNode.removeChild(sec); return; }
+  var v = document.getElementById('promo-video');
+  function q(s) { return sec.querySelector(s); }
+  if (P.eyebrow && q('.eyebrow')) q('.eyebrow').textContent = P.eyebrow;
+  if (P.title && q('.promo__title')) q('.promo__title').textContent = P.title;
+  if (P.text && q('.promo__text')) q('.promo__text').textContent = P.text;
+  if (P.slug && q('.btn')) q('.btn').href = 'project.html?p=' + encodeURIComponent(P.slug);
+  if (v && P.poster) v.setAttribute('poster', P.poster);
+  if (v && P.video) { var s = v.querySelector('source'); if (s) s.src = P.video; }
+})();
 /* Harishonim 41 promo: plays while in view, sound ON by default.
    Browsers only allow audible autoplay after a user gesture, so if the first unmuted play is blocked
    it starts muted and turns the sound on at the visitor's first click / key / touch.

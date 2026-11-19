@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>הראשונים 41, קריית חיים – סיור בבניין ובדירות</title>
+<meta name="description" content="סיור אינטראקטיבי בבניין הראשונים 41 בקריית חיים: הקיפו את הבניין, בחרו דירה וטיילו בה.">
+<meta name="theme-color" content="#0c0908">
+<meta property="og:title" content="הראשונים 41, קריית חיים – סיור בבניין ובדירות">
+<meta property="og:description" content="הקיפו את הבניין, בחרו דירה וטיילו בה.">
+<meta property="og:image" content="img/poster.jpg">
+<meta property="og:type" content="website">
+<link rel="preload" as="image" href="img/poster.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230c0908'/%3E%3Cpath d='M9 25V9h14v16M13 13h2M17 13h2M13 17h2M17 17h2M14 25v-4h4v4' fill='none' stroke='%23e8c99b' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  :root{--ink:#fff6ea;--gold:#e8c99b;--soft:#d9c4a8;--panel:rgba(22,16,12,.72);--line:rgba(255,214,160,.32)}
+  html,body{margin:0;height:100%;background:#0c0908;color:var(--ink);overflow:hidden;touch-action:none;-webkit-tap-highlight-color:transparent;font-family:-apple-system,"SF Pro Text","Heebo","Arial Hebrew",Arial,sans-serif;overscroll-behavior:none}
+  button{font:inherit;color:var(--ink)}
+  #stage{position:fixed;inset:0;touch-action:none;user-select:none;-webkit-user-select:none}
+  video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#0c0908;opacity:0;transition:opacity .45s ease}
+  video.on{opacity:1}
+  .glass{background:var(--panel);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line)}
+  #title{position:fixed;top:16px;right:16px;padding:10px 14px;border-radius:12px;pointer-events:none}
+  #title b{display:block;font-size:15px;font-weight:600}
+  #title span{font-size:12px;color:var(--soft)}
+  #hint{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);padding:20px 26px 18px;border-radius:18px;font-size:15px;pointer-events:none;transition:opacity .45s;width:max-content;max-width:calc(100vw - 48px);box-sizing:border-box;text-align:center;opacity:0;line-height:1.5}
+  #hint svg{display:block;margin:0 auto 10px;width:46px;height:78px}
+  #hint .ar{animation:nudge 1.4s ease-in-out infinite} #hint .ar.dn{animation-delay:.7s}
+  @keyframes nudge{0%,100%{opacity:.35}50%{opacity:1}}
+  #hint small{display:block;font-size:13px;color:var(--soft);margin-top:2px}
+  #help{position:fixed;bottom:16px;right:16px;width:38px;height:38px;border-radius:50%;font-size:17px;cursor:pointer}
+  #help:hover,#help:focus-visible,#back:hover,#back:focus-visible,#flats button:hover,#flats button:focus-visible{background:var(--gold);color:#231a14;outline:none}
+  #title,#back,#help,#map,#bar,#tip,#flats{z-index:5} #hint,#wait{z-index:6}
+  #hot{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:3;transform:translateZ(0);will-change:transform}
+  /* flat outlines: invisible until the pointer is on the flat (or on its button); a faint trace on touch screens, which have no hover */
+  #hot polygon{fill:rgba(255,170,90,0);stroke:rgba(255,214,170,0);stroke-width:1.5;stroke-linejoin:round;cursor:pointer;pointer-events:auto;transition:fill .25s,stroke .25s}
+  #hot polygon:hover,#hot polygon:focus-visible,#hot polygon.lit{fill:rgba(255,170,90,.2);stroke:rgba(255,224,190,.85);outline:none}
+  @media (hover:none){#hot polygon{fill:rgba(255,170,90,.08);stroke:rgba(255,224,190,.4)}}
+  /* a small caption on every flat: its details and a "to the tour" button. Pointing at it (or at the flat) reveals the outline of the whole flat. */
+  #tags{position:fixed;inset:0;pointer-events:none;z-index:4}
+  .tag{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:10px;padding:5px 6px 5px 13px;border-radius:999px;font-size:12.5px;white-space:nowrap;cursor:pointer;pointer-events:auto;transition:background .2s,border-color .2s}
+  .tag b{font-weight:600} .tag span{color:var(--soft);margin-inline-start:7px}
+  .tag i{font-style:normal;background:var(--gold);color:#231a14;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600}
+  .tag:hover,.tag:focus-visible{background:rgba(44,30,20,.92);border-color:var(--gold);outline:none}
+  body.tour #tags{display:none}
+  @media (hover:hover) and (min-width:701px){body #flats{display:none}}
+  @media (hover:none),(max-width:700px){body #tags{display:none}}
+  #tip{position:fixed;transform:translate(-50%,-140%);padding:6px 12px;border-radius:999px;font-size:13px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s}
+  #back{position:fixed;top:16px;left:16px;padding:9px 15px;border-radius:999px;font-size:13px;cursor:pointer}
+  #bar{position:fixed;left:50%;bottom:64px;transform:translateX(-50%);width:min(520px,70vw);height:4px;border-radius:4px;background:rgba(255,255,255,.18);overflow:hidden}
+  #bar i{display:block;height:100%;width:0;background:var(--gold);border-radius:4px}
+  #flats{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:calc(100vw - 120px)}
+  #flats button{padding:8px 14px;border-radius:999px;font-size:13px;cursor:pointer;white-space:nowrap}
+  body.ext #back,body.ext #bar{display:none} body.tour #hot,body.tour #tip,body.tour #flats{display:none}
+  #map{box-sizing:border-box;position:fixed;left:16px;bottom:16px;width:min(430px,46vw);padding:10px 10px 6px;border-radius:14px}
+  #map.tall{width:min(360px,40vw)}
+  #map svg{display:block;width:100%;height:auto;border-radius:8px;background:#1a110d}
+  #map .room{fill:rgba(232,160,70,0);stroke:none;cursor:pointer;transition:fill .15s}
+  #map .room:hover,#map .room:focus{fill:rgba(232,160,70,.38);outline:none}
+  #map .room.here{fill:rgba(232,160,70,.22)}
+  #map .cone{fill:rgba(214,90,40,.4)} #map .dot{fill:#d65a28;stroke:#fff;stroke-width:.08}
+  #map small{display:block;font-size:11px;color:var(--soft);text-align:center;margin-top:4px}
+  body.ext #map{display:none}
+  #fs{position:fixed;bottom:16px;right:62px;width:38px;height:38px;border-radius:50%;cursor:pointer;display:none;place-items:center;z-index:5;padding:0}
+  #fs svg{width:16px;height:16px} #fs:hover,#fs:focus-visible{background:var(--gold);color:#231a14;outline:none}
+  /* inside another page: the wheel belongs to the host page until the visitor clicks the tour */
+  #gate{position:fixed;inset:0;display:none;place-items:end center;z-index:7;cursor:pointer;background:rgba(12,9,8,.18)}
+  #gate.on{display:grid} #gate span{margin-bottom:22px;padding:10px 18px;border-radius:999px;font-size:14px}
+  body.notitle #title{display:none}
+  #wait{position:fixed;inset:0;display:none;place-items:center;background:rgba(12,9,8,.55);font-size:15px}
+  #wait.on{display:grid} #wait div{padding:16px 22px;border-radius:14px}
+  @media (max-width:700px){#title b{font-size:14px}}
+  /* phone held upright: the picture sits at the top at full width, and the map / flat buttons go under it instead of on top of it */
+  @media (orientation:portrait) and (max-width:700px){
+    :root{--vt:calc(env(safe-area-inset-top,0px) + 74px);--vh:56.25vw}
+    video{inset:auto;top:var(--vt);left:0;width:100%;height:var(--vh)}
+    #hint{top:calc(var(--vt) + var(--vh) / 2);padding:12px 16px 10px;font-size:13px} #hint svg{width:30px;height:50px;margin-bottom:6px} #hint small{font-size:12px}
+    #map,#map.tall{left:12px;right:12px;width:auto;bottom:auto;top:calc(var(--vt) + var(--vh) + 22px);padding:8px 8px 4px}
+    #bar{bottom:auto;top:calc(var(--vt) + var(--vh) + 9px);width:calc(100vw - 32px)}
+    #flats{bottom:auto;top:calc(var(--vt) + var(--vh) + 18px);max-width:calc(100vw - 24px)}
+    #flats button{padding:11px 16px;font-size:14px}
+  }
+  #turn{display:none;position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);transform:translateX(-50%);font-size:12px;color:var(--soft);white-space:nowrap;z-index:5;pointer-events:none}
+  @media (orientation:portrait) and (max-width:700px){#turn{display:block}}
+  @media (orientation:landscape) and (max-height:500px){#fs{bottom:10px;right:54px}#map,#map.tall{width:min(240px,34vw);left:10px;bottom:10px;padding:6px 6px 3px}#map small{display:none}#bar{bottom:12px;width:min(300px,40vw)}#flats{bottom:10px}#title{top:10px;right:10px;padding:7px 11px}#back{top:10px;left:10px}#help{bottom:10px;right:10px}}
+  #load{position:fixed;inset:0;display:grid;place-items:center;background:#0c0908 url(img/poster.jpg) center/cover no-repeat;transition:opacity .6s;z-index:9}
+  #load::before{content:"";position:absolute;inset:0;background:rgba(12,9,8,.55)}
+  #load .card{position:relative;text-align:center;padding:26px 34px;border-radius:18px;min-width:min(320px,80vw)}
+  #load h1{font-size:22px;font-weight:600;margin:0 0 4px} #load p{margin:0 0 16px;font-size:14px;color:var(--soft)}
+  #load .pb{height:4px;border-radius:4px;background:rgba(255,255,255,.18);overflow:hidden} #load .pb i{display:block;height:100%;width:0;background:var(--gold);transition:width .2s}
+  #load small{display:block;margin-top:10px;font-size:12px;color:var(--soft)}
+  #load.off{opacity:0;pointer-events:none}
+  @media (prefers-reduced-motion:reduce){#hint .ar{animation:none}}
+</style>
+</head>
+<body class="ext">
+<div id="stage">
+  <video id="vExt" muted playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>
+  <video id="vTour" muted playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>
+</div>
+<div id="title" class="glass"><b id="tMain">הראשונים 41, קריית חיים</b><span id="tSub">מבט חיצוני</span></div>
+<svg id="hot" aria-label="דירות לסיור"></svg><div id="tags"></div><div id="tip" class="glass"></div>
+<button id="back" class="glass">→ חזרה לבניין</button>
+<div id="bar"><i></i></div>
+<nav id="flats" aria-label="בחירת דירה"></nav>
+<div id="map" class="glass"><svg id="mapsvg" role="img" aria-label="מפת הדירה"></svg><small id="mapnote"></small></div>
+<div id="hint" class="glass" role="status" aria-live="polite"></div>
+<div id="wait"><div class="glass" id="waitTxt">טוען את הדירה…</div></div>
+<button id="help" class="glass" aria-label="הצגת הנחיות התנועה">?</button>
+<button id="fs" class="glass" aria-label="מסך מלא"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg></button>
+<div id="gate"><span class="glass">לחצו כדי להפעיל את הסיור</span></div>
+<div id="turn">סובבו את הטלפון לרוחב לתצוגה גדולה</div>
+<div id="load"><div class="card glass"><h1>הראשונים 41</h1><p>קריית חיים · סיור בבניין ובדירות</p><div class="pb"><i id="pb"></i></div><small id="pct">טוען… 0%</small></div></div>
+<noscript><p style="position:fixed;inset:0;display:grid;place-items:center;color:#fff6ea">כדי לצפות בסיור יש להפעיל JavaScript בדפדפן.</p></noscript>
+
+<script>
+/* Pre-rendered clips driven like an interactive scene.
+   media/<hd|sd>/exterior.mp4 – orbit around the building; the wheel scrubs it both ways (it starts and ends on the same front view, so it wraps).
+   media/<hd|sd>/tour_*.mp4   – one walkthrough per flat; the wheel scrubs it forwards and backwards. Each starts and ends on the same front view.
+   data/hot_*.json            – the outline around the whole flat in the exterior frame, one sample per source frame (24/s): [visible, x1,y1, x2,y2, …] (0..1).
+   data/path_*.json           – the camera on plan, 10 samples per second of the source clip: [x, y, dir x, dir y, height] in metres.            */
+const $ = id => document.getElementById(id);
+const vExt = $('vExt'), vTour = $('vTour'), hint = $('hint'), bar = $('bar').firstElementChild;
+const qs = new URLSearchParams(location.search), conn = navigator.connection || {};
+/* 1080p on desktops; a lighter 720p set on phones and on data-saving connections. ?q=hd or ?q=sd forces one. */
+const Q = qs.get('q') === 'hd' || qs.get('q') === 'sd' ? qs.get('q') : (conn.saveData || Math.min(screen.width, screen.height) < 700 ? 'sd' : 'hd');
+const media = n => 'media/' + Q + '/' + n + '.mp4';
+/* ---- living inside another website ----
+   ?flat=p|5s|5n|g  opens straight into that flat        ?title=0  hides the project title (the host page has its own)
+   ?embed=1 / ?embed=0  force or cancel embedded behaviour (it is on by itself when the page runs in an iframe)
+   The page tells its host what is on screen:  parent gets  { source: 'tour41', event: 'ready' | 'mode', mode: 'ext' | 'tour', flat: id | null }
+   and the host may drive it:                   iframe.contentWindow.postMessage({ source: 'tour41', action: 'enter', flat: 'p' }, '*')   or   { action: 'exit' }   */
+const EMB = qs.get('embed') === '1' || (qs.get('embed') !== '0' && self !== top), HOVER = matchMedia('(hover:hover)').matches;
+if (qs.get('title') === '0') document.body.classList.add('notitle');
+let active = !(EMB && HOVER);            // embedded on a desktop: scrolling stays with the host page until the tour is clicked, and returns to it when the pointer leaves
+const tell = (event, extra) => { if (self !== top) try { parent.postMessage({ source: 'tour41', event, ...extra }, '*'); } catch (e) {} };
+
+/* rooms in flat-local metres [x0, x1, y0, y1]; at = the second of the source clip that shows the room best (picked by eye) */
+const MAP5 = { img: 'img/plan_5.jpg', box: [-0.202, -0.218, 23.35, 7.238], top: 6.37, bounds: [-0.2, 22.9], rooms: [
+  { n: 'מרפסת', r: [20.05, 22.65, 1.5, 6.3], at: 2.54 }, { n: 'סלון', r: [14.45, 19.95, 3.3, 6.27], at: 3.55 }, { n: 'מטבח ופינת אוכל', r: [14.45, 19.95, 0.1, 3.3], at: 4.57 },
+  { n: 'חדר שינה', r: [11.25, 14.4, 0.1, 3.18], at: 6.6 }, { n: 'ממ״ד', r: [7.6, 11.2, 0.1, 3.1], at: 8.63 }, { n: 'חדר שינה', r: [1.75, 5.05, 0.1, 3.18], at: 10.66 },
+  { n: 'חדר הורים', r: [0.1, 3.75, 3.23, 6.27], at: 12.18 }, { n: 'מסדרון', r: [3.8, 14.4, 3.23, 4.4], at: 5.58 } ] };
+/* north flat: the same rooms in mirrored flat-local coordinates, on its own plan (outer wall at the top) */
+const MAP5N = { img: 'img/plan_5n.jpg', box: [-0.6, -0.6, 24.05, 7.47], flip: true, bounds: [-0.2, 22.9], rooms: [
+  { n: 'מרפסת', r: [20.05, 22.65, 1.5, 6.3], at: 2.54 }, { n: 'סלון', r: [14.45, 19.95, 3.3, 6.27], at: 3.55 }, { n: 'מטבח ופינת אוכל', r: [14.45, 19.95, 0.1, 3.3], at: 4.57 },
+  { n: 'חדר שינה', r: [11.25, 14.4, 0.1, 3.18], at: 6.6 }, { n: 'ממ״ד', r: [7.6, 11.2, 0.1, 3.1], at: 8.63 }, { n: 'חדר שינה', r: [1.75, 5.05, 0.1, 3.18], at: 10.66 },
+  { n: 'חדר הורים', r: [0.1, 3.75, 3.23, 6.27], at: 12.18 }, { n: 'מסדרון', r: [3.8, 14.4, 3.23, 4.4], at: 5.58 } ] };
+/* garden flat: ground floor and basement side by side on one plan; below hcut the marker moves to the basement drawing (dx metres to the right) */
+const MAPG = { img: 'img/plan_g.jpg', box: [-7, 0, 29.5, 16.5], top: 14, bounds: [-6.9, 14.6], dx: 17, hcut: 0.2, rooms: [
+  { n: 'גינה ודק אירוח', r: [-6.5, -0.1, -1.5, 13.5], at: 4.04 }, { n: 'סלון', r: [0.2, 4.4, 0.2, 5.74], at: 5.55 }, { n: 'מטבח ופינת אוכל', r: [4.4, 7.5, 0.2, 4.4], at: 6.56 },
+  { n: 'ירידה למרתף', r: [0.2, 3.5, 5.74, 7.54], at: 15.15 }, { n: 'יחידת הורים', r: [0.2, 3.4, 7.64, 12.34], at: 8.58 }, { n: 'ממ״ד / חדר שינה', r: [7.7, 11.1, 9.6, 12.34], at: 10.6 },
+  { n: 'חדר שינה', r: [11.3, 14.0, 6.9, 12.34], at: 12.12 }, { n: 'מסדרון', r: [3.5, 12.3, 8.25, 9.4], at: 9.59 },
+  { n: 'מרתף · חדר משפחה', r: [17.2, 21.9, 0.2, 2.9], at: 17.17 }, { n: 'מרתף · חדר שינה', r: [17.2, 20.37, 2.9, 5.44], at: 16.66 }, { n: 'מרתף · חדר שינה', r: [17.2, 21.52, 9.64, 12.34], at: 18.68 }, { n: 'מרתף · מבואה', r: [20.42, 21.52, 5.54, 9.64], at: 18.18 } ] };
+const MAPP = { img: 'img/plan_p.jpg', box: [-0.6, -0.6, 22.2, 13.74], top: 12.54, bounds: [-0.3, 21.2], tall: true, cosH: 0.62, rooms: [
+  { n: 'מרפסת גג', r: [16.5, 20.9, 0.1, 12.44], at: 3.0 }, { n: 'סלון', r: [11.13, 16.4, 5.7, 10.3], at: 5.0 }, { n: 'פינת אוכל', r: [11.3, 16.4, 3.9, 5.7], at: 7.5 }, { n: 'מטבח עם אי', r: [11.3, 16.3, 0.2, 3.9], at: 6.0 },
+  { n: 'ממ״ד / חדר שינה', r: [7.7, 11.1, 0.2, 3.0], at: 10.0 }, { n: 'חדר שינה', r: [0.2, 4.95, 0.2, 3.13], at: 12.5 }, { n: 'חדר שינה', r: [0.2, 3.32, 3.23, 6.44], at: 14.0 },
+  { n: 'סוויטת הורים', r: [0.2, 5.65, 8.3, 12.34], at: 16.5 }, { n: 'מרפסת צפונית', r: [5.85, 10.93, 8.2, 12.44], at: 18.0 }, { n: 'מסדרון', r: [3.42, 11.3, 3.23, 4.34], at: 8.5 } ] };
+/* src = length of the source clip the path was sampled from; entry = seconds that play by themselves (the flight from the front view into the flat);
+   lead = seconds the realistic clip runs ahead of the source clip (its opening frames were dropped), so the map marker stays in step with the picture */
+const TOURS = [
+  { id: 'p', file: 'tour_p', src: 30, entry: 6.0, map: MAPP, chip: 'פנטהאוז', name: 'פנטהאוז', info: 'קומה ד׳ · מרפסות גג', pin: 'קומה ד׳ · פנטהאוז', sub: 'קומה ד׳ · פנטהאוז עם מרפסות גג' },
+  { id: '5s', file: 'tour_5s', src: 20, lead: 0.4, entry: 4.4, map: MAP5, chip: '5 חדרים · דרום', name: '5 חדרים', info: 'קומה ג׳ · דרום', pin: 'ג׳ דרום · 5 חדרים', sub: 'קומה ג׳ · דירת 5 חדרים דרומית' },
+  { id: '5n', file: 'tour_5n', src: 20, lead: 0.4, entry: 4.4, map: MAP5N, chip: '5 חדרים · צפון', name: '5 חדרים', info: 'קומה ג׳ · צפון', pin: 'ג׳ צפון · 5 חדרים', sub: 'קומה ג׳ · דירת 5 חדרים צפונית' },
+  { id: 'g', file: 'tour_g', src: 30, lead: 0.4, entry: 6.6, map: MAPG, chip: 'דירת גן', name: 'דירת גן', info: 'קומת קרקע + מרתף', pin: 'קרקע · דירת גן + מרתף', sub: 'קומת קרקע · דירת גן עם מרתף' },
+];
+const NS = 'http://www.w3.org/2000/svg';
+function buildMap(T) {
+  const M = T.map, svg = $('mapsvg'); svg.innerHTML = ''; svg.setAttribute('viewBox', M.box.join(' ')); $('map').classList.toggle('tall', !!M.tall);
+  const Y = M.flip ? y => y : y => M.top - y, el = (tag, at) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); return e; };
+  const im = el('image', { href: M.img, x: M.box[0], y: M.box[1], width: M.box[2], height: M.box[3], preserveAspectRatio: 'none' }); im.setAttributeNS('http://www.w3.org/1999/xlink', 'href', M.img); svg.appendChild(im);
+  T.rooms = M.rooms.map(R => { const [x0, x1, y0, y1] = R.r, g = { ...R };
+    g.rect = el('rect', { x: x0, y: Math.min(Y(y0), Y(y1)), width: x1 - x0, height: y1 - y0, rx: .08, class: 'room' }); svg.appendChild(g.rect);
+    const tt = el('title', {}); tt.textContent = R.n; g.rect.appendChild(tt);
+    // the moment in the tour that shows this room best: the camera stands in the room (or in its doorway) and most of the room lies inside its field of view
+    const P = T.pts, cosH = M.cosH || 0.72, G = 6; let best = 0, bi = -1;
+    for (let i = 20; i < P.length - 20; i++) { const p = P[i], out = Math.hypot(Math.max(x0 - p[0], 0, p[0] - x1), Math.max(y0 - p[1], 0, p[1] - y1)); if (out > 1.2) continue; let sc = 0;
+      for (let a = 0; a < G; a++) for (let b = 0; b < G; b++) { const vx = x0 + (a + .5) / G * (x1 - x0) - p[0], vy = y0 + (b + .5) / G * (y1 - y0) - p[1], L = Math.hypot(vx, vy); if (L > 0.3 && (vx * p[2] + vy * p[3]) / L > cosH) sc++; }
+      sc *= out > 0 ? 0.6 : 1; if (sc > best + 1e-6) { best = sc; bi = i; } }
+    g.time = R.at != null ? R.at : best < G * G * 0.2 ? null : bi / 10;      // 'at' = a moment picked by eye from the clip; the search is the fallback for rooms without one
+    if (g.time == null) g.rect.style.display = 'none';
+    else { g.rect.setAttribute('tabindex', '0'); g.rect.setAttribute('role', 'button'); g.rect.setAttribute('aria-label', 'מעבר אל ' + R.n); const go = () => jump(g.time); g.rect.addEventListener('click', go); g.rect.addEventListener('keydown', e => { if (e.key === 'Enter') go(); }); }
+    return g; });
+  T.cone = el('path', { class: 'cone' }); T.dot = el('circle', { r: M.box[2] / 95, class: 'dot' }); svg.appendChild(T.cone); svg.appendChild(T.dot); T.Y = Y;
+  $('mapnote').textContent = 'לחצו על חלל כדי לעבור אליו';
+}
+function updateMap() {
+  const T = cur; if (!T || !T.map || !T.pts || !T.dot) return; const D = vTour.duration || T.src, f = Math.max(0, Math.min(T.pts.length - 1.001, (T.lead != null ? tourT + T.lead : tourT / D * T.src) * 10)), i = Math.floor(f), k = f - i, a = T.pts[i], b = T.pts[i + 1];
+  const M = T.map, xr = a[0] + (b[0] - a[0]) * k, yl = a[1] + (b[1] - a[1]) * k, dx = a[2] + (b[2] - a[2]) * k, dyl = a[3] + (b[3] - a[3]) * k, h = a[4] + (b[4] - a[4]) * k;
+  const x = xr + (M.dx && h < M.hcut ? M.dx : 0), y = T.Y(yl), dy = M.flip ? dyl : -dyl;      // on a lower level the marker moves to that level's drawing
+  const inFlat = xr > M.bounds[0] && xr < M.bounds[1]; T.dot.style.display = T.cone.style.display = inFlat ? '' : 'none'; T.dot.setAttribute('cx', x); T.dot.setAttribute('cy', y);
+  const ang = Math.atan2(dy, dx), L = M.box[2] / 13, w = 0.5; T.cone.setAttribute('d', `M${x},${y} L${x + Math.cos(ang - w) * L},${y + Math.sin(ang - w) * L} A${L},${L} 0 0 1 ${x + Math.cos(ang + w) * L},${y + Math.sin(ang + w) * L} Z`);
+  // highlight the room the picture is showing now: the one whose chosen moment is nearest in time (the camera often stands next door to the room it looks at)
+  const ta = tourT / D * T.src; let near = null, gap = 1.3; for (const R of T.rooms) if (R.time != null && Math.abs(R.time - ta) < gap) { gap = Math.abs(R.time - ta); near = R; }
+  for (const R of T.rooms) R.rect.classList.toggle('here', R === near);
+}
+async function jump(t) { if (busy || mode !== 'tour') return; busy = true; hideGuide(); const D = vTour.duration || cur.src, to = Math.min(D - 0.1, t * D / cur.src), from = tourT;
+  await animate(Math.max(350, Math.min(1400, Math.abs(to - from) * 160)), k => { tourT = tourTarget = from + (to - from) * k; }); busy = false; }
+let mode = 'ext', cur = null, extT = 0, extTarget = 0, tourT = 0, tourTarget = 0, busy = false, dragging = false, lastX = 0, vel = 0;
+
+async function loadBlob(url, onProgress) {       // whole file in memory, so every frame can be reached instantly
+  const res = await fetch(url); if (!res.ok) throw new Error(url + ' ' + res.status);
+  const total = +res.headers.get('Content-Length') || 0, reader = res.body.getReader(), chunks = []; let got = 0;
+  for (;;) { const { done, value } = await reader.read(); if (done) break; chunks.push(value); got += value.length; if (total && onProgress) onProgress(got / total); }
+  return URL.createObjectURL(new Blob(chunks, { type: 'video/mp4' }));
+}
+/* tours are fetched one after another in the background once the exterior is on screen; entering a flat that has not arrived yet waits for it */
+function loadTour(T) { if (!T.loading) T.loading = loadBlob(media(T.file), x => { T.prog = x; if (T.onProg) T.onProg(x); }).then(u => { T.url = u; }).catch(e => { T.loading = null; throw e; }); return T.loading; }
+const ready = v => new Promise((r, j) => { const ok = () => v.readyState >= 2; if (ok() && !v.seeking) return r(); const h = () => { if (ok()) { v.removeEventListener('loadeddata', h); r(); } }; v.addEventListener('loadeddata', h); v.addEventListener('error', () => j(new Error('video')), { once: true }); });
+
+/* one seek at a time per video: asking for a new frame before the last one arrived only makes scrubbing stutter */
+function scrubber(v) { let pending = null, seeking = false;
+  v.addEventListener('seeked', () => { seeking = false; if (pending != null) { const t = pending; pending = null; go(t); } });
+  function go(t) { if (Math.abs(v.currentTime - t) < 0.008) return; if (seeking) { pending = t; return; } seeking = true; v.currentTime = t; }
+  return go; }
+const seekExt = scrubber(vExt), seekTour = scrubber(vTour);
+
+function videoRect() { const b = vExt.getBoundingClientRect(), a = 16 / 9; let w = b.width, h = w / a; if (h > b.height) { h = b.height; w = h * a; } return { x: b.left + (b.width - w) / 2, y: b.top + (b.height - h) / 2, w, h }; }      // the picture inside the video box (object-fit: contain)
+function placePin() {      // the outline of each flat's facade follows the building as the view turns
+  if (mode !== 'ext') return; const D = vExt.duration || 30, t = ((extT % D) + D) % D, r = videoRect();
+  for (const T of TOURS) { if (!T.tr) continue; const a = T.tr[Math.max(0, Math.min(T.tr.length - 1, Math.round(t / D * (T.tr.length - 1))))];      // one sample per video frame: the outline moves exactly with the picture
+    if (!a[0] || busy) { T.el.style.display = 'none'; T.on = false; continue; } let pts = '', cx = 0, cy = 0; const n = (a.length - 1) / 2;
+    for (let k = 1; k < a.length; k += 2) { const x = r.x + a[k] * r.w, y = r.y + a[k + 1] * r.h; pts += x.toFixed(1) + ',' + y.toFixed(1) + ' '; cx += x / n; cy += y / n; }
+    T.el.setAttribute('points', pts); T.el.style.display = ''; T.on = cx > r.x + 40 && cx < r.x + r.w - 40 && cy > r.y + 16 && cy < r.y + r.h - 16; T.cx = cx; T.cy = cy; }
+  // captions sit on the middle of their flats; where two flats line up behind one another the captions are stacked instead of overlapping
+  const vis = TOURS.filter(T => T.on).sort((p, q) => p.cy - q.cy);
+  for (let i = 1; i < vis.length; i++) for (let k = 0; k < i; k++) if (Math.abs(vis[i].cx - vis[k].cx) < 190 && vis[i].cy - vis[k].cy < 36) vis[i].cy = vis[k].cy + 36;
+  for (const T of TOURS) { if (!T.on) { T.tag.style.display = 'none'; continue; } T.tag.style.display = ''; T.tag.style.left = T.cx.toFixed(1) + 'px'; T.tag.style.top = T.cy.toFixed(1) + 'px'; }
+}
+
+/* ---- exterior: wheel (or a horizontal swipe on touch screens) orbits the building ---- */
+const stage = $('stage');
+/* phones only decode frames for seeking once a video has been started; muted inline playback may start by itself, and a touch retries it */
+const kick = v => { if (!v.src || v.dataset.kicked === v.src) return Promise.resolve(); const p = v.play(); return p && p.then ? p.then(() => { v.pause(); v.dataset.kicked = v.src; }).catch(() => {}) : Promise.resolve(); };
+/* touch screens: swipe sideways to orbit the building, swipe up and down to walk through a flat – anywhere on the screen, also over the map */
+let tX = null, tY = null;
+document.addEventListener('touchstart', e => { const t = e.touches[0]; tX = t.clientX; tY = t.clientY; vel = 0; dragging = true; kick(vExt); kick(vTour); }, { passive: true });
+document.addEventListener('touchmove', e => { if (tX == null) return; const t = e.touches[0], dx = t.clientX - tX, dy = t.clientY - tY; tX = t.clientX; tY = t.clientY; if (busy) return; hideGuide();
+  if (mode === 'ext') { const dt = -dx / innerWidth * 8; extTarget += dt; vel = dt; return; }
+  const D = vTour.duration || cur.src; tourTarget += -dy * 0.008;
+  if (tourTarget > D - 0.05 && tourT > D - 0.4) finish(); else if (tourTarget < -0.6 && tourT < 0.15) leave(); }, { passive: true });
+const endTouch = () => { tX = null; dragging = false; };
+document.addEventListener('touchend', endTouch); document.addEventListener('touchcancel', endTouch);
+addEventListener('keydown', e => { if (e.key === 'Escape' && mode === 'tour' && !busy) leave(); });
+
+/* movement instructions: shown every time a mode is entered, fade out after a few seconds or once the visitor starts moving */
+const WHEEL = '<svg viewBox="0 0 46 78" fill="none" stroke="#e8c99b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="ar" d="M15 10 L23 2 L31 10"/><rect x="11" y="18" width="24" height="42" rx="12"/><path d="M23 27 v9"/><path class="ar dn" d="M15 68 L23 76 L31 68"/></svg>';
+const SWIPE = '<svg viewBox="0 0 46 78" fill="none" stroke="#e8c99b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="ar" d="M15 10 L23 2 L31 10"/><circle cx="23" cy="39" r="9"/><path d="M23 24 v-6 M23 54 v6"/><path class="ar dn" d="M15 68 L23 76 L31 68"/></svg>';
+const TOUCH = matchMedia('(pointer:coarse)').matches;
+const GUIDE = TOUCH ? { ext: ['החליקו ימינה ושמאלה כדי להקיף את הבניין', 'געו בדירה או בשמה כדי להיכנס אליה'], tour: ['החליקו למעלה ולמטה כדי לנוע בדירה', 'בסוף הסיור חוזרים לבניין'] }
+  : { ext: ['גללו בעכבר למעלה ולמטה כדי להקיף את הבניין', 'לחצו על ״לסיור״ שעל הדירה כדי להיכנס אליה'], tour: ['גללו בעכבר למעלה ולמטה כדי לנוע בדירה', 'בסוף הסיור חוזרים לבניין'] };
+let guideAt = 0, guideTimer = null;
+function guide(m) { hint.innerHTML = (TOUCH ? SWIPE : WHEEL) + '<div>' + GUIDE[m][0] + '</div><small>' + GUIDE[m][1] + '</small>';
+  hint.style.opacity = 1; guideAt = performance.now(); clearTimeout(guideTimer); guideTimer = setTimeout(() => { hint.style.opacity = '0'; }, 8000); }
+function hideGuide() { const left = 2600 - (performance.now() - guideAt); clearTimeout(guideTimer); if (left <= 0) hint.style.opacity = '0'; else guideTimer = setTimeout(() => { hint.style.opacity = '0'; }, left); }   // always readable for a moment
+let over = 0;
+addEventListener('wheel', e => { if (!active) return; e.preventDefault(); if (busy) return; const d = (e.deltaMode === 1 ? e.deltaY * 30 : e.deltaY); hideGuide();
+  if (mode === 'ext') { extTarget += d * 0.0022; vel = 0; return; }
+  const D = vTour.duration || cur.src; tourTarget += d * 0.0017;
+  if (tourTarget > D - 0.05) { over += tourTarget - (D - 0.05); if (over > 0.5 && tourT > D - 0.4) finish(); } else over = 0;
+  if (tourTarget < -0.6 && tourT < 0.15) leave(); }, { passive: false });
+const ease = x => x < 0.5 ? 2 * x * x : 1 - (-2 * x + 2) ** 2 / 2;
+function animate(dur, step) { return new Promise(res => { const t0 = performance.now(); (function f(now) { const x = Math.min(1, (now - t0) / dur); step(ease(x)); x < 1 ? requestAnimationFrame(f) : res(); })(t0); }); }
+const setMode = m => { document.body.classList.remove('ext', 'tour'); document.body.classList.add(m); };
+const wait = (on, txt) => { $('wait').classList.toggle('on', on); if (txt) $('waitTxt').textContent = txt; };
+
+async function enter(T) {
+  if (busy || mode !== 'ext') return; busy = true; cur = T; vel = 0; hideGuide(); placePin(); $('tip').style.opacity = 0;
+  // 1 · back to the base view: the nearer end of the orbit (both ends are the same front view)
+  const D = vExt.duration, t = ((extT % D) + D) % D, goal = t < D / 2 ? 0 : D - 0.02, from = t; extT = extTarget = t;
+  await animate(Math.max(450, Math.min(1800, Math.abs(goal - from) * 240)), k => { extT = extTarget = from + (goal - from) * k; });
+  // 2 · make sure the flat's clip has arrived
+  try {
+    if (!T.url) { const say = x => wait(true, 'טוען את הדירה… ' + Math.round((x || 0) * 100) + '%'); say(T.prog); T.onProg = say; await loadTour(T); T.onProg = null; }
+    if (vTour.dataset.id !== T.id) { vTour.src = T.url; vTour.dataset.id = T.id; vTour.load(); await ready(vTour); }
+    await kick(vTour);
+  } catch (err) { T.onProg = null; wait(true, 'הטעינה נכשלה. בדקו את החיבור ונסו שוב.'); setTimeout(() => wait(false), 2600); vTour.dataset.id = ''; busy = false; return; }
+  wait(false);
+  // 3 · hand over to the tour clip, which starts on the same view, and fly in
+  $('map').style.display = T.map && T.pts ? '' : 'none'; if (T.map && T.pts) buildMap(T); over = 0;
+  tourT = tourTarget = 0; vTour.currentTime = 0; await new Promise(r => setTimeout(r, 200));
+  mode = 'tour'; setMode('tour'); tell('mode', { mode: 'tour', flat: T.id }); vTour.classList.add('on'); vExt.classList.remove('on');
+  $('tSub').textContent = T.sub;
+  await animate(T.entry * 1000, k => { tourT = tourTarget = T.entry * k; });
+  guide('tour'); busy = false;
+}
+function toExterior() { mode = 'ext'; setMode('ext'); tell('mode', { mode: 'ext', flat: null }); vExt.classList.add('on'); vTour.classList.remove('on'); $('tSub').textContent = 'מבט חיצוני'; guide('ext'); }
+function finish() {       // end of the tour: the clip has returned to the base view, so hand back to the exterior without rewinding
+  if (busy || mode !== 'tour') return; over = 0; extT = extTarget = 0; vExt.currentTime = 0; toExterior(); }
+async function leave() {
+  if (busy || mode !== 'tour') return; busy = true; hideGuide();
+  const from = tourT; await animate(Math.max(400, Math.min(2200, from * 260)), k => { tourT = tourTarget = from * (1 - k); });
+  extT = extTarget = 0; seekExt(0); await new Promise(r => setTimeout(r, 120));
+  toExterior(); busy = false;
+}
+const tip = $('tip');
+for (const T of TOURS) {
+  T.el = document.createElementNS(NS, 'polygon'); T.el.setAttribute('tabindex', '0'); T.el.setAttribute('role', 'button'); T.el.setAttribute('aria-label', T.sub + ' – כניסה לסיור'); T.el.style.display = 'none';
+  T.el.addEventListener('click', () => enter(T)); T.el.addEventListener('keydown', e => { if (e.key === 'Enter') enter(T); }); T.el.addEventListener('pointerdown', e => e.stopPropagation());
+  $('hot').appendChild(T.el);
+  T.tag = document.createElement('button'); T.tag.className = 'tag glass'; T.tag.style.display = 'none'; T.tag.setAttribute('aria-label', T.sub + ' – כניסה לסיור');
+  T.tag.innerHTML = '<div><b>' + T.name + '</b><span>' + T.info + '</span></div><i>לסיור ←</i>'; T.tag.addEventListener('click', () => enter(T));
+  T.tag.addEventListener('pointerenter', () => T.el.classList.add('lit')); T.tag.addEventListener('pointerleave', () => T.el.classList.remove('lit')); T.tag.addEventListener('focus', () => T.el.classList.add('lit')); T.tag.addEventListener('blur', () => T.el.classList.remove('lit')); $('tags').appendChild(T.tag);
+  const b = document.createElement('button'); b.className = 'glass'; b.textContent = T.chip; b.setAttribute('aria-label', T.sub + ' – כניסה לסיור'); b.addEventListener('click', () => enter(T));
+  b.addEventListener('pointerenter', () => T.el.classList.add('lit')); b.addEventListener('pointerleave', () => T.el.classList.remove('lit')); $('flats').appendChild(b);
+}
+$('back').addEventListener('click', leave); $('help').addEventListener('click', () => guide(mode));
+const gate = on => { active = !on; $('gate').classList.toggle('on', on); };
+$('gate').addEventListener('click', () => { gate(false); guide(mode); });
+if (EMB && HOVER) document.documentElement.addEventListener('mouseleave', () => { if (!document.fullscreenElement) gate(true); });
+if (document.fullscreenEnabled) { $('fs').style.display = 'grid'; $('fs').addEventListener('click', () => { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}); }); }
+addEventListener('message', e => { const m = e.data; if (!m || m.source !== 'tour41') return;
+  if (m.action === 'enter') { const T = TOURS.find(t => t.id === m.flat); if (T) { if (mode === 'tour') leave().then(() => enter(T)); else enter(T); } }
+  if (m.action === 'exit') leave(); });
+
+/* chase the scroll target smoothly, but never crawl: below a minimum speed the picture would advance one video frame every
+   few screen frames, which reads as stutter – so the tail of the stop runs at a steady pace and then lands exactly on the target */
+let lastF = performance.now();
+function chase(v, target, dt, minSpeed) { const d = target - v, a = Math.abs(d); if (a < 0.03) return target; return v + Math.sign(d) * Math.min(a, Math.max(a * (1 - Math.exp(-dt * 6.5)), minSpeed * dt)); }
+function frame() { const nowF = performance.now(), dtF = Math.min(0.1, (nowF - lastF) / 1000); lastF = nowF;
+  if (mode === 'ext') { const D = vExt.duration || 1;
+    if (!busy) { if (!dragging && Math.abs(vel) > 0.0005) { extTarget += vel; vel *= 0.93; } extT = chase(extT, extTarget, dtF, 1.1); }
+    seekExt((((extT % D) + D) % D)); placePin();
+  } else { const D = vTour.duration || 1;
+    if (!busy) { tourTarget = Math.max(-1, Math.min(D - 0.05, tourTarget)); tourT = chase(tourT, Math.max(0, tourTarget), dtF, 1.0); if (tourTarget < 0) tourTarget *= 0.9; }
+    seekTour(Math.max(0, Math.min(D - 0.05, tourT))); bar.style.width = (tourT / D * 100) + '%'; updateMap();
+  }
+  requestAnimationFrame(frame);
+}
+addEventListener('resize', placePin); addEventListener('orientationchange', () => setTimeout(placePin, 300));
+
+(async () => {
+  const prog = x => { $('pb').style.width = (x * 100) + '%'; $('pct').textContent = 'טוען… ' + Math.round(x * 100) + '%'; };
+  try {
+    const json = u => fetch(u).then(r => { if (!r.ok) throw new Error(u); return r.json(); });
+    const [a] = await Promise.all([loadBlob(media('exterior'), prog),
+      ...TOURS.map(T => json('data/hot_' + T.id + '.json').then(j => { T.tr = j; })), ...TOURS.filter(T => T.map).map(T => json('data/path_' + T.id + '.json').then(j => { T.pts = j; }))]);
+    vExt.src = a; vExt.load(); await ready(vExt); await kick(vExt);
+  } catch (err) { $('pct').textContent = 'הטעינה נכשלה. רעננו את הדף ונסו שוב.'; return; }
+  vExt.classList.add('on'); $('load').classList.add('off'); requestAnimationFrame(frame); if (active) guide('ext'); else gate(true); tell('ready', { mode: 'ext', flat: null });
+  const first = TOURS.find(t => t.id === qs.get('flat')); if (first) enter(first);
+  window.__v = { enter, leave, jump, finish, TOURS, Q, get state() { return { mode, extT, tourT, busy, cur: cur && cur.id }; }, set ext(t) { extT = extTarget = t; }, set tour(t) { tourTarget = t; } };
+  if (!conn.saveData) for (const T of TOURS) { try { await loadTour(T); } catch (e) {} }      // background preload, top of the list first
+})();
+</script>
+</body>
+</html>

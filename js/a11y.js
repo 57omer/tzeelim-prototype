@@ -34,6 +34,11 @@
       '<div class="a11y-grid">' + ITEMS.map(function (it) { return '<button type="button" class="a11y-opt" data-k="' + it[0] + '"' + (/^size/.test(it[0]) ? '' : ' aria-pressed="false"') + '>' + it[1] + '</button>'; }).join('') + '</div>' +
       '<div class="a11y-foot"><button type="button" class="a11y-reset">איפוס הגדרות</button><a href="legal.html?doc=accessibility">הצהרת נגישות</a></div>';
     btn.setAttribute('aria-controls', 'a11y-panel');
+    var off = doc.createElement('button'); off.type = 'button'; off.className = 'a11y-off'; off.textContent = 'כיבוי הגדרות נגישות'; off.hidden = true;
+    off.addEventListener('click', function () { st = Object.assign({}, DEF); save(); apply(); sync(); });
+    doc.body.appendChild(off);
+    function anyOn() { return st.size > 0 || ['contrast', 'gray', 'links', 'font', 'spacing', 'still'].some(function (k) { return st[k]; }); }
+    window.addEventListener('tz:a11y', function () { off.hidden = !anyOn(); }); off.hidden = !anyOn();
     doc.body.appendChild(btn); doc.body.appendChild(p);
 
     function sync() {

@@ -12,7 +12,11 @@
   function icon(n, c) { return TZ.icon ? TZ.icon(n, c) : ''; }
   function ph(tel, label) { return '<a href="tel:' + tel + '"><bdi dir="ltr">' + esc(label) + '</bdi></a>'; }
   function bySlug(s) { return (window.PROJECTS || []).filter(function (p) { return p.slug === s; })[0] || null; }
-  function coverFor(id) { return ARTICLE_COVER[id] ? 'img/articles/' + id + '.jpg' : 'img/hero/hero-1.jpg'; }
+  function coverFor(id) {
+    var a = (C.articles || []).filter(function (x) { return x.id === id; })[0];
+    if (a && a.cover) return a.cover;
+    return ARTICLE_COVER[id] ? 'img/articles/' + id + '.jpg' : 'img/hero/hero-1.jpg';
+  }
 
   /* shared form (prefix keeps ids unique) */
   function formHtml(pfx, withMessage) {
@@ -160,10 +164,10 @@
         '<div class="reveal"><span class="eyebrow">פרטי התקשרות</span><h2 class="section-title mt-4">צאלים קבלני בניין</h2>' +
           '<div class="kv mt-6">' +
             row('כתובת המשרד', esc(c.address || 'בן צבי 61, קרית חיים')) +
-            row('נייד ראשי', ph('0528587821', c.mainPhone || '052-8587821')) +
-            row('משרד', ph('048722475', c.officePhone || '04-8722475')) +
-            row('נייד', ph('0505381557', c.mobile || '050-5381557')) +
-            row('פקס', '<bdi dir="ltr">' + esc(c.fax || '04-8578886') + '</bdi>') +
+            row('נייד ראשי', ph(TZ.config.phoneMain.tel, TZ.config.phoneMain.label)) +
+            row('משרד', ph(TZ.config.office.tel, TZ.config.office.label)) +
+            row('נייד', ph(TZ.config.mobile.tel, TZ.config.mobile.label)) +
+            row('פקס', '<bdi dir="ltr">' + esc(TZ.config.fax) + '</bdi>') +
           '</div>' +
           '<div class="cluster mt-6" style="--gap:12px">' +
             '<a class="btn" href="' + esc(c.whatsapp || 'https://wa.me/972528587821') + '" target="_blank" rel="noopener">' + icon('whatsapp') + ' שלחו הודעה בוואטסאפ</a>' +

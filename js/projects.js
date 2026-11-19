@@ -106,6 +106,31 @@
       '</div></div></section>';
   }
 
+  /* embedded building + apartments tour (tour41/): a poster first, the heavy interface loads on click */
+  function tourEmbed(t) {
+    var flats = (t.flats || []).map(function (f) { return '<button type="button" class="t41__flat" data-t41="' + esc(f[0]) + '">' + esc(f[1]) + '</button>'; }).join('');
+    return '<section class="section section--dark t41" id="pj-tour" aria-labelledby="t41-h"><div class="container">' +
+      '<div class="t41__head reveal"><span class="eyebrow">סיור אינטראקטיבי</span><h2 class="section-title" id="t41-h">' + esc(t.title) + '</h2>' + (t.text ? '<p class="t41__text">' + esc(t.text) + '</p>' : '') + '</div>' +
+      '<div class="t41__frame reveal" id="t41-frame" data-src="' + esc(t.src) + '">' +
+      '<button type="button" class="t41__start" data-t41="" style="background-image:url(\'' + esc(t.poster) + '\')" aria-label="הפעלת הסיור בבניין ובדירות"><span class="t41__play"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg></span><span class="t41__cta">הפעלת הסיור</span></button></div>' +
+      (flats ? '<div class="t41__flats reveal"><span>מעבר ישיר לדירה:</span>' + flats + '<button type="button" class="t41__flat t41__flat--out" data-t41-exit>חזרה לבניין</button></div>' : '') +
+      '<p class="render-note t41__note">הדמיה להמחשה בלבד</p></div></section>';
+  }
+  document.addEventListener('click', function (e) {
+    var fr = document.getElementById('t41-frame'); if (!fr) return;
+    var b = e.target.closest('[data-t41],[data-t41-exit]'); if (!b) return;
+    var flat = b.getAttribute('data-t41'), ifr = fr.querySelector('iframe');
+    if (!ifr) {
+      ifr = document.createElement('iframe');
+      ifr.src = fr.getAttribute('data-src') + '?title=0' + (b.hasAttribute('data-t41-exit') ? '' : (flat ? '&flat=' + encodeURIComponent(flat) : ''));
+      ifr.title = 'סיור בבניין ובדירות'; ifr.setAttribute('allow', 'fullscreen'); ifr.setAttribute('allowfullscreen', '');
+      fr.innerHTML = ''; fr.appendChild(ifr); fr.classList.add('is-live'); return;
+    }
+    var msg = b.hasAttribute('data-t41-exit') ? { source: 'tour41', action: 'exit' } : { source: 'tour41', action: 'enter', flat: flat };
+    try { ifr.contentWindow.postMessage(msg, '*'); } catch (err) {}
+    fr.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  });
+
   function detailRows(p) {
     var empty = '<div class="kv__v kv__v--empty">יעודכן</div>';
     function row(k, v) {
@@ -148,7 +173,7 @@
       '<h2 class="cta__title">רוצים לשמוע עוד על הפרויקט?</h2>' +
       '<p class="cta__text">השאירו פרטים ונחזור אליכם בהקדם, או פנו אלינו ישירות.</p>' +
       '<div class="pj-cta-actions">' +
-      '<a class="btn btn--light" href="tel:0528587821">' + TZ.icon('phone') + ' <bdi dir="ltr">052-8587821</bdi></a>' +
+      '<a class="btn btn--light" href="tel:' + TZ.config.phoneMain.tel + '">' + TZ.icon('phone') + ' <bdi dir="ltr">' + TZ.config.phoneMain.label + '</bdi></a>' +
       '<a class="btn btn--light" href="' + esc(waHref) + '" target="_blank" rel="noopener">' + TZ.icon('whatsapp') + ' וואטסאפ</a>' +
       '</div></div>' +
       '<form class="form reveal" data-tz-form novalidate>' +
@@ -190,7 +215,7 @@
       (p.sold ? '<span class="badge badge--sold">נמכר</span>' : '') + '</div>' +
       '<h1 class="phero__title">' + esc(p.name) + '</h1>' +
       '<p class="phero__place">' + TZ.icon('pin') + '<span>' + esc(place) + '</span></p>' +
-      (active ? '<div class="phero__actions"><a class="btn" href="#pj-lead">השאר פרטים</a><a class="btn btn--light" href="tel:0528587821">' + TZ.icon('phone') + ' <bdi dir="ltr">052-8587821</bdi></a></div>' : '') +
+      (active ? '<div class="phero__actions"><a class="btn" href="#pj-lead">השאר פרטים</a><a class="btn btn--light" href="tel:' + TZ.config.phoneMain.tel + '">' + TZ.icon('phone') + ' <bdi dir="ltr">' + TZ.config.phoneMain.label + '</bdi></a></div>' : '') +
       '</div>' +
       (hasRender(p) ? '<span class="media__note">הדמיה להמחשה בלבד</span>' : '') +
       '</section>';
@@ -204,7 +229,8 @@
       '</div></section>';
 
     /* interactive apartment tours (compact players, full-screen option) */
-    if (p.tours && TZ.toursSection) html += TZ.toursSection(p.tours);
+    if (p.tourEmbed) html += tourEmbed(p.tourEmbed);
+    else if (p.tours && TZ.toursSection) html += TZ.toursSection(p.tours);
 
     /* gallery */
     html += '<section class="section section--surface"><div class="container">' +

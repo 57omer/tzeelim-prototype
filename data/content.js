@@ -102,7 +102,8 @@ window.CONTENT = {
           "text": "אנו בחברת צאלים מבצעים מספר פרויקטים של יזמות ובנייה בקרית מוצקין ובקרית חיים עם היצע של דירות חדשות בקריות באזורים הללו ונוספים. אנו מזמינים אתכם ליצור עמנו קשר לפרטים נוספים."
         }
       ],
-      "sourceUrl": "http://tzeelim.co.il/new-apartments-in-krayot/"
+      "sourceUrl": "http://tzeelim.co.il/new-apartments-in-krayot/",
+      "cover": "img/articles/new-apartments.jpg"
     },
     {
       "id": "pinui-binui",
@@ -142,7 +143,8 @@ window.CONTENT = {
           "text": "אנו מבצעים פרויקטים של פינוי בינוי ברחבי הקריות ובעת האחרונה בעיקר פרויקטים של יזמות ובנייה בקריות, כולל פינוי ובינוי, בשכונות ברחבי קרית מוצקין וקרית חיים. אנו בעלי ידע וניסיון רב בתחום זה ודואגים הן לרווחת התושבים הקיימים לאורך כל תקופת הביצוע והן לתוצאה הסופית המוצלחת של דירות חדשות איכותיות ושכונה יוקרתית עבור כל המתגוררים בה בגמר הפרויקט."
         }
       ],
-      "sourceUrl": "http://tzeelim.co.il/pinui-binui-krayot/"
+      "sourceUrl": "http://tzeelim.co.il/pinui-binui-krayot/",
+      "cover": "img/articles/pinui-binui.jpg"
     },
     {
       "id": "tama-38",
@@ -198,7 +200,8 @@ window.CONTENT = {
           "text": "אלו ההבדלים בין פרויקטים של יזמות ובנייה בקריות שאנו נוטלים בהם חלק מזה שנים רבות וחשוב מאוד לבדוק את כל האפשרויות כדי לקבל את ההחלטה הטובה ביותר עבור הבניין שלכם."
         }
       ],
-      "sourceUrl": "http://tzeelim.co.il/on-the-differences-between-the-evacuation-of-construction-tam-38-and-tam-38-2/"
+      "sourceUrl": "http://tzeelim.co.il/on-the-differences-between-the-evacuation-of-construction-tam-38-and-tam-38-2/",
+      "cover": "img/articles/tama-38.jpg"
     }
   ],
   "legal": {
@@ -658,5 +661,25 @@ window.CONTENT = {
     "mainPhone": "052-8587821",
     "whatsapp": "https://wa.me/972528587821",
     "facebook": "https://www.facebook.com/tzeelim/"
+  },
+  "promo": {
+    "enabled": true,
+    "eyebrow": "בשיווק עכשיו · קרית חיים",
+    "title": "הראשונים 41",
+    "text": "דירות קרקע ודירות 5 חדרים ברמת גימור מושלמת, ברחוב המבוקש והאיכותי. למחפשי שקט ואיכות חיים.",
+    "slug": "harishonim-41",
+    "video": "video/harishonim-41-promo.mp4",
+    "poster": "video/harishonim-41-promo-poster.jpg"
+  },
+  "home": {
+    "hidden": [],
+    "occupied": [
+      "shishet-hayamim-20",
+      "belinson-38",
+      "rans-34"
+    ]
   }
 };
+
+/* admin draft preview (only inside the admin preview frame) */
+(function () { try { if (/[?&]draft=1/.test(location.search) && window.parent !== window && window.parent.__tzDraftContent) window.CONTENT = window.parent.__tzDraftContent; } catch (e) {} })();
