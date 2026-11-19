@@ -112,7 +112,7 @@
     return '<section class="section section--dark t41" id="pj-tour" aria-labelledby="t41-h"><div class="container">' +
       '<div class="t41__head reveal"><span class="eyebrow">סיור אינטראקטיבי</span><h2 class="section-title" id="t41-h">' + esc(t.title) + '</h2>' + (t.text ? '<p class="t41__text">' + esc(t.text) + '</p>' : '') + '</div>' +
       '<div class="t41__frame reveal" id="t41-frame" data-src="' + esc(t.src) + '">' +
-      '<button type="button" class="t41__start" data-t41="" style="background-image:url(\'' + esc(t.poster) + '\')" aria-label="הפעלת הסיור בבניין ובדירות"><span class="t41__play"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg></span><span class="t41__cta">הפעלת הסיור</span></button></div>' +
+      '<button type="button" class="t41__start" data-t41="" style="background-image:url(\'' + esc(t.poster) + '\')" aria-label="לחצו להתחלת הסיור בבניין ובדירות"><span class="t41__play"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg></span><span class="t41__cta">לחצו להתחלת הסיור</span><span class="t41__sub">הקיפו את הבניין, בחרו דירה וטיילו בה</span></button></div>' +
       (flats ? '<div class="t41__flats reveal"><span>מעבר ישיר לדירה:</span>' + flats + '<button type="button" class="t41__flat t41__flat--out" data-t41-exit>חזרה לבניין</button></div>' : '') +
       '<p class="render-note t41__note">הדמיה להמחשה בלבד</p></div></section>';
   }
