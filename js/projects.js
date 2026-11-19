@@ -113,7 +113,7 @@
     }
     return '<div class="kv">' +
       row('כתובת', p.address) + row('עיר', p.cityHe || TZ.cityLabel(p.city)) + row('סטטוס', p.statusHe || TZ.statusLabel(p.status)) +
-      row('מספר דירות', '') + row('קומות', '') + row('סוגי דירות', '') + (p.status === 'occupied' ? row('מועד אכלוס', '') : row('מועד אכלוס משוער', '') + row('מחיר', '')) +
+      row('מספר דירות', p.units) + row('קומות', p.floors) + row('סוגי דירות', p.aptTypes) + (p.status === 'occupied' ? row('מועד אכלוס', p.occupancy) : row('מועד אכלוס משוער', p.occupancy) + row('מחיר', p.price)) +
       '</div>';
   }
 

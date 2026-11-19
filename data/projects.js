@@ -742,6 +742,9 @@ window.PROJECTS = [
   }
 ];
 
+/* admin: draft preview from the admin page + hidden projects (published:false) */
+(function () { try { if (/[?&]draft=1/.test(location.search) && window.parent !== window && window.parent.__tzDraftProjects) window.PROJECTS = window.parent.__tzDraftProjects; } catch (e) {} window.PROJECTS = (window.PROJECTS || []).filter(function (p) { return p.published !== false; }); })();
+
 window.OFFICE = {
   "name": "צאלים קבלני בניין",
   "address": "בן צבי 61, קרית חיים",
@@ -751,7 +754,7 @@ window.OFFICE = {
 };
 
 /* cache-bust upscaled images */
-(function () { var v = '?v=hd1'; (window.PROJECTS || []).forEach(function (p) { if (p.cover) p.cover += v; (p.images || []).forEach(function (i) { if (i.src) i.src += v; }); }); })();
+(function () { var v = '?v=hd1'; (window.PROJECTS || []).forEach(function (p) { if (p.cover && !/^(blob|data):/.test(p.cover)) p.cover += v; (p.images || []).forEach(function (i) { if (i.src && !/^(blob|data):/.test(i.src)) i.src += v; }); }); })();
 
 /* sunset card images for the marketing carousel */
 (function () { var m = { 'belinson-49': 1, 'belinson-42': 1, 'homa-umigdal-64': 1, 'harishonim-41': 1 }; (window.PROJECTS || []).forEach(function (p) { if (m[p.slug]) p.card = 'img/p/' + p.slug + '/card-sunset.jpg?v=hd4'; }); })();
