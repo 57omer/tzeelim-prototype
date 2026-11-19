@@ -66,7 +66,7 @@
   #fs svg{width:16px;height:16px} #fs:hover,#fs:focus-visible{background:var(--gold);color:#231a14;outline:none}
   /* inside another page: the wheel belongs to the host page until the visitor clicks the tour */
   #gate{position:fixed;inset:0;display:none;place-items:end center;z-index:7;cursor:pointer;background:rgba(12,9,8,.18)}
-  #gate.on{display:grid} #gate span{margin-bottom:22px;padding:10px 18px;border-radius:999px;font-size:14px}
+  #gate.on{display:grid} #gate span{display:none}
   body.notitle #title{display:none}
   #wait{position:fixed;inset:0;display:none;place-items:center;background:rgba(12,9,8,.55);font-size:15px}
   #wait.on{display:grid} #wait div{padding:16px 22px;border-radius:14px}
@@ -133,7 +133,7 @@ const media = n => 'media/' + Q + '/' + n + '.mp4';
    and the host may drive it:                   iframe.contentWindow.postMessage({ source: 'tour41', action: 'enter', flat: 'p' }, '*')   or   { action: 'exit' }   */
 const EMB = qs.get('embed') === '1' || (qs.get('embed') !== '0' && self !== top), HOVER = matchMedia('(hover:hover)').matches;
 if (qs.get('title') === '0') document.body.classList.add('notitle');
-let active = !(EMB && HOVER);            // embedded on a desktop: scrolling stays with the host page until the tour is clicked, and returns to it when the pointer leaves
+let active = !(EMB && HOVER) || qs.get('go') === '1';   // go=1: the host page's own start button was just clicked            // embedded on a desktop: scrolling stays with the host page until the tour is clicked, and returns to it when the pointer leaves
 const tell = (event, extra) => { if (self !== top) try { parent.postMessage({ source: 'tour41', event, ...extra }, '*'); } catch (e) {} };
 
 /* rooms in flat-local metres [x0, x1, y0, y1]; at = the second of the source clip that shows the room best (picked by eye) */

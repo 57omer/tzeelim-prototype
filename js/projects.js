@@ -122,7 +122,7 @@
     var flat = b.getAttribute('data-t41'), ifr = fr.querySelector('iframe');
     if (!ifr) {
       ifr = document.createElement('iframe');
-      ifr.src = fr.getAttribute('data-src') + '?title=0' + (b.hasAttribute('data-t41-exit') ? '' : (flat ? '&flat=' + encodeURIComponent(flat) : ''));
+      ifr.src = fr.getAttribute('data-src') + '?title=0&go=1' + (b.hasAttribute('data-t41-exit') ? '' : (flat ? '&flat=' + encodeURIComponent(flat) : ''));
       ifr.title = 'סיור בבניין ובדירות'; ifr.setAttribute('allow', 'fullscreen'); ifr.setAttribute('allowfullscreen', '');
       fr.innerHTML = ''; fr.appendChild(ifr); fr.classList.add('is-live'); return;
     }
