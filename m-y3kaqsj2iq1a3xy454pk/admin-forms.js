@@ -127,7 +127,7 @@
       { t: 'text', k: 'company.sinceLine', label: 'שורת תיאור בפוטר', hint: 'למשל: קבלני בניין בקריות, מאז 1991' },
       { t: 'area', k: 'company.lead', label: 'פסקת פתיחה', h: 90 }], 'c', true);
     h += section('על החברה', [
-      { t: 'num', k: 'company.founded', label: 'שנת הקמה' }, { t: 'num', k: 'company.years', label: 'שנות ניסיון', hint: 'המספר מופיע גם בתוך כותרות וטקסטים, לעדכן אותם ידנית' },
+      { t: 'num', k: 'company.founded', label: 'שנת הקמה' }, { t: 'num', k: 'company.occupiedCount', label: 'מספר פרויקטים מאוכלסים (מוצג בסטטיסטיקה)', hint: 'אם ריק, נספרים הפרויקטים המאוכלסים שבמערכת' }, { t: 'num', k: 'company.years', label: 'שנות ניסיון', hint: 'המספר מופיע גם בתוך כותרות וטקסטים, לעדכן אותם ידנית' },
       { t: 'text', k: 'company.yearsHeading', label: 'כותרת ניסיון', wide: true }, { t: 'text', k: 'company.servicesHeading', label: 'כותרת שירותים', wide: true },
       { t: 'list', k: 'company.intro', label: 'פסקאות אודות', add: 'פסקה', def: '', itemLabel: 'פסקה', item: { t: 'area', h: 90 } },
       { t: 'list', k: 'company.services', label: 'שירותים', add: 'שירות', def: '', itemLabel: 'שירות', item: { t: 'text' } }], 'c');

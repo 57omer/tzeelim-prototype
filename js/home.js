@@ -138,7 +138,7 @@
 
   /* ---------------- 2. TRUST ---------------- */
   var allP = P || [];
-  var nOcc = allP.filter(function (p) { return p.status === 'occupied'; }).length;
+  var nOcc = (C.company && +C.company.occupiedCount) || allP.filter(function (p) { return p.status === 'occupied'; }).length;
   var nMk = allP.filter(function (p) { return p.status === 'marketing'; }).length;
   function stat(n, label, i) { return '<div class="stat reveal"' + (i ? ' style="--i:' + i + '"' : '') + '><div class="stat__num" data-count="' + n.num + '"' + (n.suf ? ' data-suffix="' + n.suf + '"' : '') + '>' + n.num + (n.suf || '') + '</div><div class="stat__label">' + label + '</div></div>'; }
   set('trust',

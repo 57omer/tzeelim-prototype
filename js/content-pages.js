@@ -59,7 +59,7 @@
   /* ---------------- ABOUT ---------------- */
   function about() {
     var co = C.company || {}, all = window.PROJECTS || [];
-    var occ = all.filter(function (p) { return p.status === 'occupied'; }).length;
+    var occ = (C.company && +C.company.occupiedCount) || all.filter(function (p) { return p.status === 'occupied'; }).length;
     $('#about-lead').textContent = co.lead || '';
     var intro = (co.intro || []).map(function (t, i) { return i === 0 ? '<p class="lead">' + esc(t) + '</p>' : '<p>' + esc(t) + '</p>'; }).join('');
     var cover = bySlug('belinson-49') || all[0];
