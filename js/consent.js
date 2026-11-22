@@ -3,7 +3,8 @@
    stays switched off until opted in. Gate such tools with: TZ.consent.when('analytics', function () { ...load tool... }); */
 (function () {
   'use strict';
-  var KEY = 'tzConsent', VERSION = 1, TTL = 365 * 24 * 3600 * 1000;
+  var KEY = 'tzConsent', VERSION = 2,   /* bumped when the wording changed: everyone is asked again once */
+       TTL = 365 * 24 * 3600 * 1000;
   var TZ = window.TZ = window.TZ || {};
   var doc = document, bar = null, listeners = [];
 

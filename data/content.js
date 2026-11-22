@@ -660,7 +660,8 @@ window.CONTENT = {
   "accessibility": {
     "vee": {
       "enabled": true,
-      "sitekey": "ff2ef5f7b1ebc8811d040ba3b900d619"
+      "sitekey": "ff2ef5f7b1ebc8811d040ba3b900d619",
+      "hosts": ["tzeelim.co.il", "www.tzeelim.co.il"]
     }
   },
   "contact": {

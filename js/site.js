@@ -9,7 +9,7 @@
   /* legal UI: cookie choice banner, accessibility toolbar and their styles (loaded on every page) */
   (function () {
     var l = doc.createElement('link'); l.rel = 'stylesheet'; l.href = 'css/legal-ui.css?v=5'; doc.head.appendChild(l);
-    ['js/consent.js?v=3'].forEach(function (src) { var t = doc.createElement('script'); t.src = src; doc.body.appendChild(t); });
+    ['js/consent.js?v=4'].forEach(function (src) { var t = doc.createElement('script'); t.src = src; doc.body.appendChild(t); });
   })();
 
   var CFG = {
@@ -99,12 +99,15 @@
   (function () {
     var A = (window.CONTENT && window.CONTENT.accessibility && window.CONTENT.accessibility.vee) || {};
     function own() { var t = doc.createElement('script'); t.src = 'js/a11y.js?v=3'; doc.body.appendChild(t); }
-    if (!A.sitekey || A.enabled === false || window.TZ_NO_VEE) { own(); return; }
+    /* the Vee licence is bound to the site's own domain: anywhere else (preview/staging) Vee only shows an error, so use the built-in toolbar */
+    var hosts = A.hosts || ['tzeelim.co.il', 'www.tzeelim.co.il'];
+    if (!A.sitekey || A.enabled === false || window.TZ_NO_VEE || hosts.indexOf(location.hostname) < 0) { own(); return; }
     var style = A.styles || {};
     window.args = {
       sitekey: A.sitekey, position: 'Right', language: 'HE', container: '', icon: '', access: A.access || 'https://vee-crm.com',
-      styles: Object.assign({ primary_color: '#177fab', secondary_color: '#b586ff', background_color: '#f6f6f6', primary_text_color: '#636363', headers_text_color: '#105675', primary_font_size: 14,
-        slider_left_color: '#b586ff', slider_right_color: '#177fab', icon_vertical_position: 'top', icon_offset_top: 190, icon_offset_bottom: 0, highlight_focus_color: '#177fab', toggler_icon_color: '#ffffff' }, style),
+      styles: Object.assign({ primary_color: '#810100', secondary_color: '#630000', background_color: '#EDEBDD', primary_text_color: '#1B1717', headers_text_color: '#810100', primary_font_size: 15,
+        slider_left_color: '#810100', slider_right_color: '#630000', icon_vertical_position: 'top', icon_offset_top: 190, icon_offset_bottom: 0, highlight_focus_color: '#810100', toggler_icon_color: '#EDEBDD'
+      }, style),
       links: { acc_policy: url('legal', 'accessibility'), additional_link: 'https://vee.co.il/pricing/' },
       options: { open: false, aaa: false, hide_tablet: false, hide_mobile: false, button_size_tablet: 54, button_size_mobile: 54, position_tablet: 'Right', position_mobile: 'Right',
         icon_vertical_position_tablet: 'top', icon_vertical_position_mobile: 'top', icon_offset_top_tablet: 190, icon_offset_bottom_tablet: 0, icon_offset_top_mobile: 160, icon_offset_bottom_mobile: 0, keyboard_shortcut: true },
