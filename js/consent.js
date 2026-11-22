@@ -45,15 +45,15 @@
     bar.setAttribute('aria-describedby', 'tzc-d');
     bar.innerHTML =
       '<h2 class="tzc__t" id="tzc-t">פרטיות ועוגיות</h2>' +
-      '<p class="tzc__d" id="tzc-d">האתר אינו משתמש כרגע בעוגיות סטטיסטיקה או שיווק, ואינו טוען שירותים חיצוניים בעת הגלישה. נשמרות במכשיר רק הגדרות חיוניות (למשל הבחירה הזו והעדפות נגישות). ' +
-      '<a href="' + TZ.url('legal', 'cookies') + '">מדיניות עוגיות</a> · <a href="' + TZ.url('legal', 'privacy') + '">מדיניות פרטיות</a></p>' +
+      '<p class="tzc__d" id="tzc-d">אנחנו מכבדים את הפרטיות שלכם. האתר אינו משתמש כרגע בעוגיות סטטיסטיקה או שיווק, ונשמר במכשיר רק מה שחיוני לתפעולו (למשל הבחירה הזו, העדפות הנגישות וסרגל הנגישות). בלחיצה על "אישור" אתם מאשרים את מדיניות הפרטיות. ' +
+      '<a href="' + TZ.url('legal', 'privacy') + '">מדיניות פרטיות</a> · <a href="' + TZ.url('legal', 'cookies') + '">מדיניות עוגיות</a> · <a href="' + TZ.url('legal', 'terms') + '">תנאי שימוש</a></p>' +
       '<div class="tzc__opts" hidden>' +
         '<label class="tzc__opt"><input type="checkbox" checked disabled> <span><b>הכרחיות</b> – תמיד פעילות. ללא זה האתר אינו עובד כראוי.</span></label>' +
         '<label class="tzc__opt"><input type="checkbox" name="analytics"' + (cur.analytics ? ' checked' : '') + '> <span><b>סטטיסטיקה</b> – מדידת שימוש באתר, ללא זיהוי אישי. לא בשימוש כרגע.</span></label>' +
         '<label class="tzc__opt"><input type="checkbox" name="marketing"' + (cur.marketing ? ' checked' : '') + '> <span><b>שיווק</b> – התאמת פרסומות ומדידתן. לא בשימוש כרגע.</span></label>' +
       '</div>' +
       '<div class="tzc__btns">' +
-        '<button type="button" class="tzc__b" data-a="all">אישור הכול</button>' +
+        '<button type="button" class="tzc__b" data-a="all">אישור</button>' +
         '<button type="button" class="tzc__b" data-a="min">הכרחיות בלבד</button>' +
         '<button type="button" class="tzc__b tzc__b--ghost" data-a="custom" aria-expanded="false">התאמה אישית</button>' +
         '<button type="button" class="tzc__b" data-a="save" hidden>שמירת בחירה</button>' +

@@ -175,6 +175,7 @@
       { t: 'text', k: 'contact.address', label: 'כתובת המשרד', wide: true },
       { t: 'text', k: 'contact.whatsapp', label: 'קישור וואטסאפ', ltr: true, wide: true, hint: 'בפורמט https://wa.me/9725XXXXXXXX (מספר בינלאומי, בלי אפס ובלי מקפים)' },
       { t: 'text', k: 'contact.facebook', label: 'קישור פייסבוק', ltr: true, wide: true },
+      { t: 'text', k: 'accessibility.vee.sitekey', label: 'מפתח סרגל הנגישות (Vee)', ltr: true, wide: true, hint: 'אותו מפתח שהיה באתר הישן. אם ריק, האתר משתמש בסרגל נגישות מובנה במקום Vee.' },
       { t: 'text', k: 'contact.formEmail', label: 'מייל לקבלת פניות מהטפסים', ltr: true, wide: true, hint: 'כל פנייה מהאתר (דף הבית, צור קשר ועמודי פרויקט) נשלחת לכתובת הזאת. בשליחה הראשונה מגיע מייל אישור שצריך ללחוץ בו.' }], 'c');
     h += '<div class="note" style="margin-top:20px">מיקום המשרד על המפה, פרטי החברה בטקסטים המשפטיים והנתונים המובנים לגוגל (JSON-LD) מתעדכנים בנפרד. שינוי טלפון כאן לא ישנה אותם.</div>';
     app.innerHTML = h;
