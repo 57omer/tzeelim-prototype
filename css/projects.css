@@ -244,3 +244,6 @@
 .t41__flat--out { border-style: dashed; }
 .t41__note { margin-top: 14px; color: rgba(237, 235, 221, .6); }
 @media (max-width: 700px) { .t41__frame { aspect-ratio: auto; height: 82vh; min-height: 480px; border-radius: 12px; } }
+
+.pd-split--one { grid-template-columns: minmax(0, 72ch); }
+@media (min-width: 900px) { .pd-split.pd-split--one { grid-template-columns: minmax(0, 72ch); } }

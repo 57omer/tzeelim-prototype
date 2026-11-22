@@ -131,21 +131,19 @@
     fr.scrollIntoView({ block: 'center', behavior: 'smooth' });
   });
 
+  /* optional "dry" details (units, floors, ...): entered in the admin, shown only when filled; nothing is shown otherwise */
   function detailRows(p) {
-    var empty = '<div class="kv__v kv__v--empty">יעודכן</div>';
-    function row(k, v) {
-      return '<div class="kv__row"><div class="kv__k">' + esc(k) + '</div>' + (v ? '<div class="kv__v">' + esc(v) + '</div>' : empty) + '</div>';
-    }
-    return '<div class="kv">' +
-      row('כתובת', p.address) + row('עיר', p.cityHe || TZ.cityLabel(p.city)) + row('סטטוס', p.statusHe || TZ.statusLabel(p.status)) +
-      row('מספר דירות', p.units) + row('קומות', p.floors) + row('סוגי דירות', p.aptTypes) + (p.status === 'occupied' ? row('מועד אכלוס', p.occupancy) : row('מועד אכלוס משוער', p.occupancy) + row('מחיר', p.price)) +
-      '</div>';
+    var extra = [['מספר דירות', p.units], ['קומות', p.floors], ['סוגי דירות', p.aptTypes],
+      [p.status === 'occupied' ? 'מועד אכלוס' : 'מועד אכלוס משוער', p.occupancy], ['מחיר', p.price]].filter(function (r) { return String(r[1] == null ? '' : r[1]).trim(); });
+    if (!extra.length) return '';
+    var rows = [['כתובת', p.address], ['עיר', p.cityHe || TZ.cityLabel(p.city)], ['סטטוס', p.statusHe || TZ.statusLabel(p.status)]].concat(extra).filter(function (r) { return r[1]; });
+    return '<div class="kv">' + rows.map(function (r) { return '<div class="kv__row"><div class="kv__k">' + esc(r[0]) + '</div><div class="kv__v">' + esc(r[1]) + '</div></div>'; }).join('') + '</div>';
   }
 
   function descBlock(p) {
     var ls = lines(p.desc);
     if (ls.length) return '<div class="pd-desc">' + ls.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '</div>';
-    return '<div class="placeholder pd-desc-empty"><span class="placeholder__tag">מציין מקום</span><p>כאן יופיע תיאור חופשי של הפרויקט, שיוזן בעתיד דרך ממשק הניהול.</p></div>';
+    return '';
   }
 
   var KIND = { render: 'הדמיה', plan: 'תוכנית', photo: 'צילום' };
@@ -154,7 +152,7 @@
     var imgs = (p.images || []).filter(function (i) { return i.kind !== 'placeholder'; }).map(function (i, n) { return { i: i, n: n }; })
       .sort(function (a, b) { return ((ord[a.i.kind] || 0) - (ord[b.i.kind] || 0)) || (a.n - b.n); }).map(function (x) { return x.i; });
     if (!imgs.length) {
-      return '<div class="placeholder pgal-empty"><span class="placeholder__tag">מציין מקום</span><p>תמונות נוספות יתווספו לפרויקט זה.</p></div>';
+      return '';
     }
     return '<div class="pgal reveal" id="pj-gal" data-n="' + imgs.length + '">' + imgs.map(function (i, n) {
       var render = i.kind === 'render';
@@ -186,7 +184,6 @@
       '<p class="form__legal">שדות המסומנים ב-<span aria-hidden="true">*</span> (חובה) נדרשים כדי שנוכל לחזור אליכם. מסירת הפרטים וולונטרית ונעשה בהם שימוש לצורך הפנייה בלבד, בהתאם ל<a href="' + TZ.url('legal', 'privacy') + '">מדיניות הפרטיות</a> ול<a href="' + TZ.url('legal', 'terms') + '">תנאי השימוש</a>.</p>' +
       '<div class="consent"><input type="checkbox" id="pf-m" name="marketing"><label for="pf-m">אני מסכים/ה לקבל הצעות ופרסומות על פרויקטים של החברה בהודעת טקסט, וואטסאפ, דוא״ל או שיחה. אפשר להסיר בכל עת.</label></div>' +
       '<button class="btn" type="submit">שליחת פרטים</button>' +
-      '<p class="form__note">זהו אבטיפוס: הפרטים אינם נשלחים בפועל.</p>' +
       '</form></div></section>';
   }
 
@@ -221,34 +218,28 @@
       (hasRender(p) ? '<span class="media__note">הדמיה להמחשה בלבד</span>' : '') +
       '</section>';
 
-    /* details + description */
-    html += '<section class="section"><div class="container pd-split">' +
-      '<div class="pd-block reveal"><span class="eyebrow">פרטי הפרויקט</span><h2 class="pd-block__title">פרטי הפרויקט</h2>' +
-      detailRows(p) +
-      '<p class="pd-hint"><span class="placeholder__tag">מציין מקום</span><span>שדות ללא נתון יתעדכנו בממשק הניהול</span></p></div>' +
-      '<div class="pd-block reveal" style="--i:1"><span class="eyebrow">על הפרויקט</span>' + descBlock(p) + '</div>' +
-      '</div></section>';
+    /* details (only when filled in the admin) + description */
+    var rowsHtml = detailRows(p), descHtml = descBlock(p);
+    if (rowsHtml || descHtml) {
+      html += '<section class="section"><div class="container pd-split' + (rowsHtml && descHtml ? '' : ' pd-split--one') + '">' +
+        (rowsHtml ? '<div class="pd-block reveal"><span class="eyebrow">פרטי הפרויקט</span><h2 class="pd-block__title">פרטי הפרויקט</h2>' + rowsHtml + '</div>' : '') +
+        (descHtml ? '<div class="pd-block reveal" style="--i:1"><span class="eyebrow">על הפרויקט</span>' + descHtml + '</div>' : '') +
+        '</div></section>';
+    }
 
     /* interactive apartment tours (compact players, full-screen option) */
     if (p.tourEmbed) html += tourEmbed(p.tourEmbed);
     else if (p.tours && TZ.toursSection) html += TZ.toursSection(p.tours);
 
     /* gallery */
-    html += '<section class="section section--surface"><div class="container">' +
+    var galHtml = gallery(p);
+    if (galHtml) html += '<section class="section section--surface"><div class="container">' +
       '<div class="section-head reveal"><div class="section-head__text"><span class="eyebrow">גלריה</span><h2 class="section-title">גלריית הפרויקט</h2></div></div>' +
-      gallery(p) +
+      galHtml +
       (hasRender(p) ? '<p class="render-note pj-gal-foot">הדמיה להמחשה בלבד</p>' : '') +
       '</div></section>';
 
     if (active) {
-      /* video slot */
-      html += '<section class="section"><div class="container">' +
-        '<div class="section-head reveal"><div class="section-head__text"><span class="eyebrow">סרטון / הדמיה</span><h2 class="section-title">הפרויקט בתנועה</h2></div></div>' +
-        '<div class="vslot reveal" role="img" aria-label="מקום שמור לסרטון הדמיה, יתווסף בהמשך"><span class="placeholder__tag vslot__tag">מציין מקום</span>' +
-        '<div><div class="vslot__play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg></div>' +
-        '<p class="vslot__text">סרטון הדמיה יתווסף לפרויקט זה</p><p class="vslot__sub">הדמיה להמחשה בלבד</p></div></div>' +
-        '</div></section>';
-
       /* map */
       html += '<section class="section section--surface"><div class="container ploc">' +
         '<div class="reveal"><span class="eyebrow">מיקום</span><h2 class="section-title">איפה זה</h2><p class="ploc__addr mt-5">' + esc(p.address) + '</p>' +

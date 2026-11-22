@@ -51,7 +51,7 @@
       if (kind === 'project') return (R.project && R.project[arg]) || ('project/' + encodeURIComponent(arg) + '/');
       if (kind === 'article') return (R.article && R.article[arg]) || (encodeURIComponent(arg) + '/');
       if (kind === 'legal') return (R.legal && R.legal[arg]) || R.pages.legal || './';
-      if (kind === 'projects') return R.pages.projects + (arg ? '?status=' + encodeURIComponent(arg) : '');
+      if (kind === 'projects') return (arg && R.status && R.status[arg]) || (R.pages.projects + (arg ? '?status=' + encodeURIComponent(arg) : ''));
       return R.pages[kind] || './';
     }
     if (kind === 'project') return 'project.html?p=' + encodeURIComponent(arg);
@@ -457,6 +457,15 @@
     var d = normPhone(v);
     return /^0(5\d{8}|7\d{8}|[23489]\d{7})$/.test(d);
   }
+  /* where leads go: CONTENT.contact.formEndpoint, or an e-mail address (formEmail) served by formsubmit.co. Not sent from localhost. */
+  function formEndpoint() {
+    var K = (window.CONTENT && window.CONTENT.contact) || {};
+    return K.formEndpoint || (K.formEmail ? 'https://formsubmit.co/ajax/' + encodeURIComponent(K.formEmail) : '');
+  }
+  function formLive() {
+    if (window.TZ_FORM_LIVE === true || window.TZ_FORM_LIVE === false) return window.TZ_FORM_LIVE;
+    return !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) && location.protocol !== 'file:';
+  }
   function initForm(form) {
     if (typeof form === 'string') form = $(form);
     if (!form || form.__tzForm) return;
@@ -474,8 +483,8 @@
     success.setAttribute('aria-live', 'polite');
     success.setAttribute('tabindex', '-1');
     success.innerHTML =
-      '<strong class="form__success-title">תודה, נחזור אליך בהקדם</strong>' +
-      '<p>זהו אבטיפוס — הפרטים לא נשלחו ולא נשמרו.</p>' +
+      '<strong class="form__success-title">תודה, קיבלנו את הפרטים</strong>' +
+      '<p>נחזור אליך בהקדם.</p>' +
       '<button type="button" class="btn btn--ghost btn--sm form__again">שליחת פנייה נוספת</button>';
     $('.form__again', success).addEventListener('click', function () {
       form.reset();
@@ -483,6 +492,24 @@
       var f = $('input, textarea', form);
       if (f) f.focus();
     });
+
+    /* spam trap: real visitors never see or fill this field */
+    var hp = $('input[name=_honey]', form);
+    if (!hp) {
+      var trap = doc.createElement('div'); trap.setAttribute('aria-hidden', 'true'); trap.style.cssText = 'position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);opacity:0;pointer-events:none';   /* no large offset: it would create horizontal scroll in RTL */
+      trap.innerHTML = '<label>אל תמלאו שדה זה <input type="text" name="_honey" tabindex="-1" autocomplete="off"></label>';
+      form.appendChild(trap); hp = $('input', trap);
+    }
+    var fail = $('.form__fail', form);
+    if (!fail) {
+      fail = doc.createElement('p'); fail.className = 'form__fail'; fail.setAttribute('role', 'alert'); fail.hidden = true;
+      var sb = $('button[type=submit]', form); if (sb && sb.parentNode) sb.parentNode.insertBefore(fail, sb.nextSibling); else form.appendChild(fail);
+    }
+    function showDone() { form.classList.add('is-success'); success.focus({ preventScroll: true }); if (success.scrollIntoView) success.scrollIntoView({ block: 'center', behavior: reduced() ? 'auto' : 'smooth' }); }
+    function showFail() {
+      fail.innerHTML = 'לא הצלחנו לשלוח את הפרטים. אפשר להתקשר <a href="tel:' + esc(CFG.phoneMain.tel) + '"><bdi dir="ltr">' + esc(CFG.phoneMain.label) + '</bdi></a> או <a href="' + esc(CFG.whatsapp) + '" target="_blank" rel="noopener">לשלוח הודעה בוואטסאפ</a>.';
+      fail.hidden = false;
+    }
 
     function fieldOf(input) { return input.closest('.field') || input.closest('.consent') || input.parentNode; }
     function setError(input, msg) {
@@ -535,9 +562,23 @@
         if (m) { setError(inp, m); if (!firstBad) firstBad = inp; } else clearError(inp);
       });
       if (firstBad) { firstBad.focus(); return; }
-      form.classList.add('is-success');
-      success.focus({ preventScroll: true });
-      if (success.scrollIntoView) success.scrollIntoView({ block: 'center', behavior: reduced() ? 'auto' : 'smooth' });
+      fail.hidden = true;
+      if (hp && hp.value) { showDone(); return; }                      // bot: pretend it worked, send nothing
+      var url = formEndpoint();
+      if (!url || !formLive()) { showDone(); return; }                  // local preview: nothing leaves the browser
+      var val = function (n) { var f = form.elements[n]; return f ? String(f.value || '').trim() : ''; };
+      var proj = val('project');
+      var payload = { name: val('name'), phone: val('phone'), email: val('email'), message: val('message'), project: proj,
+        marketing: form.elements.marketing && form.elements.marketing.checked ? 'כן' : 'לא',
+        page: doc.title, url: location.href.split('#')[0],
+        _subject: 'פנייה חדשה מהאתר' + (proj ? ' – ' + proj : ' – ' + doc.title.replace(/ \| .*$/, '')), _template: 'table', _captcha: 'false' };
+      var btn = $('button[type=submit]', form), label = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'שולח…'; }
+      function end() { if (btn) { btn.disabled = false; btn.textContent = label; } }
+      fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload) })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) { end(); if (res.ok && String(res.j.success) !== 'false') showDone(); else showFail(); })
+        .catch(function () { end(); showFail(); });
     });
   }
 

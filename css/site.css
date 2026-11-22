@@ -1538,3 +1538,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
 .map-gate { position: absolute; inset: 0; z-index: 800; display: grid; place-content: center; justify-items: center; gap: 12px; padding: 16px; text-align: center; background: var(--surface-2); color: var(--text); }
 .map-gate p { margin: 0; max-width: 32ch; font-size: .9375rem; }
+
+.form__fail { margin-top: var(--s-3); padding: 12px 14px; border-radius: 10px; background: rgba(129,1,0,.08); color: var(--noir); font-size: .9375rem; }
+.form__fail[hidden] { display: none; }
+.form__fail a { text-decoration: underline; }

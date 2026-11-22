@@ -29,7 +29,6 @@
       '<p class="form__legal">שדות המסומנים ב-<span aria-hidden="true">*</span> (חובה) נדרשים כדי שנוכל לחזור אליכם. מסירת הפרטים וולונטרית ונעשה בהם שימוש לצורך הפנייה בלבד, בהתאם ל<a href="' + TZ.url('legal', 'privacy') + '">מדיניות הפרטיות</a> ול<a href="' + TZ.url('legal', 'terms') + '">תנאי השימוש</a>.</p>' +
       '<div class="consent"><input type="checkbox" id="' + pfx + '-m" name="marketing"><label for="' + pfx + '-m">אני מסכים/ה לקבל הצעות ופרסומות על פרויקטים של החברה בהודעת טקסט, וואטסאפ, דוא״ל או שיחה. אפשר להסיר בכל עת.</label></div>' +
       '<button class="btn" type="submit">השאר פרטים ' + icon('arrow-next', 'icon--arrow') + '</button>' +
-      '<p class="form__note">אבטיפוס: הפרטים אינם נשלחים בפועל.</p>' +
     '</form>';
   }
   function ctaBlock(id, title, text) {

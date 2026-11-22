@@ -185,7 +185,7 @@
         field('רחוב ומספר', '<input type="text" data-f="street" value="' + esc(street(p)) + '">', false, 'העיר מתווספת אוטומטית.') +
         field('תיאור', '<textarea data-f="desc">' + esc(p.desc || '') + '</textarea>', true, 'שורה ריקה מפרידה בין פסקאות.') +
         '<div class="field"><span class="lbl">מצב</span><label class="check"><input type="checkbox" data-f="sold"' + (p.sold ? ' checked' : '') + '> כל הדירות נמכרו (תג "נמכר")</label><label class="check"><input type="checkbox" data-f="published"' + (p.published !== false ? ' checked' : '') + '> מוצג באתר</label></div>' +
-        '<details class="adv"><summary>פרטים נוספים שמופיעים בעמוד הפרויקט</summary><div class="form">' +
+        '<details class="adv"><summary>פרטים יבשים (לא חובה): מספר דירות, קומות, מחיר ועוד. מופיעים בעמוד רק אם מולאו</summary><div class="form">' +
         EXTRA.map(function (e) { return field(e[1], '<input type="text" data-f="' + e[0] + '" value="' + esc(p[e[0]] || '') + '">'); }).join('') + '</div></details>' +
         '<details class="adv"><summary>אפשרויות מתקדמות</summary><div class="form">' +
         field('כתובת באנגלית (slug)', '<input type="text" dir="ltr" value="' + esc(p.slug) + '" readonly>', false, 'נקבע ביצירה ואינו משתנה, כדי לא לשבור קישורים ותיקיות תמונות.') +
