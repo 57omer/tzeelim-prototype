@@ -46,7 +46,7 @@
     bar.innerHTML =
       '<h2 class="tzc__t" id="tzc-t">פרטיות ועוגיות</h2>' +
       '<p class="tzc__d" id="tzc-d">האתר אינו משתמש כרגע בעוגיות סטטיסטיקה או שיווק, ואינו טוען שירותים חיצוניים בעת הגלישה. נשמרות במכשיר רק הגדרות חיוניות (למשל הבחירה הזו והעדפות נגישות). ' +
-      '<a href="legal.html?doc=cookies">מדיניות עוגיות</a> · <a href="legal.html?doc=privacy">מדיניות פרטיות</a></p>' +
+      '<a href="' + TZ.url('legal', 'cookies') + '">מדיניות עוגיות</a> · <a href="' + TZ.url('legal', 'privacy') + '">מדיניות פרטיות</a></p>' +
       '<div class="tzc__opts" hidden>' +
         '<label class="tzc__opt"><input type="checkbox" checked disabled> <span><b>הכרחיות</b> – תמיד פעילות. ללא זה האתר אינו עובד כראוי.</span></label>' +
         '<label class="tzc__opt"><input type="checkbox" name="analytics"' + (cur.analytics ? ' checked' : '') + '> <span><b>סטטיסטיקה</b> – מדידת שימוש באתר, ללא זיהוי אישי. לא בשימוש כרגע.</span></label>' +

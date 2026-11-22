@@ -22,7 +22,7 @@
     var k = p.heroIndex;
         return '<div class="hero__slide' + (i === 0 ? ' is-active' : '') + '" role="group" aria-roledescription="שקופית" aria-label="' + (i + 1) + ' מתוך ' + n + '" style="--pos:' + (POS[k] || '50% 50%') + '"' + (HV[k] && !NOVIDEO ? ' data-dwell="11500" data-prog="9000" data-video="hero-' + k + '"' : '') + '>' +
       '<img class="hero__bg" src="' + (HV[k] && !NOVIDEO ? 'video/hero-' + k + '-poster.jpg' : 'img/hero/hero-' + k + '.jpg') + '" alt="' + esc('הדמיית הפרויקט ' + p.name + ', ' + (p.cityHe || '')) + '"' + (i === 0 ? ' fetchpriority="high"' : '') + ' decoding="async">' +
-      '<a class="hero__cap" href="project.html?p=' + encodeURIComponent(p.slug) + '" aria-label="' + esc('לעמוד הפרויקט ' + p.name + ', ' + (p.cityHe || '') + ', ' + (p.statusHe || '')) + '">' +
+      '<a class="hero__cap" href="' + TZ.url('project', p.slug) + '" aria-label="' + esc('לעמוד הפרויקט ' + p.name + ', ' + (p.cityHe || '') + ', ' + (p.statusHe || '')) + '">' +
         '<span class="hero__cap-kicker"><span class="hero__cap-status hero__cap-status--' + esc(p.status) + '">' + esc(p.statusHe || TZ.statusLabel(p.status)) + '</span><span class="hero__cap-city">' + esc(p.cityHe || TZ.cityLabel(p.city)) + '</span></span>' +
         '<span class="hero__cap-name">' + esc(p.name) + '</span>' +
         '<span class="hero__cap-go">לעמוד הפרויקט ' + TZ.icon('arrow-next', 'icon--arrow') + '</span>' +
@@ -33,7 +33,7 @@
   set('hero-overlay',
     '<p class="hero__title" role="presentation">' + esc(slogan) + '</p>' +
     '<p class="hero__lead">' + esc(lead) + '</p>' +
-    '<div class="hero__actions"><a class="btn" href="#cta">השאר פרטים</a><a class="btn btn--light" href="projects.html?status=marketing">לפרויקטים בשיווק</a></div>');
+    '<div class="hero__actions"><a class="btn" href="#cta">השאר פרטים</a><a class="btn btn--light" href="' + TZ.url('projects', 'marketing') + '">לפרויקטים בשיווק</a></div>');
 
   var hero = $('#hero');
   var slides = [].slice.call(document.querySelectorAll('.hero__slide'));
@@ -161,11 +161,11 @@
     var meta = cp.cityHe || TZ.cityLabel(cp.city) || '';
     set('cn-card',
       '<div class="wide-card reveal">' +
-        '<figure class="wide-card__fig"><a class="wide-card__media" href="project.html?p=' + encodeURIComponent(cp.slug) + '" tabindex="-1" aria-hidden="true"><img src="' + esc(cp.cover) + '" alt="" loading="lazy"><span class="badge badge--construction">בבנייה</span></a>' +
+        '<figure class="wide-card__fig"><a class="wide-card__media" href="' + TZ.url('project', cp.slug) + '" tabindex="-1" aria-hidden="true"><img src="' + esc(cp.cover) + '" alt="" loading="lazy"><span class="badge badge--construction">בבנייה</span></a>' +
         '<figcaption class="render-note wide-card__caption">הדמיה להמחשה בלבד</figcaption></figure>' +
         '<div class="wide-card__body"><div class="wide-card__city">' + esc(meta) + '</div><h3 class="wide-card__name">' + esc(cp.name) + '</h3>' +
         (cp.desc ? '<p class="wide-card__text">' + esc(cp.desc.length > 160 ? cp.desc.slice(0, 160).replace(/\s+\S*$/, '') + '…' : cp.desc) + '</p>' : '') +
-        '<div><a class="wide-card__more" href="project.html?p=' + encodeURIComponent(cp.slug) + '" aria-label="לעמוד הפרויקט ' + esc(cp.name) + '">לעמוד הפרויקט ' + TZ.icon('arrow-next') + '</a></div></div></div>');
+        '<div><a class="wide-card__more" href="' + TZ.url('project', cp.slug) + '" aria-label="לעמוד הפרויקט ' + esc(cp.name) + '">לעמוד הפרויקט ' + TZ.icon('arrow-next') + '</a></div></div></div>');
   } else { var cs = document.getElementById('construction'); if (cs) cs.hidden = true; }
 
   /* ---------------- 5. ABOUT TEASER ---------------- */
@@ -237,7 +237,7 @@
   var covers = ['yitzhak-yatziv-51', 'harav-kook-86', 'hashayara-26'];
   set('ar-cards', (C.articles || []).slice(0, 3).map(function (a, i) {
     var cp2 = { cover: a.cover || ('img/articles/' + a.id + '.jpg') };
-    return '<a class="acard reveal" style="--i:' + i + '" href="article.html?id=' + encodeURIComponent(a.id) + '">' +
+    return '<a class="acard reveal" style="--i:' + i + '" href="' + TZ.url('article', a.id) + '">' +
       '<div class="acard__media media media--zoom" style="--ratio:16/10">' + (cp2 ? '<img src="' + esc(cp2.cover) + '" alt="" loading="lazy">' : '') + '</div>' +
       '<h3 class="acard__title">' + esc(a.title) + '</h3><p class="acard__text">' + esc(a.excerpt.length > 130 ? a.excerpt.slice(0, 130).replace(/\s+\S*$/, '') + '…' : a.excerpt) + '</p>' +
       '<span class="acard__more">קראו עוד ' + TZ.icon('arrow-next') + '</span></a>';

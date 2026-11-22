@@ -26,7 +26,7 @@
         '<div class="field"><label for="' + pfx + '-phone">טלפון <span class="field__req" aria-hidden="true">*</span></label><input id="' + pfx + '-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:start" aria-required="true" required></div>' +
       '</div>' +
       (withMessage ? '<div class="field"><label for="' + pfx + '-msg">הודעה <span class="field__opt">(לא חובה)</span></label><textarea id="' + pfx + '-msg" name="message"></textarea></div>' : '') +
-      '<p class="form__legal">שדות המסומנים ב-<span aria-hidden="true">*</span> (חובה) נדרשים כדי שנוכל לחזור אליכם. מסירת הפרטים וולונטרית ונעשה בהם שימוש לצורך הפנייה בלבד, בהתאם ל<a href="legal.html?doc=privacy">מדיניות הפרטיות</a> ול<a href="legal.html?doc=terms">תנאי השימוש</a>.</p>' +
+      '<p class="form__legal">שדות המסומנים ב-<span aria-hidden="true">*</span> (חובה) נדרשים כדי שנוכל לחזור אליכם. מסירת הפרטים וולונטרית ונעשה בהם שימוש לצורך הפנייה בלבד, בהתאם ל<a href="' + TZ.url('legal', 'privacy') + '">מדיניות הפרטיות</a> ול<a href="' + TZ.url('legal', 'terms') + '">תנאי השימוש</a>.</p>' +
       '<div class="consent"><input type="checkbox" id="' + pfx + '-m" name="marketing"><label for="' + pfx + '-m">אני מסכים/ה לקבל הצעות ופרסומות על פרויקטים של החברה בהודעת טקסט, וואטסאפ, דוא״ל או שיחה. אפשר להסיר בכל עת.</label></div>' +
       '<button class="btn" type="submit">השאר פרטים ' + icon('arrow-next', 'icon--arrow') + '</button>' +
       '<p class="form__note">אבטיפוס: הפרטים אינם נשלחים בפועל.</p>' +
@@ -51,6 +51,13 @@
     return out;
   }
 
+  /* meta description: cut at a word boundary, never mid-sentence without an ellipsis */
+  function clip(t, n) {
+    t = String(t || '').replace(/\s+/g, ' ').replace(/…$/, '').trim();
+    if (t.length <= n) return t;
+    var c = t.slice(0, n), sp = c.lastIndexOf(' ');
+    return (sp > n * 0.6 ? c.slice(0, sp) : c).replace(/[\s,.;:–-]+$/, '') + '…';
+  }
   function setTitle(t, desc) {
     document.title = t + ' | צאלים קבלני בניין';
     if (desc) { var m = $('meta[name="description"]'); if (m) m.setAttribute('content', desc); }
@@ -66,7 +73,7 @@
     var galSlugs = ['belinson-42', 'homa-umigdal-64', 'harishonim-41', 'ziper-5', 'yael-13'];
     var gal = galSlugs.map(bySlug).filter(Boolean).map(function (p, i) {
       var alt = esc(p.name + ' · ' + p.cityHe);
-      return '<a class="gallery__item reveal' + (i === 0 ? ' gallery__item--wide' : '') + '" style="--i:' + i + '" href="project.html?p=' + esc(p.slug) + '" aria-label="' + alt + '">' +
+      return '<a class="gallery__item reveal' + (i === 0 ? ' gallery__item--wide' : '') + '" style="--i:' + i + '" href="' + TZ.url('project', p.slug) + '" aria-label="' + alt + '">' +
         '<img src="' + esc(p.cover) + '" alt="' + alt + '" loading="lazy"><span class="about-gal__cap">' + esc(p.name) + '</span></a>';
     }).join('');
     var values = (C.values || []).map(function (v, i) {
@@ -98,7 +105,7 @@
 
       '<section class="section"><div class="container">' +
         '<div class="section-head reveal"><div class="section-head__text"><span class="eyebrow">פרויקטים</span><h2 class="section-title">מהפרויקטים שלנו</h2></div>' +
-        '<a class="link-arrow" href="projects.html">לכל הפרויקטים ' + icon('arrow-next', 'icon--arrow') + '</a></div>' +
+        '<a class="link-arrow" href="' + TZ.url('projects') + '">לכל הפרויקטים ' + icon('arrow-next', 'icon--arrow') + '</a></div>' +
         '<div class="gallery about-gal">' + gal + '</div><p class="render-note mt-5">' + NOTE + '</p></div></section>' +
 
       ctaBlock('cta', 'בואו נדבר על הדירה הבאה שלכם', 'השאירו פרטים ונחזור אליכם בהקדם. אנחנו כאן לליווי ולייעוץ.');
@@ -110,7 +117,7 @@
     $('#articles-title').textContent = ai.title || 'מאמרים ומידע';
     $('#articles-lead').textContent = ai.text || '';
     $('#articles-grid').innerHTML = (C.articles || []).map(function (a, i) {
-      return '<a class="acard reveal" style="--i:' + i + '" href="article.html?id=' + encodeURIComponent(a.id) + '">' +
+      return '<a class="acard reveal" style="--i:' + i + '" href="' + TZ.url('article', a.id) + '">' +
         '<div class="acard__media media media--zoom" style="--ratio:16/10"><img src="' + esc(coverFor(a.id)) + '" alt="" loading="lazy"></div>' +
         '<h3 class="acard__title">' + esc(a.title) + '</h3><p class="acard__text">' + esc(a.excerpt) + '</p><span class="acard__more">קראו עוד ' + icon('arrow-next', 'icon--arrow') + '</span></a>';
     }).join('');
@@ -125,21 +132,21 @@
     if (!a) {
       setTitle('המאמר לא נמצא');
       root.innerHTML = '<section class="page-head"><div class="container">' +
-        '<ol class="breadcrumb"><li><a href="home.html">ראשי</a></li><li><a href="articles.html">מאמרים</a></li><li>לא נמצא</li></ol>' +
+        '<ol class="breadcrumb"><li><a href="' + TZ.url('home') + '">ראשי</a></li><li><a href="' + TZ.url('articles') + '">מאמרים</a></li><li>לא נמצא</li></ol>' +
         '<h1>המאמר לא נמצא</h1><p class="lead">ייתכן שהקישור שגוי או שהמאמר הוסר.</p>' +
-        '<p><a class="btn" href="articles.html">לכל המאמרים</a></p></div></section>' +
+        '<p><a class="btn" href="' + TZ.url('articles') + '">לכל המאמרים</a></p></div></section>' +
         '<section class="section section--flush-top"><div class="container"><div class="grid grid--3" id="rel">' + related(null) + '</div></div></section>';
       return;
     }
-    setTitle(a.title, a.excerpt.replace(/…$/, ''));
+    setTitle(a.title, clip(a.excerpt || '', 155));
     root.innerHTML =
       '<section class="page-head"><div class="container art-head">' +
-        '<ol class="breadcrumb"><li><a href="home.html">ראשי</a></li><li><a href="articles.html">מאמרים</a></li><li>' + esc(a.title) + '</li></ol>' +
+        '<ol class="breadcrumb"><li><a href="' + TZ.url('home') + '">ראשי</a></li><li><a href="' + TZ.url('articles') + '">מאמרים</a></li><li>' + esc(a.title) + '</li></ol>' +
         '<h1 class="art-title reveal">' + esc(a.title) + '</h1></div></section>' +
       '<section class="section section--flush-top"><div class="container">' +
         '<figure class="art-cover reveal"><div class="media" style="--ratio:21/9"><img src="' + esc(coverFor(a.id)) + '" alt="" loading="eager"><span class="media__note">' + NOTE + '</span></div></figure>' +
         '<article class="prose art-prose">' + blocks(a.blocks) + '</article>' +
-        '<p class="art-back"><a class="link-arrow" href="articles.html">' + icon('arrow-prev') + ' חזרה לכל המאמרים</a></p>' +
+        '<p class="art-back"><a class="link-arrow" href="' + TZ.url('articles') + '">' + icon('arrow-prev') + ' חזרה לכל המאמרים</a></p>' +
       '</div></section>' +
       '<section class="section section--surface"><div class="container">' +
         '<div class="section-head reveal"><div class="section-head__text"><span class="eyebrow">להמשך קריאה</span><h2 class="section-title">מאמרים נוספים</h2></div></div>' +
@@ -148,7 +155,7 @@
   }
   function related(exceptId) {
     return (C.articles || []).filter(function (x) { return x.id !== exceptId; }).map(function (x, i) {
-      return '<a class="acard reveal" style="--i:' + i + '" href="article.html?id=' + encodeURIComponent(x.id) + '">' +
+      return '<a class="acard reveal" style="--i:' + i + '" href="' + TZ.url('article', x.id) + '">' +
         '<div class="acard__media media media--zoom" style="--ratio:16/10"><img src="' + esc(coverFor(x.id)) + '" alt="" loading="lazy"></div>' +
         '<h3 class="acard__title">' + esc(x.title) + '</h3><span class="acard__more">קראו עוד ' + icon('arrow-next', 'icon--arrow') + '</span></a>';
     }).join('');
@@ -192,7 +199,7 @@
     var nav = $('#legal-nav');
     var keys = ['privacy', 'terms', 'cookies', 'accessibility'].filter(function (k) { return L[k]; });
     nav.innerHTML = keys.map(function (k) {
-      return '<a href="legal.html?doc=' + k + '"' + (k === key ? ' aria-current="page"' : '') + '>' + esc(L[k].title) + '</a>';
+      return '<a href="' + TZ.url('legal', k) + '"' + (k === key ? ' aria-current="page"' : '') + '>' + esc(L[k].title) + '</a>';
     }).join('');
     if (!doc) {
       setTitle('מסמכים משפטיים');
@@ -201,7 +208,8 @@
       $('#legal-body').innerHTML = '<p>בחרו מסמך מהרשימה.</p>';
       return;
     }
-    setTitle(doc.title);
+    var first = (doc.blocks || []).filter(function (b) { return b.type === 'p'; })[0];
+    setTitle(doc.title, doc.title + ' באתר צאלים קבלני בניין. ' + clip(first ? first.text : '', 100));
     $('#legal-title').textContent = doc.title;
     $('#legal-crumb').textContent = doc.title;
     var html = '';

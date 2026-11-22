@@ -9,7 +9,7 @@
   /* legal UI: cookie choice banner, accessibility toolbar and their styles (loaded on every page) */
   (function () {
     var l = doc.createElement('link'); l.rel = 'stylesheet'; l.href = 'css/legal-ui.css?v=3'; doc.head.appendChild(l);
-    ['js/a11y.js?v=2', 'js/consent.js?v=1'].forEach(function (src) { var t = doc.createElement('script'); t.src = src; doc.body.appendChild(t); });
+    ['js/a11y.js?v=3', 'js/consent.js?v=2'].forEach(function (src) { var t = doc.createElement('script'); t.src = src; doc.body.appendChild(t); });
   })();
 
   var CFG = {
@@ -43,24 +43,75 @@
     if (Co.sinceLine) CFG.tagline = Co.sinceLine;
   })();
 
+  /* Clean-URL layer. The built site (tools/build_static.mjs) loads data/routes.js, which sets TZ_ROUTES; the plain
+     prototype does not, so links stay as page.html?x=y. Every internal link goes through url(). */
+  var R = window.TZ_ROUTES || null;
+  function url(kind, arg) {
+    if (R) {
+      if (kind === 'project') return (R.project && R.project[arg]) || ('project/' + encodeURIComponent(arg) + '/');
+      if (kind === 'article') return (R.article && R.article[arg]) || (encodeURIComponent(arg) + '/');
+      if (kind === 'legal') return (R.legal && R.legal[arg]) || R.pages.legal || './';
+      if (kind === 'projects') return R.pages.projects + (arg ? '?status=' + encodeURIComponent(arg) : '');
+      return R.pages[kind] || './';
+    }
+    if (kind === 'project') return 'project.html?p=' + encodeURIComponent(arg);
+    if (kind === 'article') return 'article.html?id=' + encodeURIComponent(arg);
+    if (kind === 'legal') return 'legal.html?doc=' + encodeURIComponent(arg);
+    if (kind === 'projects') return 'projects.html' + (arg ? '?status=' + encodeURIComponent(arg) : '');
+    return kind + '.html';
+  }
+  /* static markup (home.html etc.) still carries legacy hrefs: map them to the clean ones */
+  function cleanLegacyLinks() {
+    if (!R) return;
+    var a = doc.querySelectorAll('a[href]');
+    for (var i = 0; i < a.length; i++) {
+      var h = a[i].getAttribute('href'), m, hash = '', k = h.indexOf('#');
+      if (k > -1) { hash = h.slice(k); h = h.slice(0, k); }
+      var n = null;
+      if ((m = /^project\.html\?p=([^&]+)$/.exec(h))) n = url('project', decodeURIComponent(m[1]));
+      else if ((m = /^article\.html\?id=([^&]+)$/.exec(h))) n = url('article', decodeURIComponent(m[1]));
+      else if ((m = /^legal\.html\?doc=([^&]+)$/.exec(h))) n = url('legal', decodeURIComponent(m[1]));
+      else if ((m = /^projects\.html(?:\?status=([^&]+))?$/.exec(h))) n = url('projects', m[1] ? decodeURIComponent(m[1]) : '');
+      else if ((m = /^(home|about|contact|articles|map3d)\.html$/.exec(h))) n = url(m[1]);
+      if (n !== null) a[i].setAttribute('href', n + hash);
+    }
+  }
+  /* with a <base> tag, "#anchor" links would point at the base page: keep them on the current page */
+  function initAnchors() {
+    if (!doc.querySelector('base')) return;
+    doc.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
+      if (!a || e.defaultPrevented || e.button) return;
+      var id = a.getAttribute('href').slice(1);
+      e.preventDefault();
+      if (!id) return;
+      var t = doc.getElementById(decodeURIComponent(id));
+      if (!t) return;
+      t.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+      if (!/^(A|BUTTON|INPUT|SELECT|TEXTAREA)$/.test(t.tagName) && t.getAttribute('tabindex') === null) t.setAttribute('tabindex', '-1');
+      try { t.focus({ preventScroll: true }); } catch (err) {}
+      try { history.replaceState(null, '', location.pathname + location.search + '#' + id); } catch (err) {}
+    });
+  }
+
   var STATUS = { marketing: 'בשיווק', construction: 'בבנייה', occupied: 'מאוכלס' };
   var CITY = { 'kiryat-haim': 'קרית חיים', 'kiryat-motzkin': 'קרית מוצקין' };
 
   var NAV = [
-    { key: 'home', label: 'ראשי', href: 'home.html' },
-    { key: 'marketing', label: 'פרויקטים בשיווק', href: 'projects.html?status=marketing' },
-    { key: 'construction', label: 'פרויקטים בבנייה', href: 'projects.html?status=construction' },
-    { key: 'occupied', label: 'מאוכלסים', href: 'projects.html?status=occupied' },
-    { key: 'articles', label: 'מאמרים', href: 'articles.html' },
-    { key: 'about', label: 'אודות', href: 'about.html' },
-    { key: 'contact', label: 'צור קשר', href: 'contact.html' }
+    { key: 'home', label: 'ראשי', href: url('home') },
+    { key: 'marketing', label: 'פרויקטים בשיווק', href: url('projects', 'marketing') },
+    { key: 'construction', label: 'פרויקטים בבנייה', href: url('projects', 'construction') },
+    { key: 'occupied', label: 'מאוכלסים', href: url('projects', 'occupied') },
+    { key: 'articles', label: 'מאמרים', href: url('articles') },
+    { key: 'about', label: 'אודות', href: url('about') },
+    { key: 'contact', label: 'צור קשר', href: url('contact') }
   ];
 
   var LEGAL = [
-    { label: 'מדיניות פרטיות', href: 'legal.html?doc=privacy' },
-    { label: 'תנאי שימוש', href: 'legal.html?doc=terms' },
-    { label: 'מדיניות עוגיות', href: 'legal.html?doc=cookies' },
-    { label: 'הצהרת נגישות', href: 'legal.html?doc=accessibility' }
+    { label: 'מדיניות פרטיות', href: url('legal', 'privacy') },
+    { label: 'תנאי שימוש', href: url('legal', 'terms') },
+    { label: 'מדיניות עוגיות', href: url('legal', 'cookies') },
+    { label: 'הצהרת נגישות', href: url('legal', 'accessibility') }
   ];
 
   /* ---------- helpers ---------- */
@@ -75,6 +126,8 @@
     try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
   }
   function qs(name) {
+    var r = window.TZ_ROUTE;                       // set per page by the build: {p:'belinson-49'} / {id:..} / {doc:..}
+    if (r && Object.prototype.hasOwnProperty.call(r, name)) return r[name];
     try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; }
   }
   function projects() { return Array.isArray(window.PROJECTS) ? window.PROJECTS : []; }
@@ -123,7 +176,7 @@
     var items = NAV.map(function (n) { return '<li>' + navLinkHtml(n, activeKey, 'nav__link') + '</li>'; }).join('');
     el.innerHTML =
       '<div class="site-header__inner">' +
-        '<a class="logo" href="home.html" aria-label="' + esc(CFG.name) + ' — לדף הבית"><img class="logo__l" src="' + CFG.logo + '" alt="' + esc(CFG.name) + '" width="142" height="50"><img class="logo__d" src="' + CFG.logoDark + '" alt="" aria-hidden="true" width="142" height="50"></a>' +
+        '<a class="logo" href="' + url('home') + '" aria-label="' + esc(CFG.name) + ' — לדף הבית"><img class="logo__l" src="' + CFG.logo + '" alt="' + esc(CFG.name) + '" width="142" height="50"><img class="logo__d" src="' + CFG.logoDark + '" alt="" aria-hidden="true" width="142" height="50"></a>' +
         '<nav class="nav" aria-label="ניווט ראשי"><ul class="nav__list">' + items + '</ul></nav>' +
         '<div class="site-header__actions">' +
           '<a class="btn btn--sm site-header__phone" href="tel:' + CFG.phoneMain.tel + '">' + icon('phone') + '<bdi dir="ltr">' + CFG.phoneMain.label + '</bdi></a>' +
@@ -221,7 +274,7 @@
       '<div class="container">' +
         '<div class="site-footer__grid">' +
           '<div class="site-footer__brand">' +
-            '<a class="site-footer__logo" href="home.html" aria-label="' + esc(CFG.name) + ' — לדף הבית"><img class="logo__l" src="' + CFG.logo + '" alt="' + esc(CFG.name) + '" width="142" height="50" loading="lazy"><img class="logo__d" src="' + CFG.logoDark + '" alt="" aria-hidden="true" width="142" height="50" loading="lazy"></a>' +
+            '<a class="site-footer__logo" href="' + url('home') + '" aria-label="' + esc(CFG.name) + ' — לדף הבית"><img class="logo__l" src="' + CFG.logo + '" alt="' + esc(CFG.name) + '" width="142" height="50" loading="lazy"><img class="logo__d" src="' + CFG.logoDark + '" alt="" aria-hidden="true" width="142" height="50" loading="lazy"></a>' +
             '<p class="site-footer__slogan">' + esc(CFG.slogan) + '</p>' +
             '<p>' + esc(CFG.tagline) + '</p>' +
             '<div class="site-footer__social">' +
@@ -246,7 +299,7 @@
         '</div>' +
         '<div class="site-footer__bottom">' +
           '<span>© ' + new Date().getFullYear() + ' ' + esc(CFG.name) + '. כל הזכויות שמורות.</span>' +
-          '<span>הדמיות להמחשה בלבד. <a href="legal.html?doc=accessibility">הצהרת נגישות</a></span>' +
+          '<span>הדמיות להמחשה בלבד. <a href="' + url('legal', 'accessibility') + '">הצהרת נגישות</a></span>' +
         '</div>' +
       '</div>';
   }
@@ -287,7 +340,7 @@
         '<a class="callbar__btn callbar__btn--wa" href="' + CFG.whatsapp + '" target="_blank" rel="noopener">' + icon('whatsapp') + 'וואטסאפ</a>';
       b.appendChild(c);
     }
-    if (!$('.proto-chip')) {
+    if (!$('.proto-chip') && window.TZ_ENV !== 'production') {
       var p = doc.createElement('div');
       p.className = 'proto-chip';
       p.setAttribute('role', 'note');
@@ -313,7 +366,7 @@
     var text = shortText(p.desc, 110);
     var cover = p.cover || (p.images && p.images[0] && p.images[0].src) || '';
     var delay = (typeof i === 'number') ? ' style="--i:' + (i % 6) + '"' : '';
-    return '<a class="pcard reveal" href="project.html?p=' + encodeURIComponent(p.slug) + '"' + delay + '>' +
+    return '<a class="pcard reveal" href="' + url('project', p.slug) + '"' + delay + '>' +
       '<div class="pcard__media">' +
         (cover ? '<img src="' + esc(cover) + '" alt="' + esc(p.name + ' — ' + city) + '" loading="lazy" onerror="this.parentNode.classList.add(\'is-empty\');this.style.display=\'none\'">' : '') +
         '<span class="pcard__badge badge badge--' + esc(p.status) + '">' + esc(st) + '</span>' +
@@ -590,7 +643,7 @@
     var st = statusLabel(p.status) || p.statusHe || '';
     var city = cityLabel(p.city) || p.cityHe || '';
     var cover = p.cover || (p.images && p.images[0] && p.images[0].src) || '';
-    return '<a class="map-card" href="project.html?p=' + encodeURIComponent(p.slug) + '">' +
+    return '<a class="map-card" href="' + url('project', p.slug) + '">' +
       '<div class="map-card__img">' + (cover ? '<img src="' + esc(cover) + '" alt="' + esc(p.name) + '" loading="lazy" onerror="this.style.display=\'none\'">' : '') + '</div>' +
       '<div class="map-card__body">' +
         '<span class="badge badge--' + esc(p.status) + '">' + esc(st) + '</span>' +
@@ -776,8 +829,10 @@
     var b = doc.body;
     var page = b.getAttribute('data-page') || '';
     if ($('.hero') || b.getAttribute('data-header') === 'over') b.classList.add('header-over');
+    cleanLegacyLinks();
     renderHeader(activeKeyFor(page));
     renderFooter();
+    initAnchors();
     addFloating();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
@@ -794,6 +849,7 @@
     esc: esc,
     icon: icon,
     qs: qs,
+    url: url,
     statusLabel: statusLabel,
     cityLabel: cityLabel,
     byStatus: byStatus,

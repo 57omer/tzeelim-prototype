@@ -59,7 +59,7 @@
       TZ.initReveal();
       if (opts.url) {
         try {
-          var u = 'projects.html' + (key === 'all' ? '' : '?status=' + key);
+          var u = TZ.url('projects', key === 'all' ? '' : key);
           history.replaceState(null, '', u);
         } catch (e) { /* file:// or sandbox */ }
       }
@@ -95,12 +95,12 @@
     setMeta('הפרויקט לא נמצא');
     root.innerHTML =
       '<section class="page-head pj-nf"><div class="container">' +
-      '<ol class="breadcrumb"><li><a href="home.html">ראשי</a></li><li><a href="projects.html">פרויקטים</a></li><li>לא נמצא</li></ol>' +
+      '<ol class="breadcrumb"><li><a href="' + TZ.url('home') + '">ראשי</a></li><li><a href="' + TZ.url('projects') + '">פרויקטים</a></li><li>לא נמצא</li></ol>' +
       '<h1>הפרויקט לא נמצא</h1>' +
       '<p class="lead">ייתכן שהקישור שגוי או שהפרויקט הוסר. אפשר לעבור לרשימת הפרויקטים ולבחור משם.</p>' +
-      '<div class="cluster"><a class="btn" href="projects.html">לכל הפרויקטים ' + TZ.icon('arrow-next', 'icon--arrow') + '</a>' +
-      '<a class="btn btn--ghost" href="projects.html?status=marketing">פרויקטים בשיווק</a>' +
-      '<a class="btn btn--ghost" href="contact.html">צור קשר</a></div>' +
+      '<div class="cluster"><a class="btn" href="' + TZ.url('projects') + '">לכל הפרויקטים ' + TZ.icon('arrow-next', 'icon--arrow') + '</a>' +
+      '<a class="btn btn--ghost" href="' + TZ.url('projects', 'marketing') + '">פרויקטים בשיווק</a>' +
+      '<a class="btn btn--ghost" href="' + TZ.url('contact') + '">צור קשר</a></div>' +
       '<div class="pj-nf-list grid grid--3">' +
       P.filter(function (x) { return x.status !== 'occupied'; }).slice(0, 3).map(function (x, i) { return TZ.projectCard(x, i); }).join('') +
       '</div></div></section>';
@@ -183,7 +183,7 @@
       '<div class="field"><label for="pf-phone">טלפון <span class="field__req" aria-hidden="true">*</span></label><input id="pf-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:right" aria-required="true" required></div></div>' +
       '<div class="field"><label for="pf-email">אימייל <span class="field__opt">(לא חובה)</span></label><input id="pf-email" name="email" type="email" autocomplete="email" dir="ltr" style="text-align:right"></div>' +
       '<div class="field"><label for="pf-msg">הודעה <span class="field__opt">(לא חובה)</span></label><textarea id="pf-msg" name="message" rows="3"></textarea></div>' +
-      '<p class="form__legal">שדות המסומנים ב-<span aria-hidden="true">*</span> (חובה) נדרשים כדי שנוכל לחזור אליכם. מסירת הפרטים וולונטרית ונעשה בהם שימוש לצורך הפנייה בלבד, בהתאם ל<a href="legal.html?doc=privacy">מדיניות הפרטיות</a> ול<a href="legal.html?doc=terms">תנאי השימוש</a>.</p>' +
+      '<p class="form__legal">שדות המסומנים ב-<span aria-hidden="true">*</span> (חובה) נדרשים כדי שנוכל לחזור אליכם. מסירת הפרטים וולונטרית ונעשה בהם שימוש לצורך הפנייה בלבד, בהתאם ל<a href="' + TZ.url('legal', 'privacy') + '">מדיניות הפרטיות</a> ול<a href="' + TZ.url('legal', 'terms') + '">תנאי השימוש</a>.</p>' +
       '<div class="consent"><input type="checkbox" id="pf-m" name="marketing"><label for="pf-m">אני מסכים/ה לקבל הצעות ופרסומות על פרויקטים של החברה בהודעת טקסט, וואטסאפ, דוא״ל או שיחה. אפשר להסיר בכל עת.</label></div>' +
       '<button class="btn" type="submit">שליחת פרטים</button>' +
       '<p class="form__note">זהו אבטיפוס: הפרטים אינם נשלחים בפועל.</p>' +
@@ -201,6 +201,7 @@
     var coverAlt = (first && first.alt) || ('פרויקט ' + p.name);
     var place = p.address || ((p.cityHe || '') );
     var desc = lines(p.desc)[0] || ('פרויקט ' + p.name + ' של צאלים קבלני בניין, ' + (p.cityHe || ''));
+    if (desc.length < 60) desc = p.name + (p.cityHe ? ', ' + p.cityHe : '') + ': ' + desc.replace(/\s*\.?$/, '.') + ' פרויקט של צאלים קבלני בניין.';
     setMeta(p.name + ' · ' + (p.cityHe || ''), desc);
     document.body.setAttribute('data-header', 'over');
 
@@ -210,7 +211,7 @@
       '<img class="phero__img" src="' + esc(p.cover) + '" alt="' + esc(coverAlt) + '" fetchpriority="high">' +
       '<div class="phero__shade"></div>' +
       '<div class="container phero__inner">' +
-      '<ol class="breadcrumb"><li><a href="home.html">ראשי</a></li><li><a href="projects.html' + (p.status ? '?status=' + esc(p.status) : '') + '">' + esc(TZ.statusLabel(p.status) === 'מאוכלס' ? 'מאוכלסים' : TZ.statusLabel(p.status) === 'בשיווק' ? 'פרויקטים בשיווק' : 'פרויקטים בבנייה') + '</a></li><li aria-current="page">' + esc(p.name) + '</li></ol>' +
+      '<ol class="breadcrumb"><li><a href="' + TZ.url('home') + '">ראשי</a></li><li><a href="' + TZ.url('projects', p.status || '') + '">' + esc(TZ.statusLabel(p.status) === 'מאוכלס' ? 'מאוכלסים' : TZ.statusLabel(p.status) === 'בשיווק' ? 'פרויקטים בשיווק' : 'פרויקטים בבנייה') + '</a></li><li aria-current="page">' + esc(p.name) + '</li></ol>' +
       '<div class="phero__badges"><span class="badge badge--' + esc(p.status) + '">' + esc(p.statusHe || TZ.statusLabel(p.status)) + '</span>' +
       (p.sold ? '<span class="badge badge--sold">נמכר</span>' : '') + '</div>' +
       '<h1 class="phero__title">' + esc(p.name) + '</h1>' +
@@ -262,7 +263,7 @@
       if (more.length) {
         html += '<section class="section"><div class="container">' +
           '<div class="section-head reveal"><div class="section-head__text"><span class="eyebrow">עוד מאיתנו</span><h2 class="section-title">פרויקטים נוספים</h2></div>' +
-          '<a class="link-arrow" href="projects.html">לכל הפרויקטים ' + TZ.icon('arrow-next', 'icon--arrow') + '</a></div>' +
+          '<a class="link-arrow" href="' + TZ.url('projects') + '">לכל הפרויקטים ' + TZ.icon('arrow-next', 'icon--arrow') + '</a></div>' +
           '<div class="grid grid--3 pj-more-grid">' + more.map(function (x, i) { return TZ.projectCard(x, i); }).join('') + '</div>' +
           '<p class="render-note mt-6">הדמיה להמחשה בלבד</p></div></section>';
       }
@@ -270,8 +271,8 @@
       html += '<section class="section"><div class="container pj-quiet reveal">' +
         '<span class="eyebrow">פרויקט חדש</span><h2 class="section-title">מתעניינים בפרויקט חדש?</h2>' +
         '<p class="lead">הפרויקט הושלם ומאוכלס. נשמח לספר לכם על הפרויקטים שלנו שנמצאים כעת בשיווק.</p>' +
-        '<div class="cluster"><a class="btn" href="contact.html">צור קשר ' + TZ.icon('arrow-next', 'icon--arrow') + '</a>' +
-        '<a class="btn btn--ghost" href="projects.html?status=marketing">לפרויקטים בשיווק</a></div></div></section>';
+        '<div class="cluster"><a class="btn" href="' + TZ.url('contact') + '">צור קשר ' + TZ.icon('arrow-next', 'icon--arrow') + '</a>' +
+        '<a class="btn btn--ghost" href="' + TZ.url('projects', 'marketing') + '">לפרויקטים בשיווק</a></div></div></section>';
     }
 
     root.innerHTML = html;

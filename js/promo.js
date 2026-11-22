@@ -8,7 +8,7 @@
   if (P.eyebrow && q('.eyebrow')) q('.eyebrow').textContent = P.eyebrow;
   if (P.title && q('.promo__title')) q('.promo__title').textContent = P.title;
   if (P.text && q('.promo__text')) q('.promo__text').textContent = P.text;
-  if (P.slug && q('.btn')) q('.btn').href = 'project.html?p=' + encodeURIComponent(P.slug);
+  if (P.slug && q('.btn')) q('.btn').href = TZ.url('project', P.slug);
   if (v && P.poster) v.setAttribute('poster', P.poster);
   if (v && P.video) { var s = v.querySelector('source'); if (s) s.src = P.video; }
 })();

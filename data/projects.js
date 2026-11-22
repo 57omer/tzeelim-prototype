@@ -2,6 +2,7 @@
 window.PROJECTS = [
   {
     "slug": "belinson-49",
+    "urlSlug": "בלינסון-49-קרית-חיים",
     "name": "בלינסון 49",
     "status": "marketing",
     "statusHe": "בשיווק",
@@ -25,6 +26,7 @@ window.PROJECTS = [
   },
   {
     "slug": "belinson-42",
+    "urlSlug": "בלינסון-42-קרית-חיים",
     "name": "בלינסון 42",
     "status": "marketing",
     "statusHe": "בשיווק",
@@ -48,6 +50,7 @@ window.PROJECTS = [
   },
   {
     "slug": "homa-umigdal-64",
+    "urlSlug": "חומה-ומגדל-64-ק-חיים",
     "name": "חומה ומגדל 64",
     "status": "marketing",
     "statusHe": "בשיווק",
@@ -71,6 +74,7 @@ window.PROJECTS = [
   },
   {
     "slug": "harishonim-41",
+    "urlSlug": "הראשונים-41",
     "name": "הראשונים 41",
     "status": "marketing",
     "statusHe": "בשיווק",
@@ -121,6 +125,7 @@ window.PROJECTS = [
   },
   {
     "slug": "ziper-5",
+    "urlSlug": "ציפר-5-קרית-חיים",
     "name": "ציפר 5",
     "status": "construction",
     "statusHe": "בבנייה",
@@ -159,6 +164,7 @@ window.PROJECTS = [
   },
   {
     "slug": "aharonovitz-6",
+    "urlSlug": "אהרונוביץ-6-קרית-חיים",
     "name": "אהרונוביץ 6",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -206,6 +212,7 @@ window.PROJECTS = [
   },
   {
     "slug": "belinson-38",
+    "urlSlug": "בלינסון-38-ק-חיים",
     "name": "בלינסון 38",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -233,6 +240,7 @@ window.PROJECTS = [
   },
   {
     "slug": "hagdud-haivri-6",
+    "urlSlug": "הגדוד-העברי-6",
     "name": "הגדוד העברי 6",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -265,6 +273,7 @@ window.PROJECTS = [
   },
   {
     "slug": "hagdud-haivri-95",
+    "urlSlug": "הגדוד-העברי-95",
     "name": "הגדוד העברי 95",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -287,6 +296,7 @@ window.PROJECTS = [
   },
   {
     "slug": "harav-kook-86",
+    "urlSlug": "הרב-קוק-86",
     "name": "הרב קוק 86",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -309,6 +319,7 @@ window.PROJECTS = [
   },
   {
     "slug": "homa-umigdal-53",
+    "urlSlug": "חומה-ומגדל-53",
     "name": "חומה ומגדל 53",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -356,6 +367,7 @@ window.PROJECTS = [
   },
   {
     "slug": "homa-umigdal-6",
+    "urlSlug": "חומה-ומגדל-6",
     "name": "חומה ומגדל 6",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -403,6 +415,7 @@ window.PROJECTS = [
   },
   {
     "slug": "yavnieli-6",
+    "urlSlug": "יבניאלי-6",
     "name": "יבניאלי 6",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -435,6 +448,7 @@ window.PROJECTS = [
   },
   {
     "slug": "yael-13",
+    "urlSlug": "יעל-13-קרית-מוצקין",
     "name": "יעל 13",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -472,6 +486,7 @@ window.PROJECTS = [
   },
   {
     "slug": "yitzhak-yatziv-51",
+    "urlSlug": "יצחק-יציב-51",
     "name": "יצחק יציב 51",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -494,6 +509,7 @@ window.PROJECTS = [
   },
   {
     "slug": "yatziv-45",
+    "urlSlug": "יציב-45",
     "name": "יציב 45",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -531,6 +547,7 @@ window.PROJECTS = [
   },
   {
     "slug": "moshe-sharett-60",
+    "urlSlug": "משה-שרת-60",
     "name": "משה שרת 60",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -578,6 +595,7 @@ window.PROJECTS = [
   },
   {
     "slug": "ziper-20",
+    "urlSlug": "ציפר-20",
     "name": "ציפר 20",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -620,6 +638,7 @@ window.PROJECTS = [
   },
   {
     "slug": "hashayara-26",
+    "urlSlug": "השיירה-26",
     "name": "השיירה 26",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -662,6 +681,7 @@ window.PROJECTS = [
   },
   {
     "slug": "shishet-hayamim-20",
+    "urlSlug": "ק-חיים-ששת-הימים-20",
     "name": "ששת הימים 20",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -694,6 +714,7 @@ window.PROJECTS = [
   },
   {
     "slug": "shishet-hayamim-8",
+    "urlSlug": "ק-חיים-רחוב-ששת-הימים-8",
     "name": "ששת הימים 8",
     "status": "occupied",
     "statusHe": "מאוכלס",
@@ -716,6 +737,7 @@ window.PROJECTS = [
   },
   {
     "slug": "rans-34",
+    "urlSlug": "רנס-34-קרית-מוצקין",
     "name": "רנ\"ס 34",
     "status": "occupied",
     "statusHe": "מאוכלס",

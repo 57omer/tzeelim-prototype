@@ -9,7 +9,7 @@
   function card(p, cls) {
     var st = TZ.statusLabel(p.status) || p.statusHe || '', city = p.cityHe || TZ.cityLabel(p.city) || '';
     var cover = p.card || p.cover || (p.images && p.images[0] && p.images[0].src) || '';
-    return '<a class="cc__card' + (cls ? ' ' + cls : '') + '" href="project.html?p=' + encodeURIComponent(p.slug) + '" aria-label="' + esc(p.name + ' — ' + city) + '">' +
+    return '<a class="cc__card' + (cls ? ' ' + cls : '') + '" href="' + TZ.url('project', p.slug) + '" aria-label="' + esc(p.name + ' — ' + city) + '">' +
       (cover ? '<img src="' + esc(cover) + '" alt="" draggable="false">' : '') +
       '<span class="cc__badge badge badge--' + esc(p.status) + '">' + esc(st) + '</span>' +
       (p.sold ? '<span class="cc__sold">נמכר</span>' : '') +
@@ -26,7 +26,7 @@
     if (!host || !list.length) return;
     if (list.length === 1) return single(host, list[0]);
     var N = list.length, items = list.slice();
-    while (items.length < 8) items = items.concat(list);      // Swiper's loop needs enough slides; dots/counter still use the real N
+    while (window.Swiper && items.length < 8) items = items.concat(list);      // Swiper's loop needs enough slides; dots/counter still use the real N
     host.innerHTML = '<div class="cc" dir="rtl">' +
       '<div class="swiper cc__swiper"><div class="swiper-wrapper">' + items.map(function (p) { return '<div class="swiper-slide cc__slide">' + card(p) + '</div>'; }).join('') + '</div></div>' +
       '<div class="cc__ctrl"><button type="button" class="cc__nav cc__prev" aria-label="הקודם">' + TZ.icon('arrow-prev') + '</button>' +
